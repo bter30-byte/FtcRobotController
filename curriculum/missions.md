@@ -68,7 +68,7 @@ At power 0.5 the robot drives about 20 inches every second (1000 ms). Each floor
 The program only drives the **first side** and the first turn.
 1. Turn on **Show trail** so you can see the shape you drive.
 2. Add sides 2, 3 and 4. **Copy and paste** is your friend: select the lines for one side and
-   one turn, press **Ctrl+C**, click where they go, press **Ctrl+V**.
+   one turn, press **Ctrl+C**, click where they go, press **Ctrl+V**. (On a Mac: **⌘C** and **⌘V**.)
 
 <details><summary>💡 Hint</summary>
 
@@ -84,6 +84,7 @@ Every line this program needs is already there, with the right numbers. But the 
 the **wrong order**.
 1. Read each step's comment (`// stop`, `// turn right`...) and decide the right order.
 2. Move the steps. Click a line and press **Ctrl+Shift+↑** or **Ctrl+Shift+↓** to move it up or down.
+   On a Mac: **⌘⇧↑** or **⌘⇧↓**.
 
 <details><summary>💡 Hint</summary>
 

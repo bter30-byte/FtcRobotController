@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.lessons;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 // Imports you will probably need. Delete the // in front of each one when you use it.
-// (Or type the class name and press Alt+Enter: Android Studio adds the import for you.)
+// (Or type the class name and press Alt+Enter, or Option+Return on a Mac: Android Studio adds the import for you.)
 // import com.qualcomm.robotcore.hardware.DcMotor;
 // import com.qualcomm.robotcore.hardware.Servo;
 // import com.qualcomm.robotcore.hardware.TouchSensor;

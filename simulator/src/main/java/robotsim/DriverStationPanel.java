@@ -263,6 +263,8 @@ final class DriverStationPanel extends JPanel {
         Graphics2D g = (Graphics2D) g0.create();
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        // Measure text the same way it's drawn at any scale, so shrink-to-fit is accurate.
+        g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         AffineTransform t = new AffineTransform();
         t.translate(offsetX(), 0);
         t.scale(scale(), scale());
@@ -290,12 +292,12 @@ final class DriverStationPanel extends JPanel {
         g.setColor(new Color(0x19, 0x76, 0xd2));
         g.fill(new RoundRectangle2D.Double(17, 7, 10, 16, 3, 3));
         // green "connected" banner
-        Polygon banner = new Polygon(new int[]{32, 196, 186, 32}, new int[]{4, 4, 26, 26}, 4);
+        Polygon banner = new Polygon(new int[]{32, 208, 198, 32}, new int[]{4, 4, 26, 26}, 4);
         g.setColor(GREEN);
         g.fill(banner);
-        text(g, "Robot Connected (simulator)", 40, 20, 11.5f, Font.BOLD, Color.WHITE);
-        text(g, "Network: Simulator", 220, 13, 9f, Font.PLAIN, TEXT);
-        text(g, "Ping: 0 ms", 220, 25, 9f, Font.PLAIN, TEXT);
+        fitted(g, "Robot Connected (simulator)", 40, 20, 11.5f, Font.BOLD, Color.WHITE, 154);
+        fitted(g, "Network: Simulator", 220, 13, 9f, Font.PLAIN, TEXT, 130);
+        fitted(g, "Ping: 0 ms", 220, 25, 9f, Font.PLAIN, TEXT, 130);
         // gamepad users
         drawUser(g, 360, "User 1", state.user1Active, !state.user2Mode);
         drawUser(g, 404, "User 2", state.user2Active, state.user2Mode);
@@ -405,7 +407,7 @@ final class DriverStationPanel extends JPanel {
 
     private void drawRightTiles(Graphics2D g) {
         tile(g, 244, 34, 58, 32);
-        text(g, "DS: 100%", 250, 54, 9f, Font.PLAIN, TEXT);
+        fitted(g, "DS: 100%", 250, 54, 9f, Font.PLAIN, TEXT, 48);
         boolean low = state.batteryVolts < 12;
         g.setColor(low ? LOW_BATTERY : BATTERY);
         g.fill(new RoundRectangle2D.Double(306, 34, 170, 32, 6, 6));
@@ -413,7 +415,7 @@ final class DriverStationPanel extends JPanel {
         g.setStroke(new BasicStroke(1.6f));
         g.draw(new RoundRectangle2D.Double(318, 42, 30, 16, 3, 3));
         g.fillRect(348, 47, 3, 6);
-        text(g, String.format("%.2f V", state.batteryVolts), 364, 56, 13f, Font.BOLD, Color.WHITE);
+        fitted(g, String.format("%.2f V", state.batteryVolts), 364, 56, 13f, Font.BOLD, Color.WHITE, 68);
         text(g, low ? "low" : "", 436, 56, 10f, Font.BOLD, Color.WHITE);
     }
 
@@ -426,6 +428,22 @@ final class DriverStationPanel extends JPanel {
 
     private static void text(Graphics2D g, String s, double x, double y, float size, int style, Color c) {
         g.setFont(new Font(Font.SANS_SERIF, style, 1).deriveFont(size));
+        g.setColor(c);
+        g.drawString(s, (float) x, (float) y);
+    }
+
+    /**
+     * Draws text starting at x, shrinking it to fit maxWidth. Fonts differ between Windows and
+     * macOS, so text that fits on one may not fit on the other.
+     */
+    private static void fitted(Graphics2D g, String s, double x, double y, float size, int style, Color c,
+                               double maxWidth) {
+        Font f = new Font(Font.SANS_SERIF, style, 1).deriveFont(size);
+        g.setFont(f);
+        while (g.getFontMetrics().stringWidth(s) > maxWidth && f.getSize2D() > 6) {
+            f = f.deriveFont(f.getSize2D() - 0.5f);
+            g.setFont(f);
+        }
         g.setColor(c);
         g.drawString(s, (float) x, (float) y);
     }

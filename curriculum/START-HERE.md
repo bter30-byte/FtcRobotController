@@ -17,6 +17,23 @@ written down, with pictures. Your teacher is there when you're really stuck.
 3. **Every class:** pull when you sit down, push before you leave (see the
    [daily routine](lessons/00-getting-the-code.md#daily-routine)).
 
+## 🍎 On a Mac?
+Everything works on a Mac too: Android Studio, GitHub Desktop, and the simulator. The lessons
+show Windows keys, so swap them like this:
+
+| Windows | Mac |
+|---|---|
+| **Ctrl** (Ctrl+C, Ctrl+V, Ctrl+Z, Ctrl+S) | **⌘ Command** (⌘C, ⌘V, ⌘Z, ⌘S) |
+| **Ctrl+Shift+↑ / ↓** (move a line up or down) | **⌘⇧↑ / ↓** |
+| **Alt+Enter** (fix it / add an import) | **⌥ Option + Return** |
+| **Right-click** | Click with **two fingers** on the trackpad (or Control-click) |
+| **Backspace** | **delete** |
+| **Enter** | **return** |
+| GitHub Desktop: **File → Options** | GitHub Desktop: **GitHub Desktop → Settings** |
+
+When you start the simulator, its window may open **behind** Android Studio. If you don't see
+it, click its icon in the Dock.
+
 ## How each lesson works
 Every lesson has the same parts:
 

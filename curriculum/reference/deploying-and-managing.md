@@ -38,7 +38,9 @@ or OnBot Java programs saved on the hub.
 ## Deploy over USB (the usual way)
 ![Deploying from Android Studio](../images/00-studio-run.svg)
 
-1. Turn the robot on. Plug the Control Hub into your laptop with a USB-C **data** cable.
+1. Turn the robot on. Plug the Control Hub into your laptop with a USB-C **data** cable. (A
+   MacBook only has USB-C ports, so use a USB-C to USB-C cable that carries data, not a
+   charge-only one.)
 2. In the device dropdown at the top of Android Studio, pick **REV Robotics Control Hub**.
 3. Make sure the run dropdown next to it says **TeamCode**, not **Robot Simulator**.
    *Robot Simulator* only opens the simulator on your laptop; it never sends code to the robot.
@@ -56,10 +58,15 @@ Useful when the robot is on the field and you don't want to chase it with a cabl
    Driver Station menu (⋮) → **Program & Manage**.
    ⚠️ While you're on the robot's Wi-Fi, your laptop has **no internet**, so you can't pull or
    push. Pull *before* you switch networks.
-2. In Android Studio, open the **Terminal** tab (bottom) and run:
-   ```powershell
-   & "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" connect 192.168.43.1:5555
-   ```
+2. In Android Studio, open the **Terminal** tab (bottom) and run the line for your computer:
+   - **Windows:**
+     ```powershell
+     & "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" connect 192.168.43.1:5555
+     ```
+   - **Mac:**
+     ```bash
+     ~/Library/Android/sdk/platform-tools/adb connect 192.168.43.1:5555
+     ```
    You should see `connected to 192.168.43.1:5555`.
 3. The device dropdown now shows the hub. Click **▶ Run** like normal.
 4. Reconnect to school Wi-Fi afterward so you can push.
@@ -77,14 +84,14 @@ Add one line right under the `@TeleOp` or `@Autonomous` line:
 @Disabled
 public class L05_TankDrive extends LinearOpMode {
 ```
-If Android Studio underlines `@Disabled` in red, click it and press **Alt+Enter → Import class**.
+If Android Studio underlines `@Disabled` in red, click it and press **Alt+Enter** (Mac: **⌥ Option + Return**) **→ Import class**.
 Commit, push, then deploy (after pulling). The program disappears from the menu, but the file
 stays, so you can still look back at it or delete `@Disabled` to bring it back.
 
 ✅ **Use this for most old lessons.** You'll want to look back at your code later.
 
 ### Option 2: Delete the file (gone for good… almost)
-Right-click the file in Android Studio → **Delete**. Commit, push, deploy.
+Right-click the file in Android Studio (Mac trackpad: two-finger click) → **Delete**. Commit, push, deploy.
 Git still remembers it. In GitHub Desktop, open the **History** tab, find an older commit, and
 the file is there. Nothing you ever committed is truly lost.
 

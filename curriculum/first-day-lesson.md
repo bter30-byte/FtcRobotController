@@ -45,7 +45,7 @@ By the end, students can:
 | 0–10 | **Robot Commander** (no computers) | In pairs: one is the "robot", one gives instructions from cards to reach a target in the room. | Afterward ask: *"What went wrong?"* Steer toward: instructions must be **exact**, **in order**, with **how far / how long**. That's programming. |
 | 10–20 | **First look** | Watch you run Mission 1 on the projector. Then predict, on their own, where the robot stops. | Show the 3 parts of the code: find the motors, `waitForStart()`, and the steps. Read `setPower` and `sleep` aloud in plain English. |
 | 20–35 | **Missions 1–2** | Fix the sleep time; fix the turn direction and times. | Circulate. Ask *"What did you predict? What happened?"* rather than giving answers. |
-| 35–45 | **Missions 3–4** | Copy and paste the sides of the square; unscramble the steps. | Show **Ctrl+Shift+↑/↓** once on the projector. |
+| 35–45 | **Missions 3–4** | Copy and paste the sides of the square; unscramble the steps. | Show **Ctrl+Shift+↑/↓** (Mac: **⌘⇧↑/↓**) once on the projector. |
 | 45–55 | **Mission 5: Bug Hunt** | Read each error, fix one bug at a time. | Model reading an error aloud: *which file, which line, what it says*. |
 | 55–75 | **Mission 6: Drive It Yourself** | Drive the course, then change `maxSpeed`, add telemetry, try the W A S D challenge. | Start a "best time" board. Point out the `while (opModeIsActive())` loop: *"this runs many times a second."* |
 | 75–85 | **Challenges** | Speed run, draw your initial, fastest lap. | Fast finishers help classmates (explain, don't type for them). |

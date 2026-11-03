@@ -77,7 +77,7 @@ Everyone does Steps 3–9 on **their own** laptop.
 ### Step 3 · Everyone: sign in to GitHub Desktop and set your name
 ![GitHub Desktop options](../images/00-desktop-account.svg)
 
-1. Open **GitHub Desktop**, then click **File → Options…**.
+1. Open **GitHub Desktop**, then click **File → Options…** (on a Mac: **GitHub Desktop → Settings…**).
 2. On the **Accounts** tab, click **Sign in** and sign in to GitHub.com.
 3. Click the **Git** tab.
 4. Make sure **Name** is your real first and last name. It goes on every commit you make,
@@ -137,7 +137,8 @@ Make sure the dropdown at the top of the left panel says **Android**. Then expan
 ### Step 6 · Make your own folder
 ![Making a new package](../images/00-new-package.svg)
 
-1. In the left panel, right-click **org.firstinspires.ftc.teamcode**.
+1. In the left panel, right-click **org.firstinspires.ftc.teamcode**. (On a Mac trackpad, click
+   with two fingers.)
 2. Choose **New**.
 3. Choose **Package**.
 4. Type `students.yourfirstname` in **all lowercase, no spaces** (for example `students.ava`).
@@ -194,7 +195,7 @@ errors: [**Deploying and Managing Programs**](../reference/deploying-and-managin
 Only one laptop can use the robot at a time, but **everyone** can use the simulator:
 1. Open the run list at the top of Android Studio.
 2. Pick **Robot Simulator**.
-3. Click **▶ Run**. In the simulator window, pick your program with **▼** (Autonomous on the left,
+3. Click **▶ Run** (on a Mac, the window may open behind Android Studio: click its Dock icon). In the simulator window, pick your program with **▼** (Autonomous on the left,
    TeleOp on the right), then press the round **INIT** button and **▶** (START), just like the Driver Hub.
 
 It runs the same code as the real robot, and you can use it at home too. See
@@ -250,7 +251,7 @@ Do this **every** class, starting today.
 | A screen about **conflicts** | You and someone else changed the same lines of the same file | Stop and get your teacher. (Following rule #1 prevents this.) |
 | Changes list shows `.idea`, `build`, or hundreds of files | Something isn't being ignored correctly | Don't commit. Get your teacher. |
 | Red errors in Android Studio after pulling | Android Studio needs to re-read the project | **File → Sync Project with Gradle Files** |
-| Group repo isn't in the Clone list | Invite not accepted, or signed into the wrong account | Accept the invite at github.com/notifications, then check **File → Options → Accounts** |
+| Group repo isn't in the Clone list | Invite not accepted, or signed into the wrong account | Accept the invite at github.com/notifications, then check **File → Options → Accounts** (Mac: **GitHub Desktop → Settings → Accounts**) |
 | Control Hub isn't in the device dropdown | Cable or connection problem | Try another port or cable (some cables only charge). Make sure the robot is on. |
 | My program isn't on the Driver Station | `@Disabled` is still there, the deploy failed, or it's in the other list | Delete `@Disabled` from **your copy**. Did it say *Launch succeeded*? Autonomous programs are in a separate list from TeleOp. |
 | Build fails because of an error in a teammate's file | They pushed code that doesn't build | Tell them. They fix it and push, then you pull. |
