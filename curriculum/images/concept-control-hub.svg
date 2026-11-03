@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="560" viewBox="0 0 980 560" role="img" aria-label="Control Hub ports and what plugs in where">
+<title>Control Hub ports and what plugs in where</title>
+<defs></defs>
+<rect x="0.5" y="0.5" width="979" height="559" rx="10" fill="#ffffff" stroke="#d1d9e0"/>
+<text x="20" y="34" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="20" fill="#1f2328" font-weight="bold" text-anchor="start" xml:space="preserve">The course robot: what plugs in where</text>
+<text x="20" y="56" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#59636e" font-weight="normal" text-anchor="start" font-style="italic" xml:space="preserve">Simplified drawing of a REV Control Hub. Port numbers are printed on the hub next to each port.</text>
+<rect x="340" y="110" width="300" height="380" rx="14" fill="#2b2d30" stroke="#111111" stroke-width="2"/>
+<text x="490.0" y="140" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" fill="#ffffff" font-weight="bold" text-anchor="middle" xml:space="preserve">REV Control Hub</text>
+<text x="490.0" y="160" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#afb8c1" font-weight="normal" text-anchor="middle" xml:space="preserve">(built-in IMU on I2C bus 0)</text>
+<text x="354" y="194" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#afb8c1" font-weight="bold" text-anchor="start" xml:space="preserve">MOTOR</text>
+<rect x="354" y="204" width="86" height="26" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1"/>
+<text x="397" y="222" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#1f2328" font-weight="bold" text-anchor="middle" xml:space="preserve">Motor 0</text>
+<rect x="354" y="238" width="86" height="26" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1"/>
+<text x="397" y="256" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#1f2328" font-weight="bold" text-anchor="middle" xml:space="preserve">Motor 1</text>
+<rect x="354" y="272" width="86" height="26" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1"/>
+<text x="397" y="290" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#1f2328" font-weight="bold" text-anchor="middle" xml:space="preserve">Motor 2</text>
+<rect x="354" y="306" width="86" height="26" rx="4" fill="#57606a" stroke="#111111" stroke-width="1"/>
+<text x="397" y="324" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#ffffff" font-weight="normal" text-anchor="middle" xml:space="preserve">Motor 3</text>
+<text x="354" y="360" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#afb8c1" font-weight="bold" text-anchor="start" xml:space="preserve">SERVO</text>
+<rect x="354" y="370" width="86" height="26" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1"/>
+<text x="397" y="388" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#1f2328" font-weight="bold" text-anchor="middle" xml:space="preserve">Servo 0</text>
+<rect x="354" y="404" width="86" height="26" rx="4" fill="#57606a" stroke="#111111" stroke-width="1"/>
+<text x="397" y="422" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#ffffff" font-weight="normal" text-anchor="middle" xml:space="preserve">Servo 1</text>
+<rect x="354" y="438" width="86" height="26" rx="4" fill="#57606a" stroke="#111111" stroke-width="1"/>
+<text x="397" y="456" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#ffffff" font-weight="normal" text-anchor="middle" xml:space="preserve">Servo 2</text>
+<text x="354" y="478" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#afb8c1" font-weight="normal" text-anchor="start" xml:space="preserve">(Servo 3-5 too)</text>
+<text x="540" y="194" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#afb8c1" font-weight="bold" text-anchor="start" xml:space="preserve">DIGITAL</text>
+<rect x="540" y="204" width="86" height="26" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1"/>
+<text x="583" y="222" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#1f2328" font-weight="bold" text-anchor="middle" xml:space="preserve">Digital 0-1</text>
+<rect x="540" y="238" width="86" height="26" rx="4" fill="#57606a" stroke="#111111" stroke-width="1"/>
+<text x="583" y="256" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#ffffff" font-weight="normal" text-anchor="middle" xml:space="preserve">Digital 2-3</text>
+<rect x="540" y="272" width="86" height="26" rx="4" fill="#57606a" stroke="#111111" stroke-width="1"/>
+<text x="583" y="290" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#ffffff" font-weight="normal" text-anchor="middle" xml:space="preserve">Digital 4-5</text>
+<text x="540" y="360" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#afb8c1" font-weight="bold" text-anchor="start" xml:space="preserve">I2C</text>
+<rect x="540" y="370" width="86" height="26" rx="4" fill="#57606a" stroke="#111111" stroke-width="1"/>
+<text x="583" y="388" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#ffffff" font-weight="normal" text-anchor="middle" xml:space="preserve">I2C 0</text>
+<rect x="540" y="404" width="86" height="26" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1"/>
+<text x="583" y="422" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#1f2328" font-weight="bold" text-anchor="middle" xml:space="preserve">I2C 1</text>
+<rect x="540" y="438" width="86" height="26" rx="4" fill="#57606a" stroke="#111111" stroke-width="1"/>
+<text x="583" y="456" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#ffffff" font-weight="normal" text-anchor="middle" xml:space="preserve">I2C 2</text>
+<text x="540" y="478" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#afb8c1" font-weight="normal" text-anchor="start" xml:space="preserve">(I2C 3 too)</text>
+<rect x="30" y="120" width="250" height="54" rx="8" fill="#ffffff" stroke="#0969da" stroke-width="2"/>
+<text x="42" y="142" font-family="Consolas, Menlo, Courier New, monospace" font-size="16" fill="#0969da" font-weight="bold" text-anchor="start" xml:space="preserve">left_drive</text>
+<text x="42" y="162" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#59636e" font-weight="normal" text-anchor="start" xml:space="preserve">drive motor + encoder cable</text>
+<line x1="280" y1="147" x2="354" y2="217" stroke="#0969da" stroke-width="2.5"/>
+<rect x="30" y="196" width="250" height="54" rx="8" fill="#ffffff" stroke="#0969da" stroke-width="2"/>
+<text x="42" y="218" font-family="Consolas, Menlo, Courier New, monospace" font-size="16" fill="#0969da" font-weight="bold" text-anchor="start" xml:space="preserve">right_drive</text>
+<text x="42" y="238" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#59636e" font-weight="normal" text-anchor="start" xml:space="preserve">drive motor + encoder cable</text>
+<line x1="280" y1="223" x2="354" y2="251" stroke="#0969da" stroke-width="2.5"/>
+<rect x="30" y="272" width="250" height="54" rx="8" fill="#ffffff" stroke="#0969da" stroke-width="2"/>
+<text x="42" y="294" font-family="Consolas, Menlo, Courier New, monospace" font-size="16" fill="#0969da" font-weight="bold" text-anchor="start" xml:space="preserve">arm</text>
+<text x="42" y="314" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#59636e" font-weight="normal" text-anchor="start" xml:space="preserve">arm motor + encoder cable</text>
+<line x1="280" y1="299" x2="354" y2="285" stroke="#0969da" stroke-width="2.5"/>
+<rect x="30" y="380" width="250" height="54" rx="8" fill="#ffffff" stroke="#8250df" stroke-width="2"/>
+<text x="42" y="402" font-family="Consolas, Menlo, Courier New, monospace" font-size="16" fill="#8250df" font-weight="bold" text-anchor="start" xml:space="preserve">claw</text>
+<text x="42" y="422" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#59636e" font-weight="normal" text-anchor="start" xml:space="preserve">servo</text>
+<text x="42" y="450" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11.5" fill="#59636e" font-weight="normal" text-anchor="start" font-style="italic" xml:space="preserve">black/brown wire toward the - (ground) mark</text>
+<line x1="280" y1="407" x2="354" y2="383" stroke="#8250df" stroke-width="2.5"/>
+<rect x="700" y="120" width="250" height="54" rx="8" fill="#ffffff" stroke="#bf8700" stroke-width="2"/>
+<text x="712" y="142" font-family="Consolas, Menlo, Courier New, monospace" font-size="16" fill="#bf8700" font-weight="bold" text-anchor="start" xml:space="preserve">touch_sensor</text>
+<text x="712" y="162" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#59636e" font-weight="normal" text-anchor="start" xml:space="preserve">REV Touch Sensor, Digital port 0-1</text>
+<text x="712" y="190" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11.5" fill="#59636e" font-weight="normal" text-anchor="start" font-style="italic" xml:space="preserve">configure it as channel 1 (the odd one)</text>
+<line x1="700" y1="147" x2="626" y2="217" stroke="#bf8700" stroke-width="2.5"/>
+<rect x="700" y="300" width="250" height="54" rx="8" fill="#ffffff" stroke="#1f883d" stroke-width="2"/>
+<text x="712" y="322" font-family="Consolas, Menlo, Courier New, monospace" font-size="16" fill="#1f883d" font-weight="bold" text-anchor="start" xml:space="preserve">sensor_color</text>
+<text x="712" y="342" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#59636e" font-weight="normal" text-anchor="start" xml:space="preserve">REV Color Sensor V3, I2C bus 1</text>
+<text x="712" y="370" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11.5" fill="#59636e" font-weight="normal" text-anchor="start" font-style="italic" xml:space="preserve">about 1 cm above the floor, looking down</text>
+<line x1="700" y1="327" x2="626" y2="417" stroke="#1f883d" stroke-width="2.5"/>
+<text x="490" y="528" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#1f2328" font-weight="normal" text-anchor="middle" xml:space="preserve">White ports = used by the course robot.  Each motor&#x27;s encoder cable plugs in next to its motor port, with the same number.</text>
+</svg>

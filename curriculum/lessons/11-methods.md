@@ -1,7 +1,7 @@
 # Lesson 11 — Methods: Teach the Robot New Words
 
 > **You will learn:** how to write your own methods (named, reusable chunks of code) with parameters.
-> **You need:** the two drive motors.
+> **You need:** the two drive motors. No robot handy? Use the [simulator](../simulator.md).
 > **Time:** about 40 minutes · **Program type:** Autonomous
 > **Code:** [`L11_Methods.java`](../../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/L11_Methods.java)
 
@@ -11,6 +11,9 @@
 3. In your copy, give it a unique `name` and **delete `@Disabled`**.
 
 [Forgot how? Lesson 00, Step 7 has pictures.](00-getting-the-code.md#step-7--copy-your-first-lesson)
+
+## 🖥️ No robot? Use the simulator
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. Turn on **Show trail** and compare the path with Lesson 09's.
 
 ---
 

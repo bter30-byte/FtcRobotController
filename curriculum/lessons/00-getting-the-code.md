@@ -188,6 +188,19 @@ Now find and run your program on the Driver Station:
 📘 More about putting code on the robot (over Wi-Fi too), cleaning up a crowded menu, and fixing
 errors: [**Deploying and Managing Programs**](../reference/deploying-and-managing.md).
 
+### Step 8½ · No robot free? Use the simulator
+![Starting the Robot Simulator](../images/sim-run-config.svg)
+
+Only one laptop can use the robot at a time, but **everyone** can use the simulator:
+1. Open the run list at the top of Android Studio.
+2. Pick **Robot Simulator**.
+3. Click **▶ Run**. In the simulator window, pick your program with **▼** (Autonomous on the left,
+   TeleOp on the right), then press the round **INIT** button and **▶** (START), just like the Driver Hub.
+
+It runs the same code as the real robot, and you can use it at home too. See
+[Robot Simulator](../simulator.md) for everything it can do. Switch the run list back to
+**TeamCode** when it's your turn on the real robot.
+
 ### Step 9 · Your first commit and push
 ![Committing and pushing in GitHub Desktop](../images/00-desktop-commit.svg)
 

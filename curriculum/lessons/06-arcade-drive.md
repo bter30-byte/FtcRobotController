@@ -1,7 +1,7 @@
 # Lesson 06 — Arcade Drive
 
 > **You will learn:** how to combine variables with math (expressions) to get the behavior you want.
-> **You need:** the two drive motors and a gamepad.
+> **You need:** the two drive motors and a gamepad. No robot handy? Use the [simulator](../simulator.md).
 > **Time:** about 35 minutes · **Program type:** TeleOp
 > **Code:** [`L06_ArcadeDrive.java`](../../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/L06_ArcadeDrive.java)
 
@@ -11,6 +11,9 @@
 3. In your copy, give it a unique `name` and **delete `@Disabled`**.
 
 [Forgot how? Lesson 00, Step 7 has pictures.](00-getting-the-code.md#step-7--copy-your-first-lesson)
+
+## 🖥️ No robot? Use the simulator
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. **W/S** drive forward and back, **←/→** turn.
 
 ---
 

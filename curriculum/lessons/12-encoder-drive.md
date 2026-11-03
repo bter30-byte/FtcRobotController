@@ -2,7 +2,7 @@
 
 > **You will learn:** how to drive an exact distance with encoders, how a method can **return**
 > an answer, and how constants keep important numbers in one place.
-> **You need:** the two drive motors, **with encoder cables plugged in**.
+> **You need:** the two drive motors, **with encoder cables plugged in**. No robot handy? Use the [simulator](../simulator.md).
 > **Time:** about 45 minutes · **Program type:** Autonomous
 > **Code:** [`L12_EncoderDrive.java`](../../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/L12_EncoderDrive.java)
 
@@ -14,6 +14,9 @@
    constants at the top of your copy.
 
 [Forgot how to copy? Lesson 00, Step 7 has pictures.](00-getting-the-code.md#step-7--copy-your-first-lesson)
+
+## 🖥️ No robot? Use the simulator
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. Floor tiles are 24 inches, so the first move should end exactly one tile ahead. The Robot panel shows the encoder ticks. For Investigate #3, tick **Low battery**: the encoder drive still goes 24 inches.
 
 ---
 

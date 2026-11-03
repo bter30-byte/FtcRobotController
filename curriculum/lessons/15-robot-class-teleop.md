@@ -2,7 +2,7 @@
 
 > **You will learn:** how a **class** bundles all of the robot's hardware and skills in one
 > place, and how programs use it as an **object**.
-> **You need:** everything: drive motors, `arm`, `claw`, and `touch_sensor`.
+> **You need:** everything: drive motors, `arm`, `claw`, and `touch_sensor`. No robot handy? Use the [simulator](../simulator.md).
 > **Time:** about 45 minutes · **Program type:** TeleOp
 > **Code:** [`RobotHardware.java`](../../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/RobotHardware.java) and [`L15_TeleOpWithClass.java`](../../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/L15_TeleOpWithClass.java)
 
@@ -16,6 +16,9 @@
    delete it. Your L15 should use **your** `RobotHardware`, because you'll be changing it.
 
 [Forgot how to copy? Lesson 00, Step 7 has pictures.](00-getting-the-code.md#step-7--copy-your-first-lesson)
+
+## 🖥️ No robot? Use the simulator
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. **W/S** drive, **←/→** turn, **Q** precision mode, **I/J** arm up/down, **K** (B) toggles the claw. For Modify #1 (gamepad2), tick **Keys drive gamepad2**.
 
 ---
 

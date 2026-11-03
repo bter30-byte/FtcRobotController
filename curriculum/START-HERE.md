@@ -9,6 +9,8 @@ written down, with pictures. Your teacher is there when you're really stuck.
 ---
 
 ## How to get started
+0. **Never programmed before?** Start with the [**Robot Missions**](missions.md) in the
+   [simulator](simulator.md). No robot needed.
 1. **Do [Lesson 00](lessons/00-getting-the-code.md) first.** It sets up your laptop, your
    group's copy of the code, and your own folder. Every step has a picture.
 2. **Then go in order: 01, 02, 03…** Each lesson builds on the one before.
@@ -50,6 +52,7 @@ struggle is where the learning happens.
 ## Lessons
 | # | Lesson | You'll learn |
 |---|---|---|
+| 🚀 | [Robot Missions](missions.md) | Your first programs: drive, turn, fix bugs, drive it yourself |
 | 00 | [Getting the Code](lessons/00-getting-the-code.md) | GitHub Desktop, Android Studio, putting code on the robot |
 | 01 | [Hello, Robot!](lessons/01-hello-robot.md) | The parts of a Java program, telemetry, error messages |
 | 02 | [Drive in Sequence](lessons/02-drive-sequence.md) | Making motors move, one step at a time |
@@ -67,9 +70,12 @@ struggle is where the learning happens.
 | 14 | [State Machines](lessons/14-state-machine-auto.md) | Multi-step autonomous with `enum` and `switch` |
 | 15 | [Robot Class: TeleOp](lessons/15-robot-class-teleop.md) | Classes and objects |
 | 16 | [Robot Class: Autonomous](lessons/16-robot-class-auto.md) | Reusing one class everywhere |
+| 17 | [Color Sensor](lessons/17-color-sensor.md) | Stopping at and following black tape |
 
 ## Reference pages
+- [🖥️ Robot Simulator](simulator.md): test any lesson on your laptop, in class or at home
 - [Blocks → Java cheat sheet](reference/blocks-to-java.md): every Blocks block's Java twin, plus common errors
+- [Robot Configuration](reference/robot-configuration.md): what plugs in where, and where names like `"left_drive"` come from
 - [Deploying and Managing Programs](reference/deploying-and-managing.md): putting code on the robot, cleaning up the menu
 
 ## Two program types you'll see
@@ -78,4 +84,4 @@ struggle is where the learning happens.
 | Who's in charge | A driver with a gamepad | The program, all by itself |
 | Driver Station list | The **TeleOp** list (right) | The **Autonomous** list (left) |
 | Code line | `@TeleOp(...)` | `@Autonomous(...)` |
-| Lessons | 01, 04–08, 13, 15 | 02, 09–12, 14, 16 |
+| Lessons | 01, 04–08, 13, 15 | 02, 09–12, 14, 16, 17 |

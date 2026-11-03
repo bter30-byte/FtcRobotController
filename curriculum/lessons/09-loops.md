@@ -2,7 +2,7 @@
 
 > **You will learn:** how to repeat code with `for` and `while` loops, and how to spot
 > off-by-one bugs.
-> **You need:** the two drive motors.
+> **You need:** the two drive motors. No robot handy? Use the [simulator](../simulator.md).
 > **Time:** about 40 minutes · **Program type:** Autonomous
 > **Code:** [`L09_Loops.java`](../../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/L09_Loops.java)
 
@@ -12,6 +12,9 @@
 3. In your copy, give it a unique `name` and **delete `@Disabled`**.
 
 [Forgot how? Lesson 00, Step 7 has pictures.](00-getting-the-code.md#step-7--copy-your-first-lesson)
+
+## 🖥️ No robot? Use the simulator
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. Turn on **Show trail** to see your square. Tick **Low battery** and run it again: timed driving falls short, just like a real robot with a weak battery.
 
 ---
 

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="470" viewBox="0 0 980 470" role="img" aria-label="How a color sensor sees black tape">
+<title>How a color sensor sees black tape</title>
+<defs><marker id="m1f883d" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" markerUnits="strokeWidth" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f883d"/></marker><marker id="mf2c200" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" markerUnits="strokeWidth" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f2c200"/></marker></defs>
+<rect x="0.5" y="0.5" width="979" height="469" rx="10" fill="#ffffff" stroke="#d1d9e0"/>
+<text x="20" y="34" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="20" fill="#1f2328" font-weight="bold" text-anchor="start" xml:space="preserve">The color sensor measures how much light bounces back</text>
+<rect x="40" y="210" width="280" height="26" rx="3" fill="#c9ced4" stroke="#59636e" stroke-width="1"/>
+<rect x="140" y="90" width="80" height="40" rx="6" fill="#2b2d30" stroke="none" stroke-width="1"/>
+<text x="180" y="116" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#ffffff" font-weight="normal" text-anchor="middle" xml:space="preserve">sensor</text>
+<line x1="168" y1="132" x2="168" y2="204" stroke="#f2c200" stroke-width="3" marker-end="url(#mf2c200)"/>
+<line x1="190" y1="204" x2="190" y2="136" stroke="#f2c200" stroke-width="2" marker-end="url(#mf2c200)" stroke-dasharray="4 3"/>
+<line x1="196" y1="204" x2="196" y2="136" stroke="#f2c200" stroke-width="2" marker-end="url(#mf2c200)" stroke-dasharray="4 3"/>
+<line x1="202" y1="204" x2="202" y2="136" stroke="#f2c200" stroke-width="2" marker-end="url(#mf2c200)" stroke-dasharray="4 3"/>
+<line x1="208" y1="204" x2="208" y2="136" stroke="#f2c200" stroke-width="2" marker-end="url(#mf2c200)" stroke-dasharray="4 3"/>
+<text x="180" y="72" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#1f2328" font-weight="bold" text-anchor="middle" xml:space="preserve">Over the gray floor</text>
+<text x="180" y="270" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#59636e" font-weight="normal" text-anchor="middle" xml:space="preserve">brightness (alpha)</text>
+<text x="180" y="296" font-family="Consolas, Menlo, Courier New, monospace" font-size="20" fill="#1f2328" font-weight="bold" text-anchor="middle" xml:space="preserve">about 0.28</text>
+<rect x="370" y="210" width="280" height="26" rx="3" fill="#1b1b1b" stroke="#59636e" stroke-width="1"/>
+<rect x="470" y="90" width="80" height="40" rx="6" fill="#2b2d30" stroke="none" stroke-width="1"/>
+<text x="510" y="116" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#ffffff" font-weight="normal" text-anchor="middle" xml:space="preserve">sensor</text>
+<line x1="498" y1="132" x2="498" y2="204" stroke="#f2c200" stroke-width="3" marker-end="url(#mf2c200)"/>
+<line x1="520" y1="204" x2="520" y2="136" stroke="#f2c200" stroke-width="2" marker-end="url(#mf2c200)" stroke-dasharray="4 3"/>
+<text x="510" y="72" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#1f2328" font-weight="bold" text-anchor="middle" xml:space="preserve">Over black tape</text>
+<text x="510" y="270" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#59636e" font-weight="normal" text-anchor="middle" xml:space="preserve">brightness (alpha)</text>
+<text x="510" y="296" font-family="Consolas, Menlo, Courier New, monospace" font-size="20" fill="#1f2328" font-weight="bold" text-anchor="middle" xml:space="preserve">about 0.04</text>
+<line x1="40" y1="380" x2="600" y2="380" stroke="#1f2328" stroke-width="3"/>
+<line x1="40.0" y1="372" x2="40.0" y2="388" stroke="#1f2328" stroke-width="3"/>
+<text x="40.0" y="406" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#59636e" font-weight="normal" text-anchor="middle" xml:space="preserve">0.0 black</text>
+<line x1="84.80000000000001" y1="372" x2="84.80000000000001" y2="388" stroke="#1f2328" stroke-width="3"/>
+<line x1="208.0" y1="372" x2="208.0" y2="388" stroke="#cf222e" stroke-width="3"/>
+<line x1="353.6" y1="372" x2="353.6" y2="388" stroke="#1f2328" stroke-width="3"/>
+<line x1="600" y1="372" x2="600" y2="388" stroke="#1f2328" stroke-width="3"/>
+<text x="600" y="406" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#59636e" font-weight="normal" text-anchor="middle" xml:space="preserve">1.0 white</text>
+<text x="84.80000000000001" y="364" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#1f2328" font-weight="bold" text-anchor="middle" xml:space="preserve">tape 0.04</text>
+<text x="353.6" y="364" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#1f2328" font-weight="bold" text-anchor="middle" xml:space="preserve">floor 0.28</text>
+<text x="208.0" y="424" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#cf222e" font-weight="bold" text-anchor="middle" xml:space="preserve">THRESHOLD 0.15</text>
+<text x="606" y="385" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#59636e" font-weight="normal" text-anchor="start" xml:space="preserve">(scale stretched)</text>
+<text x="830" y="72" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#1f2328" font-weight="bold" text-anchor="middle" xml:space="preserve">Following the LEFT edge</text>
+<rect x="840" y="90" width="26" height="330" rx="0" fill="#1b1b1b" stroke="none" stroke-width="1"/>
+<rect x="823" y="155" width="60" height="60" rx="8" fill="#dfe6ee" stroke="#59636e" stroke-width="1"/>
+<circle cx="853" cy="155" r="5" fill="#00b4d8" stroke="none" stroke-width="1"/>
+<path d="M853,145 Q853,110 813,105" stroke="#1f883d" stroke-width="3" fill="none" marker-end="url(#m1f883d)" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="750" y="222" width="170" height="22" rx="6" fill="#ffffff" stroke="#1f883d" stroke-width="1"/>
+<text x="835" y="238" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#1f883d" font-weight="bold" text-anchor="middle" xml:space="preserve">on tape: steer LEFT</text>
+<rect x="796" y="295" width="60" height="60" rx="8" fill="#dfe6ee" stroke="#59636e" stroke-width="1"/>
+<circle cx="826" cy="295" r="5" fill="#00b4d8" stroke="none" stroke-width="1"/>
+<path d="M826,285 Q826,250 866,245" stroke="#1f883d" stroke-width="3" fill="none" marker-end="url(#m1f883d)" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="750" y="362" width="170" height="22" rx="6" fill="#ffffff" stroke="#1f883d" stroke-width="1"/>
+<text x="835" y="378" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#1f883d" font-weight="bold" text-anchor="middle" xml:space="preserve">on floor: steer RIGHT</text>
+</svg>

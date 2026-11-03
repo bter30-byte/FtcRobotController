@@ -7,6 +7,11 @@ explanation when it helps.
 
 **Students start at [START-HERE.md](START-HERE.md).** This page is the teacher guide.
 
+**🖥️ Every lesson runs in the [Robot Simulator](simulator.md),** a robot on the screen that runs
+the same Java code as the real robot. Every student can test at the same time on their own
+laptop, and they can keep practicing at home. Brand-new programmers start with a 90-minute
+[first-day lesson](first-day-lesson.md) of simulator missions.
+
 ---
 
 ## How it's designed
@@ -31,9 +36,9 @@ explanation when it helps.
 ### Habits that make it work
 - **Every student codes.** Every student has their own laptop and their own folder in the
   group repo, so every line they commit is theirs.
-- **Programming doesn't wait for the robot.** Give each group a [bench board](#the-bench-board)
-  so code can be tested while the robot is being built. Several lessons need nothing but a
-  Control Hub and a gamepad.
+- **Programming doesn't wait for the robot.** Students test in the [simulator](simulator.md)
+  first, all at once, then move working code to the robot. A [bench board](#the-bench-board)
+  per group helps with the real-hardware step while the robot is being built.
 - **Talk about code.** Encourage students to explain their code to a classmate before asking you.
   Explaining it out loud finds a lot of bugs.
 
@@ -43,6 +48,7 @@ explanation when it helps.
 
 | # | Lesson | CS idea | Robot skill | Type | Hardware |
 |---|---|---|---|---|---|
+| 🚀 | [Robot Missions](missions.md) (first day, [teacher plan](first-day-lesson.md)) | Sequence, debugging | Driving and turning, TeleOp | Both | Simulator only |
 | 00 | [Getting the Code](lessons/00-getting-the-code.md) | Version control, packages | GitHub Desktop, Android Studio, deploying | — | Control Hub |
 | 01 | [Hello Robot](lessons/01-hello-robot.md) | Syntax, comments, errors | Telemetry | TeleOp | Hub only |
 | 02 | [Drive Sequence](lessons/02-drive-sequence.md) | Sequence | Motors, `sleep` | Auto | Drive motors |
@@ -60,10 +66,11 @@ explanation when it helps.
 | 14 | [State Machine](lessons/14-state-machine-auto.md) | Enums, `switch` | Multi-step routines | Auto | Drive + touch sensor |
 | 15 | [Robot Class: TeleOp](lessons/15-robot-class-teleop.md) | Classes, objects | One hardware class for all programs | TeleOp | Everything |
 | 16 | [Robot Class: Auto](lessons/16-robot-class-auto.md) | Reuse | Shared code across programs | Auto | Everything |
+| 17 | [Color Sensor](lessons/17-color-sensor.md) | Thresholds, feedback loops | Stop at and follow black tape | Auto | Drive + color sensor |
 
 **A natural stopping point** for students who need more time is after **Lesson 10**. By then
 they can drive by hand, use sensors, and write a simple autonomous. Lessons 11–16 make the code
-more precise and better organized.
+more precise and better organized, and Lesson 17 adds a color sensor.
 
 **Optional warm-up before Lesson 01:** [FTCSIM](#ftcsim). Students solve a few puzzles in Blocks,
 then switch to the Java view to see the same program as text.
@@ -76,25 +83,34 @@ then switch to the Java view to see the same program as text.
 curriculum/
 ├── START-HERE.md                 ← students begin here
 ├── README.md                     ← this teacher guide
+├── first-day-lesson.md           ← 90-minute first lesson plan (teacher)
+├── missions.md                   ← Robot Missions handout (students, first day)
+├── simulator.md                  ← how to use the simulator, in class and at home
 ├── lessons/00 … 16-*.md          ← student handouts
-├── images/                       ← screen drawings (00-*.svg) and concept diagrams (concept-*.svg)
+├── images/                       ← drawings, diagrams, and simulator screenshots (sim-*.png)
 └── reference/
     ├── blocks-to-java.md         ← cheat sheet (print it!)
-    └── deploying-and-managing.md ← deploying (USB/Wi-Fi), cleaning up the menu, deploy troubleshooting
+    ├── deploying-and-managing.md ← deploying (USB/Wi-Fi), cleaning up the menu, deploy troubleshooting
+    └── robot-configuration.md    ← ports, wiring, Driver Station setup, where names in code come from
 
-TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/
-├── L01_HelloRobot.java … L16_AutoWithClass.java   ← one working OpMode per lesson
-└── RobotHardware.java                              ← the robot class (Lessons 15–16)
+TeamCode/src/main/java/org/firstinspires/ftc/teamcode/
+├── lessons/L01_HelloRobot.java … L17_FollowTape.java      ← working OpModes for every lesson
+├── lessons/RobotHardware.java                              ← the robot class (Lessons 15–16)
+└── missions/M01_FirstMoves.java … M06_DriveItYourself.java ← first-day missions
+
+simulator/                        ← the Robot Simulator (desktop app, never goes on the robot)
+.run/Robot Simulator.run.xml      ← adds "Robot Simulator" to Android Studio's run list
 ```
 
-All 17 Java files compile against FTC SDK 12.0 (this fork's version), and each one is heavily
-commented for students. The original lesson OpModes are marked **`@Disabled`** so they don't
+All lesson and mission files compile against FTC SDK 12.0 (this fork's version) **and** run
+unchanged in the simulator, and each one is heavily commented for students. The six missions are
+not `@Disabled`; on the real robot they appear in the Driver Station's **Missions** group. The original lesson OpModes are marked **`@Disabled`** so they don't
 fill up the Driver Station menu. Students delete that line in their own copies (Lesson 00,
 Step 7). To demo an original yourself, remove `@Disabled` locally, deploy, and don't commit that
 change.
 
-**About the pictures:** the screen images are simplified drawings, not real screenshots, and
-each one says so. They show the layout and where to click. If your versions of GitHub Desktop or
+**About the pictures:** the simulator images (`sim-*.png`) are real screenshots. The other
+screen images are simplified drawings, not real screenshots, and each one says so. They show the layout and where to click. If your versions of GitHub Desktop or
 Android Studio look different, the steps are the same. The images are SVG files, so you can open
 and edit their text in any text editor.
 
@@ -151,7 +167,11 @@ Steps 1–2 of Lesson 00. However, a Classroom repo isn't a fork, so the one-cli
 for lesson updates won't be there.
 
 ### Robot configuration
-Every lesson uses these exact names. Create **one** configuration on each Control Hub:
+Every lesson uses these exact names. Create **one** configuration on each Control Hub. The
+[robot configuration guide](reference/robot-configuration.md) has a wiring diagram,
+Driver Station steps with pictures, and an explanation students can read of how a port becomes
+a name in code.
+
 
 | Name | Device | Port | Used in |
 |---|---|---|---|
@@ -160,6 +180,7 @@ Every lesson uses these exact names. Create **one** configuration on each Contro
 | `arm` | DC motor | Motor 2 | L08, L15–L16 |
 | `claw` | Servo | Servo 0 | L13, L15–L16 |
 | `touch_sensor` | REV Touch Sensor | Digital 1 (use the odd channel of the pair on REV hubs) | L08, L10, L14–L16 |
+| `sensor_color` | REV Color Sensor V3, at the front looking down, ~1 cm above the floor | I2C bus 1 | L17 |
 
 If a device is missing from the configuration, the OpMode stops with an error when you press
 INIT. That makes a good teaching moment for students to read. Lessons **01, 03 and 04 need no

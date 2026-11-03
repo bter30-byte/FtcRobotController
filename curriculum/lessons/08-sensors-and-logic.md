@@ -2,7 +2,7 @@
 
 > **You will learn:** how to read a touch sensor, and how to combine true/false values with
 > AND, OR, and NOT.
-> **You need:** an `arm` motor and a `touch_sensor`. No arm yet? Use any spare motor and press the sensor with your finger.
+> **You need:** an `arm` motor and a `touch_sensor`. No arm yet? Use any spare motor and press the sensor with your finger. No robot handy? Use the [simulator](../simulator.md).
 > **Time:** about 40 minutes · **Program type:** TeleOp
 > **Code:** [`L08_SensorsAndLogic.java`](../../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/L08_SensorsAndLogic.java)
 
@@ -12,6 +12,9 @@
 3. In your copy, give it a unique `name` and **delete `@Disabled`**.
 
 [Forgot how? Lesson 00, Step 7 has pictures.](00-getting-the-code.md#step-7--copy-your-first-lesson)
+
+## 🖥️ No robot? Use the simulator
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. **I** is the Y button (arm up) and **J** is the A button (arm down). Watch the arm in the **side view**: the touch sensor lights up at the top. In the simulator the touch sensor is also pressed if the front bumper touches a wall, and you can press it yourself with **Space**. For the *Make* section, the Robot panel shows when the gamepad rumbles.
 
 ---
 

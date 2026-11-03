@@ -1,7 +1,7 @@
 # Lesson 10 — Timers: Stop Sleeping, Start Checking
 
 > **You will learn:** how to use a timer and a loop so the robot keeps paying attention while it moves.
-> **You need:** the two drive motors and the `touch_sensor` (as a front bumper, or press it by hand).
+> **You need:** the two drive motors and the `touch_sensor` (as a front bumper, or press it by hand). No robot handy? Use the [simulator](../simulator.md).
 > **Time:** about 40 minutes · **Program type:** Autonomous
 > **Code:** [`L10_TimerAuto.java`](../../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/L10_TimerAuto.java)
 
@@ -11,6 +11,9 @@
 3. In your copy, give it a unique `name` and **delete `@Disabled`**.
 
 [Forgot how? Lesson 00, Step 7 has pictures.](00-getting-the-code.md#step-7--copy-your-first-lesson)
+
+## 🖥️ No robot? Use the simulator
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. The robot faces a wooden wall, so the bumper hits it after about 2.5 seconds. Press **Space** to "bump" something early. To see "Time ran out" instead, set the time limit below 2.5 seconds.
 
 ---
 

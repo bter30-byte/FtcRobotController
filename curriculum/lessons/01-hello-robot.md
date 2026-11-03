@@ -2,7 +2,7 @@
 
 > **You will learn:** the parts every Java robot program has, how to show text on the Driver
 > Station, and how to read error messages.
-> **You need:** a Control Hub and Driver Station. Nothing has to be plugged into the hub.
+> **You need:** a Control Hub and Driver Station. Nothing has to be plugged into the hub. No robot handy? Use the [simulator](../simulator.md).
 > **Time:** about 40 minutes · **Program type:** TeleOp
 > **Code:** [`L01_HelloRobot.java`](../../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/L01_HelloRobot.java)
 
@@ -10,6 +10,9 @@
 You already copied this file into your `students/yourname` folder in
 [Lesson 00, Step 7](00-getting-the-code.md#step-7--copy-your-first-lesson). Work on **your copy**,
 not the one in `lessons/`.
+
+## 🖥️ No robot? Use the simulator
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. Pick your copy with the right-hand **▼** (TeleOp), press **INIT**, then **▶**, and watch the telemetry on the right. The Break-It Lab works in the simulator too: errors show up in the telemetry area with the file and line.
 
 ---
 
