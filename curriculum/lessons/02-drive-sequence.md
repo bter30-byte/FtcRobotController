@@ -1,7 +1,7 @@
 # Lesson 02 — Drive in Sequence
 
 > **You will learn:** how to make motors move, and how a program runs one step at a time.
-> **You need:** the two drive motors (`left_drive`, `right_drive`). Put the robot on a block
+> **You need:** the two drive motors (`left_drive`, `right_drive`). Put the robot on a block No robot handy? Use the [simulator](../simulator.md).
 > (wheels off the ground) for the first run!
 > **Time:** about 35 minutes · **Program type:** Autonomous
 > **Code:** [`L02_DriveSequence.java`](../../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/L02_DriveSequence.java)
@@ -13,6 +13,9 @@
    `"L02 Drive Sequence - Ava"`, `group = "Ava"`) and **delete `@Disabled`**.
 
 [Forgot how? Lesson 00, Step 7 has pictures.](00-getting-the-code.md#step-7--copy-your-first-lesson)
+
+## 🖥️ No robot? Use the simulator
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. Turn on **Show trail** to see the path. For Investigate #3, comment out the `setDirection` line and watch the robot spin.
 
 ---
 

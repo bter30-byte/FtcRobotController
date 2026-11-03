@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="360" viewBox="0 0 980 360" role="img" aria-label="Android Studio: start the Robot Simulator">
+<title>Android Studio: start the Robot Simulator</title>
+<defs></defs>
+<rect x="0.5" y="0.5" width="979" height="359" rx="10" fill="#ffffff" stroke="#d1d9e0"/>
+<rect x="20" y="20" width="940" height="290" rx="6" fill="#2b2d30" stroke="#43454a" stroke-width="1"/>
+<path d="M20,50 L20,26 Q20,20 26,20 L954,20 Q960,20 960,26 L960,50 Z" fill="#1e1f22"/>
+<text x="32" y="40.0" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#dfe1e5" font-weight="normal" text-anchor="start" xml:space="preserve">robotics-group-3 – Android Studio</text>
+<text x="942" y="40.0" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#dfe1e5" font-weight="normal" text-anchor="middle" xml:space="preserve">✕</text>
+<text x="914" y="40.0" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#dfe1e5" font-weight="normal" text-anchor="middle" xml:space="preserve">☐</text>
+<text x="886" y="40.0" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#dfe1e5" font-weight="normal" text-anchor="middle" xml:space="preserve">—</text>
+<rect x="21" y="50" width="938" height="46" rx="0" fill="#2b2d30" stroke="none" stroke-width="1"/>
+<rect x="21" y="96" width="938" height="213" rx="0" fill="#1e1f22" stroke="none" stroke-width="1"/>
+<text x="36" y="79" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#dfe1e5" font-weight="600" text-anchor="start" xml:space="preserve">robotics-group-3  ▾</text>
+<text x="210" y="79" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#dfe1e5" font-weight="normal" text-anchor="start" xml:space="preserve">master  ▾</text>
+<rect x="560" y="59" width="170" height="28" rx="6" fill="#3c3f41" stroke="#43454a" stroke-width="1"/>
+<text x="645.0" y="77.68" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#dfe1e5" font-weight="600" text-anchor="middle" xml:space="preserve">Robot Simulator  ▾</text>
+<rect x="557" y="56" width="176" height="34" rx="6" fill="none" stroke="#e8590c" stroke-width="3"/>
+<circle cx="538" cy="73" r="13" fill="#e8590c" stroke="#ffffff" stroke-width="2"/>
+<text x="538" y="78" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" fill="#ffffff" font-weight="bold" text-anchor="middle" xml:space="preserve">1</text>
+<text x="745" y="79" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#868a91" font-weight="normal" text-anchor="start" xml:space="preserve">(no robot needed)</text>
+<rect x="872" y="59" width="32" height="28" rx="5" fill="#3c3f41" stroke="none" stroke-width="1"/>
+<path d="M881,65 L897,73 L881,81 Z" stroke="#5fb865" stroke-width="1" fill="#5fb865" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="869" y="56" width="38" height="34" rx="6" fill="none" stroke="#e8590c" stroke-width="3"/>
+<circle cx="888" cy="116" r="13" fill="#e8590c" stroke="#ffffff" stroke-width="2"/>
+<text x="888" y="121" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" fill="#ffffff" font-weight="bold" text-anchor="middle" xml:space="preserve">3</text>
+<rect x="560" y="92" width="230" height="88" rx="6" fill="#2b2d30" stroke="#43454a" stroke-width="1"/>
+<text x="574" y="116" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#dfe1e5" font-weight="normal" text-anchor="start" xml:space="preserve">TeamCode</text>
+<rect x="564" y="125" width="222" height="24" rx="4" fill="#2e436e" stroke="none" stroke-width="1"/>
+<text x="574" y="142" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#dfe1e5" font-weight="normal" text-anchor="start" xml:space="preserve">Robot Simulator</text>
+<text x="574" y="168" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#dfe1e5" font-weight="normal" text-anchor="start" xml:space="preserve">Edit Configurations…</text>
+<rect x="561" y="122" width="228" height="30" rx="6" fill="none" stroke="#e8590c" stroke-width="3"/>
+<circle cx="808" cy="137" r="13" fill="#e8590c" stroke="#ffffff" stroke-width="2"/>
+<text x="808" y="142" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" fill="#ffffff" font-weight="bold" text-anchor="middle" xml:space="preserve">2</text>
+<text x="60" y="140" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" fill="#dfe1e5" font-weight="normal" text-anchor="start" xml:space="preserve">1  Open the run list at the top of Android Studio.</text>
+<text x="60" y="164" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" fill="#dfe1e5" font-weight="normal" text-anchor="start" xml:space="preserve">2  Pick Robot Simulator.</text>
+<text x="60" y="188" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" fill="#dfe1e5" font-weight="normal" text-anchor="start" xml:space="preserve">3  Click the green ► Run button. The simulator window opens.</text>
+<text x="60" y="212" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" fill="#dfe1e5" font-weight="normal" text-anchor="start" xml:space="preserve"></text>
+<text x="60" y="236" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" fill="#dfe1e5" font-weight="normal" text-anchor="start" xml:space="preserve">To put code on the REAL robot later, switch back to TeamCode.</text>
+<text x="966" y="349" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#59636e" font-style="italic" text-anchor="end">Simplified drawing — your screen may look a little different.</text>
+</svg>

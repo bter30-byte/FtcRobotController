@@ -2,7 +2,7 @@
 
 > **You will learn:** how to break a multi-step job into named **states** using `enum` and
 > `switch`, so the robot can do things without ever sleeping.
-> **You need:** the two drive motors and the `touch_sensor`.
+> **You need:** the two drive motors and the `touch_sensor`. No robot handy? Use the [simulator](../simulator.md).
 > **Time:** about 45 minutes · **Program type:** Autonomous
 > **Code:** [`L14_StateMachineAuto.java`](../../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/L14_StateMachineAuto.java)
 
@@ -12,6 +12,9 @@
 3. In your copy, give it a unique `name` and **delete `@Disabled`**.
 
 [Forgot how? Lesson 00, Step 7 has pictures.](00-getting-the-code.md#step-7--copy-your-first-lesson)
+
+## 🖥️ No robot? Use the simulator
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. The robot faces a wooden wall, so DRIVE_TO_WALL ends when the bumper touches it. Use **Show trail** to see each state's part of the path.
 
 ---
 

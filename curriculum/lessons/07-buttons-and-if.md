@@ -1,7 +1,7 @@
 # Lesson 07 — Buttons and `if` / `else`
 
 > **You will learn:** how a program makes decisions, and where a variable "lives" (scope).
-> **You need:** the two drive motors and a gamepad.
+> **You need:** the two drive motors and a gamepad. No robot handy? Use the [simulator](../simulator.md).
 > **Time:** about 40 minutes · **Program type:** TeleOp
 > **Code:** [`L07_ButtonsAndIf.java`](../../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/L07_ButtonsAndIf.java)
 
@@ -11,6 +11,9 @@
 3. In your copy, give it a unique `name` and **delete `@Disabled`**.
 
 [Forgot how? Lesson 00, Step 7 has pictures.](00-getting-the-code.md#step-7--copy-your-first-lesson)
+
+## 🖥️ No robot? Use the simulator
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. **W/S** drive and **←/→** turn. The D-pad is **T** (up), **F** (left), **G** (down), **H** (right). The left bumper is **Q**, and the right trigger (for *Make*) is **C**.
 
 ---
 

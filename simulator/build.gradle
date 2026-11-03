@@ -1,0 +1,31 @@
+/*
+ * FTC Robot Simulator: a desktop program that runs TeamCode OpModes on a simulated robot.
+ *
+ * This module is NOT part of the robot app. It never goes onto the Control Hub.
+ * Run it from Android Studio with the "Robot Simulator" run configuration, or:
+ *     ./gradlew :simulator:run
+ *
+ * The simulator compiles the team's code from TeamCode/src/main/java (the lessons, missions,
+ * and students folders) by itself every time you press INIT, so there is nothing else to build.
+ */
+
+plugins {
+    id 'java'
+    id 'application'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    // Same Java language level as the robot's TeamCode.
+    options.release = 8
+    options.compilerArgs << '-Xlint:-options'
+}
+
+application {
+    mainClass = 'robotsim.SimulatorMain'
+}
+
+tasks.named('run', JavaExec) {
+    systemProperty 'robotsim.teamcode', file('../TeamCode/src/main/java').absolutePath
+    workingDir = rootProject.projectDir
+}

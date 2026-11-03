@@ -2,7 +2,7 @@
 
 > **You will learn:** how the program reads the gamepad, and the **game loop** that every
 > driver-controlled program uses.
-> **You need:** a Control Hub, Driver Station, and gamepad. No motors needed.
+> **You need:** a Control Hub, Driver Station, and gamepad. No motors needed. No robot handy? Use the [simulator](../simulator.md).
 > **Time:** about 30 minutes · **Program type:** TeleOp
 > **Code:** [`L04_GamepadInput.java`](../../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/L04_GamepadInput.java)
 
@@ -12,6 +12,9 @@
 3. In your copy, give it a unique `name` and **delete `@Disabled`**.
 
 [Forgot how? Lesson 00, Step 7 has pictures.](00-getting-the-code.md#step-7--copy-your-first-lesson)
+
+## 🖥️ No robot? Use the simulator
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. The keyboard is gamepad 1: **W/S** and **A/D** are the left stick, the **arrow keys** are the right stick, **J** is the A button, **C** is the right trigger. Hold **Shift** for half-way. Keys can only be all, half, or nothing, so you won't see in-between stick values.
 
 ---
 

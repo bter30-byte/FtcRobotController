@@ -3,6 +3,10 @@
 How your code gets from Android Studio onto the robot, and how to keep the Driver Station menu
 from turning into a 100-item mess.
 
+> 🖥️ **Just testing?** You don't need the robot. The [Robot Simulator](../simulator.md) runs the
+> same code on your laptop, so the whole group can test at once. Deploy when it's your turn on
+> the real robot.
+
 ---
 
 ## What a deploy actually does

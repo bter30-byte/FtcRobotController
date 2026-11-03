@@ -2,7 +2,7 @@
 
 > **You will learn:** how to store values in variables, the four most common Java types, and
 > how Java does math.
-> **You need:** a Control Hub and Driver Station. No motors needed.
+> **You need:** a Control Hub and Driver Station. No motors needed. No robot handy? Use the [simulator](../simulator.md).
 > **Time:** about 35 minutes · **Program type:** TeleOp (telemetry only)
 > **Code:** [`L03_Variables.java`](../../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/L03_Variables.java)
 
@@ -12,6 +12,9 @@
 3. In your copy, give it a unique `name` and **delete `@Disabled`**.
 
 [Forgot how? Lesson 00, Step 7 has pictures.](00-getting-the-code.md#step-7--copy-your-first-lesson)
+
+## 🖥️ No robot? Use the simulator
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. Everything happens in the telemetry box. No driving needed.
 
 ---
 

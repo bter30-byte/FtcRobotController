@@ -2,7 +2,7 @@
 
 > **You will learn:** how to make one button tap switch something on and off, using **state**
 > (memory) and **edge detection**.
-> **You need:** the `claw` servo.
+> **You need:** the `claw` servo. No robot handy? Use the [simulator](../simulator.md).
 > **Time:** about 40 minutes · **Program type:** TeleOp
 > **Code:** [`L13_Toggle.java`](../../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/L13_Toggle.java)
 
@@ -12,6 +12,9 @@
 3. In your copy, give it a unique `name` and **delete `@Disabled`**.
 
 [Forgot how? Lesson 00, Step 7 has pictures.](00-getting-the-code.md#step-7--copy-your-first-lesson)
+
+## 🖥️ No robot? Use the simulator
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. Tap **J** (the A button). Watch the claw on the field and in the side view. Closing the claw right next to the yellow block picks it up.
 
 ---
 

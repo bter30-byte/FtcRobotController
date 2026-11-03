@@ -1,7 +1,7 @@
 # Lesson 05 — Tank Drive
 
 > **You will learn:** how to connect the gamepad to the motors, so you can drive the robot.
-> **You need:** the two drive motors (`left_drive`, `right_drive`) and a gamepad.
+> **You need:** the two drive motors (`left_drive`, `right_drive`) and a gamepad. No robot handy? Use the [simulator](../simulator.md).
 > **Time:** about 30 minutes · **Program type:** TeleOp
 > **Code:** [`L05_TankDrive.java`](../../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/L05_TankDrive.java)
 
@@ -11,6 +11,9 @@
 3. In your copy, give it a unique `name` and **delete `@Disabled`**.
 
 [Forgot how? Lesson 00, Step 7 has pictures.](00-getting-the-code.md#step-7--copy-your-first-lesson)
+
+## 🖥️ No robot? Use the simulator
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. **W/S** drive the left wheels and **↑/↓** drive the right wheels.
 
 ---
 

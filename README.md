@@ -3,6 +3,8 @@
 >
 > 👉 **[Open the student start page](curriculum/START-HERE.md)** · Teachers: [course guide](curriculum/README.md)
 >
+> 🖥️ No robot needed to practice: the **[Robot Simulator](curriculum/simulator.md)** runs the lessons on any laptop, in class or at home.
+>
 > *Everything below this box is FIRST's original FTC SDK documentation.*
 
 ---

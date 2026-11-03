@@ -2,7 +2,7 @@
 
 > **You will learn:** how one well-built class powers both driver control and autonomous, and
 > how to pass objects to methods.
-> **You need:** everything in `RobotHardware.init()`, and a block for the claw to carry.
+> **You need:** everything in `RobotHardware.init()`, and a block for the claw to carry. No robot handy? Use the [simulator](../simulator.md).
 > **Time:** about 40 minutes · **Program type:** Autonomous
 > **Code:** [`L16_AutoWithClass.java`](../../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/lessons/L16_AutoWithClass.java) (uses `RobotHardware.java`)
 
@@ -13,6 +13,9 @@
 4. Delete any `import org.firstinspires.ftc.teamcode.lessons.RobotHardware;` line, so it uses **your** robot class.
 
 [Forgot how to copy? Lesson 00, Step 7 has pictures.](00-getting-the-code.md#step-7--copy-your-first-lesson)
+
+## 🖥️ No robot? Use the simulator
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. The yellow block starts in front of the claw, so the robot picks it up, carries it, and drops it. Tune `INCHES_PER_90_DEGREE_TURN` until the turn looks like a clean 90 degrees.
 
 ---
 

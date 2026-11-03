@@ -650,8 +650,36 @@ def desktop_pull():
     return s.save("00-desktop-pull.svg")
 
 
+def studio_sim_run():
+    s = Svg(980, 330, "Android Studio: start the Robot Simulator")
+    y0 = s.window(20, 20, 940, 290, "robotics-group-3 – Android Studio", dark=True)
+    s.rect(21, y0, 938, 46, fill=AS_BAR)
+    s.rect(21, y0 + 46, 938, 213, fill=AS_BG)
+    s.text(36, y0 + 29, "robotics-group-3  ▾", size=13, fill=AS_TXT, weight="600")
+    s.text(210, y0 + 29, "master  ▾", size=13, fill=AS_TXT)
+    s.button(560, y0 + 9, 170, 28, "Robot Simulator  ▾", "dark", size=13)
+    s.hl(560, y0 + 9, 170, 28)
+    s.callout(1, 538, y0 + 23)
+    s.text(745, y0 + 29, "(no robot needed)", size=12, fill=AS_MUTED)
+    s.rect(872, y0 + 9, 32, 28, fill="#3c3f41", r=5)
+    s.path(f"M881,{y0 + 15} L897,{y0 + 23} L881,{y0 + 31} Z", stroke="#5fb865", fill="#5fb865", sw=1)
+    s.hl(872, y0 + 9, 32, 28)
+    s.callout(3, 888, y0 + 66)
+    top = context_menu(s, 560, y0 + 42, ["TeamCode", "Robot Simulator", "Edit Configurations…"],
+                       hi="Robot Simulator", w=230)
+    s.hl(564, top + 26 - 17, 222, 24)
+    s.callout(2, 808, top + 26 - 5)
+    s.lines(60, y0 + 90, ["1  Open the run list at the top of Android Studio.",
+                          "2  Pick Robot Simulator.",
+                          "3  Click the green ► Run button. The simulator window opens.",
+                          "",
+                          "To put code on the REAL robot later, switch back to TeamCode."],
+            size=14, fill=AS_TXT, lh=24)
+    return s.save("sim-run-config.svg")
+
+
 if __name__ == "__main__":
     for f in (fork, collaborators, desktop_account, desktop_clone, studio_open, project_map,
               new_package, copy_class, edit_annotation, studio_run, driver_station,
-              desktop_commit, desktop_pull):
+              desktop_commit, desktop_pull, studio_sim_run):
         print(f())
