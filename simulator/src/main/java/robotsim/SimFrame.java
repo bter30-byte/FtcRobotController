@@ -81,6 +81,8 @@ final class SimFrame extends JFrame {
     private boolean updatingCombos = false;
     private long lastFrameNanos = System.nanoTime();
     private long runEndNanos = -1;
+    private long keysDownSince = -1;
+    private long keysUpSince = -1;
 
     SimFrame(CodeLoader loader) {
         super("FTC Robot Simulator");
@@ -583,9 +585,55 @@ final class SimFrame extends JFrame {
         }
 
         World.Snapshot s = world.snapshot();
-        field.show(s, trailBox.isSelected());
+        field.show(s, trailBox.isSelected(), keyHint(s, phase));
         armView.show(s);
         updateLabels(s, phase);
+    }
+
+    /**
+     * The keyboard is a gamepad, so it only moves the robot when the running program reads the
+     * gamepad. When keys are held and nothing happens, say why.
+     */
+    private String keyHint(World.Snapshot s, OpModeRunner.Phase phase) {
+        long now = System.nanoTime();
+        if (keyboard.stickKeyDown()) {
+            if (keysDownSince < 0) {
+                keysDownSince = now;
+            }
+            keysUpSince = -1;
+        } else if (keysDownSince >= 0) {
+            if (keysUpSince < 0) {
+                keysUpSince = now;
+            }
+            if (now - keysUpSince > 2_000_000_000L) {
+                keysDownSince = -1;
+            }
+        }
+        if (keysDownSince < 0 || now - keysDownSince < 600_000_000L) {
+            return null;
+        }
+        String pad = gamepad2Box.isSelected() ? "gamepad2" : "gamepad1";
+        CodeLoader.Entry e = runner.entry();
+        switch (phase) {
+            case INIT:
+                return "The program is in INIT.\nPress \u25b6 (START) first, then drive.";
+            case RUNNING:
+                boolean moving = Math.abs(s.leftPower) > 0.01 || Math.abs(s.rightPower) > 0.01
+                        || Math.abs(s.armPower) > 0.01;
+                if (moving) {
+                    return null;
+                }
+                if (e != null && !e.teleOp) {
+                    return "The keys are " + pad + ", but " + e.name + " is Autonomous: it drives itself\n"
+                            + "and doesn't read the gamepad. To drive with keys, pick a TeleOp program\n"
+                            + "like L05 Tank Drive or M06 Drive It Yourself.";
+                }
+                return "The keys are " + pad + ", but this program doesn't use them to move the robot.\n"
+                        + "Programs that drive with keys: L05, L06, L07, L15, and Mission 6.";
+            default:
+                return "The keys are " + pad + ", but no program is running.\n"
+                        + "Pick a TeleOp program (like L05 Tank Drive), press INIT, then \u25b6.";
+        }
     }
 
     private void updateLabels(World.Snapshot s, OpModeRunner.Phase phase) {

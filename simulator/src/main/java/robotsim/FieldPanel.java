@@ -33,6 +33,7 @@ final class FieldPanel extends JPanel {
     private static final Color BLOCK = new Color(0xF2C200);
 
     private World.Snapshot snap;
+    private String hint;
     private boolean showTrail = true;
     private double scale = 5;
     private double ox = 12, oy = 12;
@@ -43,9 +44,10 @@ final class FieldPanel extends JPanel {
         setFocusable(true);
     }
 
-    void show(World.Snapshot s, boolean trail) {
+    void show(World.Snapshot s, boolean trail, String keyHint) {
         snap = s;
         showTrail = trail;
+        hint = keyHint;
         repaint();
     }
 
@@ -82,6 +84,7 @@ final class FieldPanel extends JPanel {
         drawRobot(g);
         drawBlocks(g, true);
         drawBanner(g);
+        drawHint(g);
         g.dispose();
     }
 
@@ -146,6 +149,18 @@ final class FieldPanel extends JPanel {
                 g.setStroke(new BasicStroke(3f));
                 g.draw(r);
                 label(g, z.zoneName, r.getCenterX(), r.getCenterY(), c);
+            } else if (goal instanceof Mission.BlockInZoneGoal) {
+                Mission.BlockInZoneGoal z = (Mission.BlockInZoneGoal) goal;
+                Color zc = done ? DONE : BLOCK.darker();
+                Rectangle2D r = new Rectangle2D.Double(px(z.zone.getX()), py(z.zone.getMaxY()),
+                        z.zone.getWidth() * scale, z.zone.getHeight() * scale);
+                g.setColor(alpha(zc, current || done ? 80 : 45));
+                g.fill(r);
+                g.setColor(zc);
+                g.setStroke(new BasicStroke(3f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f,
+                        new float[]{10f, 6f}, 0f));
+                g.draw(r);
+                label(g, z.zoneName, r.getCenterX(), r.getY() + 14 * scale / 5, zc);
             } else if (goal instanceof Mission.WaypointGoal) {
                 Mission.WaypointGoal w = (Mission.WaypointGoal) goal;
                 double rr = w.radius * scale;
@@ -301,6 +316,31 @@ final class FieldPanel extends JPanel {
         g.fill(new RoundRectangle2D.Double(x, y, w, h, 16, 16));
         g.setColor(Color.WHITE);
         g.drawString(text, (float) (x + 20), (float) (y + 10 + fm.getAscent()));
+    }
+
+    /** A note at the bottom of the field, e.g. when keys are pressed but no program reads them. */
+    private void drawHint(Graphics2D g) {
+        if (hint == null) {
+            return;
+        }
+        String[] lines = hint.split("\n");
+        g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, (int) Math.max(12, scale * 2.4)));
+        FontMetrics fm = g.getFontMetrics();
+        int w = 0;
+        for (String line : lines) {
+            w = Math.max(w, fm.stringWidth(line));
+        }
+        w += 32;
+        int lh = fm.getHeight();
+        int h = lh * lines.length + 18;
+        double x = px(72) - w / 2.0;
+        double y = py(0) - h - 12;
+        g.setColor(new Color(0x1F, 0x23, 0x28, 225));
+        g.fill(new RoundRectangle2D.Double(x, y, w, h, 14, 14));
+        for (int i = 0; i < lines.length; i++) {
+            g.setColor(i == 0 ? new Color(0xFF, 0xD3, 0x3D) : Color.WHITE);
+            g.drawString(lines[i], (float) (x + 16), (float) (y + 9 + fm.getAscent() + i * lh));
+        }
     }
 
     private static Color alpha(Color c, int a) {

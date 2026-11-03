@@ -9,7 +9,7 @@ the servo, and the touch sensor. That means:
 - **Your code moves to the real robot unchanged.** When it works in the simulator, put it on
   the robot the normal way ([Lesson 00, Step 8](lessons/00-getting-the-code.md#step-8--put-it-on-the-robot-take-turns)).
 
-All 17 lessons and the first-day missions run in it.
+All 18 lessons and the first-day missions run in it.
 
 ---
 
@@ -58,7 +58,10 @@ to **TeamCode**.
 ---
 
 ## The keyboard is your gamepad
-Click the field once so the keys go to the simulator.
+Click the field once so the keys go to the simulator. The keys only move the robot when a
+**TeleOp program that reads the gamepad** is running (like L05 Tank Drive or Mission 6). Autonomous
+programs and lessons like L01 ignore the gamepad, just like on a real robot. If you hold the keys
+and nothing moves, a note on the field tells you why.
 
 | Gamepad | Keys | | Gamepad | Keys |
 |---|---|---|---|---|
@@ -117,6 +120,7 @@ Drive** field: the robot faces a wooden wall, with a yellow block right in front
 | 15 | **W/S** drive, **←/→** turn, **Q** precision, **I/J** arm, **K** (B) claw. |
 | 16 | The block starts in the claw. Watch the robot carry it and drop it. Tune the turn. |
 | 17 | `L17_StopAtTape` opens **Mission 7** (the tape moves every reset, so only the sensor works). `L17_FollowTape` opens **Mission 8**. Watch the sensor's dot turn dark over the tape. |
+| 18 | `L18_GrandChallenge` opens **Mission 9: Grand Challenge**: grab, lift, find the tape, touch the wall, drop, park. Make your own configuration first (**⋮ → Configure Robot**), and activate **CourseBot** again for the other lessons. |
 
 ---
 
@@ -150,7 +154,7 @@ The simulator is great for learning and testing, but it's a simplified robot:
 |---|---|
 | **Robot Simulator** isn't in the run list | Pull the latest code, then **File → Sync Project with Gradle Files**. |
 | My program isn't in the list | Check the other ▼ list: Autonomous is on the left, TeleOp on the right. Is it in your `students/yourname` folder? Did the simulator show an error for it? Press **INIT** or **Reload code** after saving. |
-| Keys don't move the robot | Click the field once, then try again. The program must be running (after ▶ START). **User 1** at the top lights up while keys are held. |
+| Keys don't move the robot | Is a **TeleOp** program that reads the gamepad running (after ▶ START)? Autonomous programs, L01, and Mission 1 don't use the keys. Otherwise click the field once and try again. **User 1** at the top lights up while keys are held. |
 | "didn't load, so it can't run yet" | Read the error under it: it gives the file and line. Fix it, save, press INIT. |
 | The robot says **BLOCKED** | It's pushing on a wall. Square robots can't spin right next to a wall, so back up first. |
 | "still running after STOP" | One of your loops doesn't check `opModeIsActive()`. |

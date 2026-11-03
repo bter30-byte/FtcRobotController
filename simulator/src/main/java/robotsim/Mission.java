@@ -113,7 +113,10 @@ public final class Mission {
     static final float[] BLACK = {0.04f, 0.04f, 0.05f};
     static final float[] WHITE = {0.85f, 0.86f, 0.88f};
 
-    /** Stop with the color sensor on the tape. */
+    /**
+     * Stop driving forward with the color sensor on the tape. Turning in place right away
+     * counts too, but driving straight across the tape doesn't.
+     */
     public static final class TapeStopGoal extends Goal {
         TapeStopGoal(String label) {
             super(label);
@@ -123,7 +126,81 @@ public final class Mission {
         boolean check(World world) {
             double[] s = world.sensorPoint();
             for (Tape t : world.tapes) {
-                if (t.dark && t.distanceTo(s[0], s[1]) <= t.width / 2 + 1.5 && world.isStopped()) {
+                if (t.dark && t.distanceTo(s[0], s[1]) <= t.width / 2 + 1.5 && world.forwardSpeed() < 1) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    /** Close the claw on a block. */
+    public static final class BlockHeldGoal extends Goal {
+        BlockHeldGoal(String label) {
+            super(label);
+        }
+
+        @Override
+        boolean check(World world) {
+            for (World.Block b : world.blocks) {
+                if (b.held) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    /** Raise the arm to at least some angle while holding a block. */
+    public static final class ArmUpGoal extends Goal {
+        final double degrees;
+
+        ArmUpGoal(String label, double degrees) {
+            super(label);
+            this.degrees = degrees;
+        }
+
+        @Override
+        boolean check(World world) {
+            if (world.armDeg < degrees) {
+                return false;
+            }
+            for (World.Block b : world.blocks) {
+                if (b.held) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    /** Drive until the front bumper (the touch sensor) touches a wall. */
+    public static final class BumperGoal extends Goal {
+        BumperGoal(String label) {
+            super(label);
+        }
+
+        @Override
+        boolean check(World world) {
+            return world.bumperContact;
+        }
+    }
+
+    /** Let go of a block (claw open) so it lands inside a box. */
+    public static final class BlockInZoneGoal extends Goal {
+        public final Rectangle2D zone;
+        public final String zoneName;
+
+        BlockInZoneGoal(String label, String zoneName, double x, double y, double w, double h) {
+            super(label);
+            this.zoneName = zoneName;
+            this.zone = new Rectangle2D.Double(x, y, w, h);
+        }
+
+        @Override
+        boolean check(World world) {
+            for (World.Block b : world.blocks) {
+                if (!b.held && zone.contains(b.x, b.y)) {
                     return true;
                 }
             }
@@ -142,12 +219,13 @@ public final class Mission {
     public final boolean noMoveBeforeStart;
     public final boolean timed;
     public final List<Tape> tapes;
-    /** If not empty, the tape moves sideways by one of these amounts (inches) on every reset. */
-    public final double[] tapeShiftsX;
+    /** If not empty, the tape moves by one of these amounts (inches) on every reset. */
+    public final double[] tapeShiftsX, tapeShiftsY;
 
     private Mission(Builder b) {
         tapes = Collections.unmodifiableList(b.tapes);
         tapeShiftsX = b.tapeShiftsX;
+        tapeShiftsY = b.tapeShiftsY;
         number = b.number;
         title = b.title;
         program = b.program;
@@ -184,6 +262,7 @@ public final class Mission {
         boolean timed = false;
         final List<Tape> tapes = new ArrayList<Tape>();
         double[] tapeShiftsX = new double[0];
+        double[] tapeShiftsY = new double[0];
 
         Builder(int number, String title) {
             this.number = number;
@@ -239,6 +318,11 @@ public final class Mission {
 
         Builder moveTapeEachReset(double... shiftsX) {
             tapeShiftsX = shiftsX;
+            return this;
+        }
+
+        Builder moveTapeUpDownEachReset(double... shiftsY) {
+            tapeShiftsY = shiftsY;
             return this;
         }
 
