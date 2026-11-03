@@ -19,14 +19,37 @@ final class SimDevices {
     private SimDevices() {
     }
 
-    static HardwareMap createHardwareMap(World world, RunContext context) {
+    /**
+     * Builds the hardware map from a robot configuration. The simulated robot is wired like the
+     * course robot: left wheel on motor 0, right wheel on motor 1, arm on motor 2, claw on servo 0,
+     * touch sensor on digital 1, and the color sensor on I2C bus 1. A device configured on a port
+     * with nothing plugged in still exists, but does nothing, just like on a real robot.
+     */
+    static HardwareMap createHardwareMap(World world, RunContext context, RobotConfig config) {
         HardwareMap map = new HardwareMap();
-        map.put("left_drive", new Motor(world, world.left, context, 0));
-        map.put("right_drive", new Motor(world, world.right, context, 1));
-        map.put("arm", new Motor(world, world.arm, context, 2));
-        map.put("claw", new Claw(world, context));
-        map.put("touch_sensor", new Touch(world));
-        map.put("sensor_color", new Color(world, context));
+        for (RobotConfig.Device d : config.devices()) {
+            switch (d.section) {
+                case MOTORS:
+                    MotorState state = d.port == 0 ? world.left : d.port == 1 ? world.right
+                            : d.port == 2 ? world.arm : new MotorState(d.name, 1, 1, 0.01, 10);
+                    map.put(d.name, new Motor(world, state, context, d.name, d.port));
+                    break;
+                case SERVOS:
+                    map.put(d.name, new Claw(world, context, d.name, d.port));
+                    break;
+                case DIGITAL:
+                    if (RobotConfig.TOUCH.equals(d.type)) {
+                        map.put(d.name, new Touch(world, d.name, d.port == 1));
+                    }
+                    break;
+                default:
+                    if (RobotConfig.COLOR.equals(d.type)) {
+                        map.put(d.name, new Color(world, context, d.name, d.section.bus() == 1));
+                    }
+                    // The IMU isn't simulated, so it isn't in the map.
+                    break;
+            }
+        }
         return map;
     }
 
@@ -71,8 +94,8 @@ final class SimDevices {
         private final RunContext context;
         private final int port;
 
-        Motor(World world, MotorState state, RunContext context, int port) {
-            super(world, state.name);
+        Motor(World world, MotorState state, RunContext context, String name, int port) {
+            super(world, name);
             this.state = state;
             this.context = context;
             this.port = port;
@@ -179,24 +202,38 @@ final class SimDevices {
         }
     }
 
+    /** A servo. Only servo port 0 has something plugged in: the claw. */
     static final class Claw extends Device implements Servo {
         private final RunContext context;
+        private final int port;
+        // A servo port with nothing plugged in just remembers what it was told.
+        private boolean unpluggedReversed = false;
+        private double unpluggedPosition = 0.5;
 
-        Claw(World world, RunContext context) {
-            super(world, "claw");
+        Claw(World world, RunContext context, String name, int port) {
+            super(world, name);
             this.context = context;
+            this.port = port;
+        }
+
+        private boolean pluggedIn() {
+            return port == 0;
         }
 
         @Override
         public int getPortNumber() {
-            return 0;
+            return port;
         }
 
         @Override
         public void setDirection(Direction direction) {
             synchronized (world) {
                 if (context.acceptsCommands()) {
-                    world.clawReversed = direction == Direction.REVERSE;
+                    if (pluggedIn()) {
+                        world.clawReversed = direction == Direction.REVERSE;
+                    } else {
+                        unpluggedReversed = direction == Direction.REVERSE;
+                    }
                 }
             }
         }
@@ -204,7 +241,8 @@ final class SimDevices {
         @Override
         public Direction getDirection() {
             synchronized (world) {
-                return world.clawReversed ? Direction.REVERSE : Direction.FORWARD;
+                boolean reversed = pluggedIn() ? world.clawReversed : unpluggedReversed;
+                return reversed ? Direction.REVERSE : Direction.FORWARD;
             }
         }
 
@@ -213,7 +251,11 @@ final class SimDevices {
             synchronized (world) {
                 if (context.acceptsCommands()) {
                     double p = MotorState.clip(position, MIN_POSITION, MAX_POSITION);
-                    world.clawTarget = world.clawReversed ? 1 - p : p;
+                    if (pluggedIn()) {
+                        world.clawTarget = world.clawReversed ? 1 - p : p;
+                    } else {
+                        unpluggedPosition = p;
+                    }
                 }
             }
         }
@@ -221,6 +263,9 @@ final class SimDevices {
         @Override
         public double getPosition() {
             synchronized (world) {
+                if (!pluggedIn()) {
+                    return unpluggedPosition;
+                }
                 return world.clawReversed ? 1 - world.clawTarget : world.clawTarget;
             }
         }
@@ -231,19 +276,29 @@ final class SimDevices {
         }
     }
 
-    /** REV Color Sensor V3, on I2C bus 1, looking down at the floor. */
+    /**
+     * REV Color Sensor V3, on I2C bus 1, looking down at the floor. Configured on another bus,
+     * it finds no sensor there and reads all zeros, like a real one.
+     */
     static final class Color extends Device implements ColorSensor, NormalizedColorSensor, SwitchableLight {
+        private static final float[] NO_LIGHT = {0f, 0f, 0f};
         private final RunContext context;
+        private final boolean pluggedIn;
 
-        Color(World world, RunContext context) {
-            super(world, "sensor_color");
+        Color(World world, RunContext context, String name, boolean pluggedIn) {
+            super(world, name);
             this.context = context;
+            this.pluggedIn = pluggedIn;
+        }
+
+        private float[] reading() {
+            return pluggedIn ? world.colorReading() : NO_LIGHT;
         }
 
         @Override
         public NormalizedRGBA getNormalizedColors() {
             synchronized (world) {
-                float[] c = world.colorReading();
+                float[] c = reading();
                 NormalizedRGBA n = new NormalizedRGBA();
                 n.red = scale(c[0]);
                 n.green = scale(c[1]);
@@ -267,7 +322,7 @@ final class SimDevices {
         @Override
         public void setGain(float newGain) {
             synchronized (world) {
-                if (context.acceptsCommands()) {
+                if (context.acceptsCommands() && pluggedIn) {
                     world.colorGain = Math.max(1f, newGain);
                 }
             }
@@ -275,7 +330,7 @@ final class SimDevices {
 
         private int raw(int channel) {
             synchronized (world) {
-                float[] c = world.colorReading();
+                float[] c = reading();
                 float v = channel < 3 ? c[channel] : (c[0] + c[1] + c[2]) / 3f;
                 return (int) Math.round(v * RAW);
             }
@@ -314,7 +369,7 @@ final class SimDevices {
         @Override
         public void enableLight(boolean enable) {
             synchronized (world) {
-                if (context.acceptsCommands()) {
+                if (context.acceptsCommands() && pluggedIn) {
                     world.colorLight = enable;
                 }
             }
@@ -328,9 +383,13 @@ final class SimDevices {
         }
     }
 
+    /** REV Touch Sensor. On a digital port other than 1, nothing is there, so it's never pressed. */
     static final class Touch extends Device implements TouchSensor {
-        Touch(World world) {
-            super(world, "touch_sensor");
+        private final boolean pluggedIn;
+
+        Touch(World world, String name, boolean pluggedIn) {
+            super(world, name);
+            this.pluggedIn = pluggedIn;
         }
 
         @Override
@@ -341,7 +400,7 @@ final class SimDevices {
         @Override
         public boolean isPressed() {
             synchronized (world) {
-                return world.touchPressed();
+                return pluggedIn && world.touchPressed();
             }
         }
     }

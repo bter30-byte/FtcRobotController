@@ -33,7 +33,7 @@ to **TeamCode**.
 | 1 | **Mission** | Picks the field. Missions have goals; **Free Drive** is an open field for the lessons. |
 | 2 | **Program lists** | Laid out like the real Driver Station. **▼ on the left** lists your Autonomous programs, **▼ on the right** lists your TeleOp programs. Programs hidden on the real robot by `@Disabled` are marked *(hidden on robot)*. |
 | 3 | **The big round button** | One button, just like the Driver Hub: **INIT** loads your newest code and runs it up to `waitForStart()`. Then it turns into **▶** (START). While the program runs it's **■** (STOP). The small ■ next to ▶ stops without starting. |
-| 4 | **Reload code** / **Reset robot** | Reload picks up new files. Reset puts the robot back at the start. (Both are also in the **⋮** menu.) |
+| 4 | **Reload code** / **Reset robot** | Reload picks up new files. Reset puts the robot back at the start. (Both are also in the **⋮** menu, next to **Configure Robot**.) |
 | 5 | **Field** | Seen from above. Tiles are 24 inches. The white arrow shows the front; **L** and **R** mark the wheels. The bumper turns red when the touch sensor is pressed. |
 | 6 | **Telemetry** | Whatever your program sends with `telemetry.update()`, on the right side like the real Driver Station. Error messages show up here too, in pink. **Run Time** counts from START. |
 | 7 | **Robot** | Live numbers: position, motor powers, encoder ticks, the claw, the touch sensor, and a side view of the arm. |
@@ -75,9 +75,15 @@ stick can. To control **gamepad2** (a second driver), tick **Keys drive gamepad2
 ---
 
 ## The simulated robot
-The device names match the course's robot configuration, so your code doesn't change. The
-Robot panel shows each device's **port** next to its name, just like the real Control Hub
-([where the names come from](reference/robot-configuration.md)):
+The simulated robot is wired like the course robot, and its **CourseBot** configuration uses the
+course's device names, so your code doesn't change. The Robot panel shows each device's **port**
+next to its name, just like the real Control Hub
+([where the names come from](reference/robot-configuration.md)).
+
+**Configure Robot** (in the Driver Station's **⋮** menu, or click the **Config** tile) has the
+same screens as the real Driver Station. Change a name there and your programs must use the new
+name, exactly like on a real robot. **Restore CourseBot** puts everything back
+([practice ideas](reference/robot-configuration.md#practice-in-the-simulator)).
 
 | Name in code | Device | In the simulator |
 |---|---|---|
@@ -148,6 +154,7 @@ The simulator is great for learning and testing, but it's a simplified robot:
 | "didn't load, so it can't run yet" | Read the error under it: it gives the file and line. Fix it, save, press INIT. |
 | The robot says **BLOCKED** | It's pushing on a wall. Square robots can't spin right next to a wall, so back up first. |
 | "still running after STOP" | One of your loops doesn't check `opModeIsActive()`. |
+| Every program says *Unable to find a hardware device* | Someone changed the robot configuration. **⋮ → Configure Robot → Restore CourseBot**. |
 
 ---
 👩‍🏫 **For teachers:**

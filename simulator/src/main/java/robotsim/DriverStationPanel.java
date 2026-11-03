@@ -48,6 +48,8 @@ final class DriverStationPanel extends JPanel {
         void reloadCode();
 
         void resetRobot();
+
+        void configureRobot();
     }
 
     /** Everything that changes from frame to frame. */
@@ -61,6 +63,8 @@ final class DriverStationPanel extends JPanel {
         boolean messageIsError;
         double batteryVolts = 12.8;
         boolean user1Active, user2Active, user2Mode;
+        /** The active robot configuration's name, or null when none is active. */
+        String configName = RobotConfig.COURSE_BOT;
     }
 
     // Design size (the real Driver Hub screen is 800 x 480); everything scales from this.
@@ -82,6 +86,7 @@ final class DriverStationPanel extends JPanel {
     private static final Rectangle TELEOP_ARROW = new Rectangle(194, 108, 46, 34);
     private static final Rectangle NAME_BAR = new Rectangle(46, 108, 148, 34);
     private static final Rectangle MENU = new Rectangle(456, 0, 24, 30);
+    private static final Rectangle CONFIG_TILE = new Rectangle(122, 34, 114, 70);
     private static final double BIG_X = 104, BIG_Y = 232, BIG_R = 54;
     private static final double SMALL_X = 186, SMALL_Y = 214, SMALL_R = 15;
     private static final Rectangle TELEMETRY = new Rectangle(244, 70, 232, 256);
@@ -185,6 +190,7 @@ final class DriverStationPanel extends JPanel {
 
     private boolean isClickable(Point2D p) {
         return AUTO_ARROW.contains(p) || TELEOP_ARROW.contains(p) || NAME_BAR.contains(p) || MENU.contains(p)
+                || CONFIG_TILE.contains(p)
                 || p.distance(BIG_X, BIG_Y) <= BIG_R
                 || (state.phase == OpModeRunner.Phase.INIT && p.distance(SMALL_X, SMALL_Y) <= SMALL_R);
     }
@@ -197,7 +203,9 @@ final class DriverStationPanel extends JPanel {
         } else if (TELEOP_ARROW.contains(p)) {
             return "Choose a TeleOp program";
         } else if (MENU.contains(p)) {
-            return "Menu: reload code, reset robot";
+            return "Menu: configure robot, reload code, reset robot";
+        } else if (CONFIG_TILE.contains(p)) {
+            return "The active robot configuration. Click to see or change it.";
         } else if (state.phase == OpModeRunner.Phase.INIT && p.distance(SMALL_X, SMALL_Y) <= SMALL_R) {
             return "Stop without starting";
         }
@@ -213,6 +221,8 @@ final class DriverStationPanel extends JPanel {
             OpModeChooser.show(this, host, state.programName == null || state.programIsTeleOp);
         } else if (MENU.contains(p)) {
             showMenu(e);
+        } else if (CONFIG_TILE.contains(p)) {
+            host.configureRobot();
         } else if (p.distance(BIG_X, BIG_Y) <= BIG_R) {
             switch (state.phase) {
                 case INIT:
@@ -232,6 +242,10 @@ final class DriverStationPanel extends JPanel {
 
     private void showMenu(MouseEvent e) {
         javax.swing.JPopupMenu menu = new javax.swing.JPopupMenu();
+        javax.swing.JMenuItem configure = new javax.swing.JMenuItem("Configure Robot");
+        configure.addActionListener(ev -> host.configureRobot());
+        menu.add(configure);
+        menu.addSeparator();
         javax.swing.JMenuItem reload = new javax.swing.JMenuItem("Reload code");
         reload.addActionListener(ev -> host.reloadCode());
         javax.swing.JMenuItem reset = new javax.swing.JMenuItem("Reset robot");
@@ -314,7 +328,19 @@ final class DriverStationPanel extends JPanel {
         g.setStroke(new BasicStroke(1.6f));
         g.draw(new RoundRectangle2D.Double(134, 50, 14, 24, 4, 4));
         text(g, "Config:", 156, 58, 9f, Font.PLAIN, DIM);
-        text(g, "CourseBot", 156, 72, 11f, Font.BOLD, TEXT);
+        if (state.configName == null) {
+            text(g, "none active", 156, 72, 11f, Font.BOLD, LOW_BATTERY);
+        } else {
+            g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 1).deriveFont(11f));
+            String shown = state.configName;
+            if (g.getFontMetrics().stringWidth(shown) > 74) {
+                while (shown.length() > 3 && g.getFontMetrics().stringWidth(shown + "…") > 74) {
+                    shown = shown.substring(0, shown.length() - 1);
+                }
+                shown += "…";
+            }
+            text(g, shown, 156, 72, 11f, Font.BOLD, TEXT);
+        }
     }
 
     private void drawOpModeBar(Graphics2D g) {

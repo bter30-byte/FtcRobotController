@@ -26,7 +26,7 @@ list and hands back the motor on port 0.
 
 If #2 and #3 don't match (`"Left_Drive"`, `"left drive"`, `"leftdrive"`), the lookup fails and the
 program stops at INIT with *Unable to find a hardware device with name "..."*. The
-[simulator](../simulator.md) gives the same error, plus a list of the names it knows.
+[simulator](../simulator.md) gives the same error, plus a list of the names in its configuration.
 
 ---
 
@@ -105,14 +105,40 @@ a folder named `robotonly`, so the simulator skips it ([details](../simulator.md
 
 ---
 
-## In the simulator
-The simulator's robot already has this exact configuration built in. Its **Robot** panel lists
-every device with its port and name, so you can see the same connection live:
+## Practice in the simulator
+The simulator has the same **Configure Robot** screens as the Driver Station, so you can practice
+making a configuration (and see what goes wrong when it's wrong) without a robot.
 
-```
-PORT       NAME          NOW
-Motor 0    left_drive    power  0.50  ticks   1234
-Motor 1    right_drive   power  0.50  ticks   1234
-...
-I2C bus 1  sensor_color  brightness 0.28 (gain 15)
-```
+Open them from the Driver Station panel: **⋮ → Configure Robot**, or click the **Config** tile.
+
+| Driver Station screen | What you do there |
+|---|---|
+| **Configure Robot** | Your saved configurations. **Edit**, **Activate**, **Delete**, or **New**. The active one is green. |
+| **USB Devices** → **Control Hub Portal** → **Control Hub** | Click your way down to the hub. **Save** is on the USB Devices screen. |
+| **Control Hub** | One row for each kind of port: Motors, Servos, Digital Devices, ... I2C Bus 0–3. |
+| **Motors**, **Servos**, ... | For each port, pick a type and type a name. **Done** goes back up. |
+
+![The Control Hub screen in the simulator](../images/sim-config-hub.png)
+![The Motors screen in the simulator](../images/sim-config-motors.png)
+
+The simulated robot is **wired** like the course robot (the table at the top of this page). The
+configuration only decides what each port is **called**, exactly like a real Control Hub. So a
+mistake in the configuration breaks your program the same way it would on a real robot.
+
+The simulator starts with **CourseBot** already made and active. **Restore CourseBot** on the
+first screen puts it back the way it was, so it's safe to experiment.
+
+### Try it: break it on purpose
+Run `M01_FirstMoves` (Mission 1) after each change, then press **Restore CourseBot**.
+
+1. **Rename a motor.** Change Motor port 0 from `left_drive` to `leftDrive`. What does INIT say?
+   Which two ways could you fix it?
+2. **Swap two names.** Name port 0 `right_drive` and port 1 `left_drive`. Nothing crashes. What
+   does the robot do instead, and why? *(Hint: which motor does the program reverse?)*
+3. **Wrong port.** In **Digital Devices**, move the touch sensor from port 1 to port 0. Run
+   Lesson 10 and drive into the wall. Why doesn't the bumper stop the robot?
+4. **Make your own.** Press **New**, configure only the two drive motors, save it as
+   `DriveOnly`, and **Activate** it. Which lessons still work? Which ones crash, and on which line?
+
+Configurations are saved on each laptop (in your user folder, not in the repo), just like a real
+configuration lives on its Control Hub.
