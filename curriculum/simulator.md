@@ -31,7 +31,7 @@ to **TeamCode**.
 | # | Part | What it does |
 |---|---|---|
 | 1 | **Mission** | Picks the field. Missions have goals; **Free Drive** is an open field for the lessons. |
-| 2 | **Program lists** | Laid out like the real Driver Station. **▼ on the left** lists your Autonomous programs, **▼ on the right** lists your TeleOp programs. Programs hidden on the real robot by `@Disabled` are marked *(hidden on robot)*. |
+| 2 | **Program lists** | Laid out like the real Driver Station. **▼ on the left** lists your Autonomous programs, **▼ on the right** lists your TeleOp programs. Each lesson is in one list or the other (its **Program type** is at the top of the lesson). Programs hidden on the real robot by `@Disabled` are marked *hidden on robot*, but they still run here. |
 | 3 | **The big round button** | One button, just like the Driver Hub: **INIT** loads your newest code and runs it up to `waitForStart()`. Then it turns into **▶** (START). While the program runs it's **■** (STOP). The small ■ next to ▶ stops without starting. |
 | 4 | **Reload code** / **Reset robot** | Reload picks up new files. Reset puts the robot back at the start. (Both are also in the **⋮** menu, next to **Configure Robot**.) |
 | 5 | **Field** | Seen from above. Tiles are 24 inches. The white arrow shows the front; **L** and **R** mark the wheels. The bumper turns red when the touch sensor is pressed. |
