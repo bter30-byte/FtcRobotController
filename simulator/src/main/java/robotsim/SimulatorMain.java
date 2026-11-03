@@ -1,5 +1,7 @@
 package robotsim;
 
+import java.awt.Desktop;
+import java.awt.Window;
 import java.io.File;
 
 import javax.swing.JOptionPane;
@@ -17,6 +19,8 @@ public final class SimulatorMain {
     }
 
     public static void main(String[] args) {
+        // macOS: the name shown in the menu bar and Dock (instead of "java"). Ignored elsewhere.
+        System.setProperty("apple.awt.application.name", "FTC Robot Simulator");
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {
@@ -33,8 +37,29 @@ public final class SimulatorMain {
                             "FTC Robot Simulator", JOptionPane.ERROR_MESSAGE);
                     System.exit(1);
                 }
-                new SimFrame(new CodeLoader(teamCode)).setVisible(true);
+                SimFrame frame = new SimFrame(new CodeLoader(teamCode));
+                frame.setVisible(true);
+                bringToFront(frame);
             }
         });
+    }
+
+    /**
+     * Android Studio starts the simulator in the background, and on macOS a program started that
+     * way can open behind Android Studio. This asks for the window to come to the front.
+     */
+    private static void bringToFront(Window window) {
+        try {
+            // Desktop.requestForeground exists from Java 9 on; look it up by name so this still
+            // compiles for Java 8 (the robot's Java version).
+            Desktop.Action foreground = Desktop.Action.valueOf("APP_REQUEST_FOREGROUND");
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(foreground)) {
+                Desktop.class.getMethod("requestForeground", boolean.class).invoke(Desktop.getDesktop(), true);
+            }
+        } catch (Exception ignored) {
+            // older Java or not supported here: toFront() below still helps
+        }
+        window.toFront();
+        window.requestFocus();
     }
 }

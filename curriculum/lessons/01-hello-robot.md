@@ -81,7 +81,7 @@ quotes and the value. Put your new line *before* `telemetry.update();`.
 ## 5. 🔨 Break-It Lab
 Professional programmers see error messages *all day*. Learning to read them is a superpower.
 Make **one** change at a time, then build with **Build → Make Project** (🔨). Write down the
-error, then undo the change (**Ctrl+Z**).
+error, then undo the change (**Ctrl+Z**, or **⌘Z** on a Mac).
 
 | Change you make | Did it build? | What did the error message say (in your own words)? |
 |---|---|---|

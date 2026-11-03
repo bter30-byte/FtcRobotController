@@ -19,6 +19,7 @@ All 18 lessons and the first-day missions run in it.
 1. Open the run list at the top of Android Studio (it usually says **TeamCode**).
 2. Pick **Robot Simulator**.
 3. Click the green **▶ Run** button. The simulator window opens. The first time can take a minute.
+   On a Mac, the window may open **behind** Android Studio: click its icon in the Dock.
 
 No robot, cable, or Wi-Fi needed. To put code on the **real** robot later, switch the list back
 to **TeamCode**.
@@ -42,7 +43,7 @@ to **TeamCode**.
 ---
 
 ## The everyday loop: edit, INIT, watch
-1. Edit your file in Android Studio. It saves by itself (or press **Ctrl+S**).
+1. Edit your file in Android Studio. It saves by itself (or press **Ctrl+S**, **⌘S** on a Mac).
 2. Click the round **INIT** button. The simulator **reloads your code every time you press
    INIT**, so you never have to restart it.
 3. Press **▶** (START) and watch. Change something. Repeat.
@@ -68,7 +69,7 @@ and nothing moves, a note on the field tells you why.
 | Left stick | **W A S D** | | A B X Y | **J K U I** |
 | Right stick | **arrow keys** | | Bumpers (left, right) | **Q E** |
 | Half-way on a stick | hold **Shift** | | Triggers (left, right) | **Z C** |
-| D-pad (up, left, down, right) | **T F G H** | | Start / Back | **Enter / Backspace** |
+| D-pad (up, left, down, right) | **T F G H** | | Start / Back | **Enter / Backspace** (Mac: **return / delete**) |
 | Press the touch sensor by hand | **Space** | | | |
 
 W gives `left_stick_y = -1.0`, just like pushing a real stick up. Keys can only be all the way,
@@ -153,6 +154,7 @@ The simulator is great for learning and testing, but it's a simplified robot:
 | Problem | Fix |
 |---|---|
 | **Robot Simulator** isn't in the run list | Pull the latest code, then **File → Sync Project with Gradle Files**. |
+| I pressed ▶ Run but don't see the simulator (Mac) | It may be behind Android Studio. Click its icon in the Dock. |
 | My program isn't in the list | Check the other ▼ list: Autonomous is on the left, TeleOp on the right. Is it in your `students/yourname` folder? Did the simulator show an error for it? Press **INIT** or **Reload code** after saving. |
 | Keys don't move the robot | Is a **TeleOp** program that reads the gamepad running (after ▶ START)? Autonomous programs, L01, and Mission 1 don't use the keys. Otherwise click the field once and try again. **User 1** at the top lights up while keys are held. |
 | "didn't load, so it can't run yet" | Read the error under it: it gives the file and line. Fix it, save, press INIT. |

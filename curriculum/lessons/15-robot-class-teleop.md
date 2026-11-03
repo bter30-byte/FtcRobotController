@@ -9,7 +9,7 @@
 ## Before you start
 1. **Pull** in GitHub Desktop.
 2. Copy **both** `RobotHardware.java` and `L15_TeleOpWithClass.java` into your
-   `students/yourname` folder. Select both (hold **Ctrl** and click each one), *then* copy, so
+   `students/yourname` folder. Select both (hold **Ctrl**, or **⌘** on a Mac, and click each one), *then* copy, so
    they stay linked to each other.
 3. In your L15 copy, give it a unique `name` and **delete `@Disabled`**.
 4. **Check:** if your L15 copy has a line `import org.firstinspires.ftc.teamcode.lessons.RobotHardware;`,

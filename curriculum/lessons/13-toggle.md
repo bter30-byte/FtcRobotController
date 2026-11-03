@@ -63,7 +63,7 @@ if (gamepad1.a) {
 }
 ```
 Tap A ten times. Write down `Times toggled`. Why is it so much bigger than 10?
-Now put the real code back (**Ctrl+Z** a few times works).
+Now put the real code back (**Ctrl+Z** a few times works, or **⌘Z** on a Mac).
 
 ## 2. Predict
 Trace the loop by hand. A is held down for 3 passes in a row, then released.
