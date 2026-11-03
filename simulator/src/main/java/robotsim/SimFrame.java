@@ -60,6 +60,7 @@ final class SimFrame extends JFrame {
     private final OpModeRunner runner = new OpModeRunner(world, clock);
     private final KeyboardGamepad keyboard = new KeyboardGamepad();
     private final CodeLoader loader;
+    private final RobotConfig.Store configs = RobotConfig.Store.openDefault();
 
     private final FieldPanel field = new FieldPanel();
     private final ArmPanel armView = new ArmPanel();
@@ -80,11 +81,15 @@ final class SimFrame extends JFrame {
     private boolean updatingCombos = false;
     private long lastFrameNanos = System.nanoTime();
     private long runEndNanos = -1;
+    private long keysDownSince = -1;
+    private long keysUpSince = -1;
 
     SimFrame(CodeLoader loader) {
         super("FTC Robot Simulator");
         this.loader = loader;
         SimClock.setActive(clock);
+        configs.ensureCourseBot();
+        runner.setConfig(configs.active());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         buildLayout();
         wireEvents();
@@ -385,6 +390,18 @@ final class SimFrame extends JFrame {
         public void resetRobot() {
             SimFrame.this.resetRobot();
         }
+
+        @Override
+        public void configureRobot() {
+            ConfigureRobotDialog.open(SimFrame.this, configs, new Runnable() {
+                @Override
+                public void run() {
+                    // Like a real Robot Controller, changing the configuration stops the robot.
+                    runner.stop();
+                    runner.setConfig(configs.active());
+                }
+            });
+        }
     }
 
     private String selectedClassName() {
@@ -568,9 +585,55 @@ final class SimFrame extends JFrame {
         }
 
         World.Snapshot s = world.snapshot();
-        field.show(s, trailBox.isSelected());
+        field.show(s, trailBox.isSelected(), keyHint(s, phase));
         armView.show(s);
         updateLabels(s, phase);
+    }
+
+    /**
+     * The keyboard is a gamepad, so it only moves the robot when the running program reads the
+     * gamepad. When keys are held and nothing happens, say why.
+     */
+    private String keyHint(World.Snapshot s, OpModeRunner.Phase phase) {
+        long now = System.nanoTime();
+        if (keyboard.stickKeyDown()) {
+            if (keysDownSince < 0) {
+                keysDownSince = now;
+            }
+            keysUpSince = -1;
+        } else if (keysDownSince >= 0) {
+            if (keysUpSince < 0) {
+                keysUpSince = now;
+            }
+            if (now - keysUpSince > 2_000_000_000L) {
+                keysDownSince = -1;
+            }
+        }
+        if (keysDownSince < 0 || now - keysDownSince < 600_000_000L) {
+            return null;
+        }
+        String pad = gamepad2Box.isSelected() ? "gamepad2" : "gamepad1";
+        CodeLoader.Entry e = runner.entry();
+        switch (phase) {
+            case INIT:
+                return "The program is in INIT.\nPress \u25b6 (START) first, then drive.";
+            case RUNNING:
+                boolean moving = Math.abs(s.leftPower) > 0.01 || Math.abs(s.rightPower) > 0.01
+                        || Math.abs(s.armPower) > 0.01;
+                if (moving) {
+                    return null;
+                }
+                if (e != null && !e.teleOp) {
+                    return "The keys are " + pad + ", but " + e.name + " is Autonomous: it drives itself\n"
+                            + "and doesn't read the gamepad. To drive with keys, pick a TeleOp program\n"
+                            + "like L05 Tank Drive or M06 Drive It Yourself.";
+                }
+                return "The keys are " + pad + ", but this program doesn't use them to move the robot.\n"
+                        + "Programs that drive with keys: L05, L06, L07, L15, and Mission 6.";
+            default:
+                return "The keys are " + pad + ", but no program is running.\n"
+                        + "Pick a TeleOp program (like L05 Tank Drive), press INIT, then \u25b6.";
+        }
     }
 
     private void updateLabels(World.Snapshot s, OpModeRunner.Phase phase) {
@@ -617,24 +680,38 @@ final class SimFrame extends JFrame {
         st.messageIsError = runner.messageIsError();
         st.batteryVolts = batteryBox.isSelected() ? 11.6 : 12.8;
         st.user2Mode = gamepad2Box.isSelected();
+        RobotConfig cfg = runner.config();
+        st.configName = cfg == null ? null : cfg.name;
         boolean keys = keyboard.anyDown() && (phase == OpModeRunner.Phase.INIT || phase == OpModeRunner.Phase.RUNNING);
         st.user1Active = keys && !st.user2Mode;
         st.user2Active = keys && st.user2Mode;
         ds.show(st);
 
+        // Names come from the active configuration; "-" means that port isn't configured.
+        RobotConfig shown = cfg == null ? new RobotConfig(null) : cfg;
         robotLabel.setText(String.format("<html><pre style='font-size:9px'>"
                         + "x %5.1f in   y %5.1f in   heading %4.0f°%n"
                         + "PORT       NAME          POWER   TICKS%n"
-                        + "Motor 0    left_drive    %5.2f  %6d%n"
-                        + "Motor 1    right_drive   %5.2f  %6d%n"
-                        + "Motor 2    arm           %5.2f  %6d%n"
-                        + "Servo 0    claw          position %.2f %s%n"
-                        + "Digital 1  touch_sensor  %s%n"
-                        + "I2C bus 1  sensor_color  brightness %.2f%s</pre></html>",
-                s.x, s.y, normalize(s.headingDeg), s.leftPower, s.leftTicks, s.rightPower, s.rightTicks,
-                s.armPower, s.armTicks, s.clawPos, s.clawPos >= 0.5 ? "open" : "closed",
-                s.touch ? "PRESSED" : "not pressed", s.brightness,
+                        + "Motor 0    %-13s %5.2f  %6d%n"
+                        + "Motor 1    %-13s %5.2f  %6d%n"
+                        + "Motor 2    %-13s %5.2f  %6d%n"
+                        + "Servo 0    %-13s position %.2f %s%n"
+                        + "Digital 1  %-13s %s%n"
+                        + "I2C bus 1  %-13s brightness %.2f%s</pre></html>",
+                s.x, s.y, normalize(s.headingDeg),
+                fit(shown.nameAt(RobotConfig.Section.MOTORS, 0)), s.leftPower, s.leftTicks,
+                fit(shown.nameAt(RobotConfig.Section.MOTORS, 1)), s.rightPower, s.rightTicks,
+                fit(shown.nameAt(RobotConfig.Section.MOTORS, 2)), s.armPower, s.armTicks,
+                fit(shown.nameAt(RobotConfig.Section.SERVOS, 0)), s.clawPos, s.clawPos >= 0.5 ? "open" : "closed",
+                fit(shown.nameAt(RobotConfig.Section.DIGITAL, 1)), s.touch ? "PRESSED" : "not pressed",
+                fit(shown.nameOnBus(1)), s.brightness,
                 runner.gamepad1.isRumbling() ? "\n           gamepad RUMBLE!" : ""));
+    }
+
+    /** Keeps the Robot panel's columns lined up when a name is long. */
+    private static String fit(String name) {
+        String escaped = name.length() > 13 ? name.substring(0, 12) + "…" : name;
+        return escaped.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
     }
 
     private static double normalize(double deg) {

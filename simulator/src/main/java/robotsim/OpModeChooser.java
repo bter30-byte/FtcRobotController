@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Window;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -46,6 +47,10 @@ final class OpModeChooser {
         }
     }
 
+    private static String escape(String s) {
+        return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
+    }
+
     static void show(Component anchor, final DriverStationPanel.Host host, boolean teleOp) {
         Window owner = SwingUtilities.getWindowAncestor(anchor);
         final JDialog dialog = new JDialog(owner);
@@ -84,14 +89,18 @@ final class OpModeChooser {
                     label.setBackground(new Color(0xf3, 0xee, 0xfc));
                     label.setBorder(BorderFactory.createEmptyBorder(6, 10, 4, 10));
                 } else {
-                    String text = row.entry.name + (row.entry.disabled ? "   (hidden on robot)" : "");
-                    label.setText(text);
+                    // Every program here can run. "hidden on robot" just means @Disabled hides it on
+                    // the real Driver Station, so it's a small note, not grayed out.
+                    label.setText(row.entry.disabled
+                            ? "<html>" + escape(row.entry.name) + "&nbsp;&nbsp;<font size='-1' color='#8c959f'>"
+                            + "<i>hidden on robot</i></font></html>"
+                            : row.entry.name);
                     label.setFont(label.getFont().deriveFont(row.entry == current ? Font.BOLD : Font.PLAIN, 14f));
-                    label.setForeground(row.entry.disabled ? new Color(0x6e, 0x77, 0x81) : new Color(0x1f, 0x23, 0x28));
+                    label.setForeground(new Color(0x1f, 0x23, 0x28));
                     label.setBackground(selected ? new Color(0xe3, 0xd7, 0xfb) : Color.WHITE);
                     label.setBorder(BorderFactory.createCompoundBorder(
                             BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0xe6, 0xe6, 0xe6)),
-                            BorderFactory.createEmptyBorder(8, 26, 8, 10)));
+                            BorderFactory.createEmptyBorder(6, 26, 6, 10)));
                 }
                 return label;
             }
@@ -135,12 +144,26 @@ final class OpModeChooser {
         content.setBorder(BorderFactory.createLineBorder(new Color(0x9e, 0x9e, 0x9e)));
         content.add(title, BorderLayout.NORTH);
         content.add(scroll, BorderLayout.CENTER);
+        // Lessons are split by type, so point to the other list.
+        JLabel other = new JLabel(teleOp ? "Autonomous programs are under the \u25bc on the left."
+                : "TeleOp programs are under the \u25bc on the right.");
+        other.setFont(other.getFont().deriveFont(Font.PLAIN, 12f));
+        other.setForeground(new Color(0x59, 0x63, 0x6e));
+        other.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(0xe6, 0xe6, 0xe6)),
+                BorderFactory.createEmptyBorder(6, 12, 7, 12)));
+        content.add(other, BorderLayout.SOUTH);
         dialog.setContentPane(content);
 
-        int height = Math.min(460, 52 + model.getSize() * 34);
-        dialog.setSize(new Dimension(Math.max(300, anchor.getWidth() - 40), height));
+        // Tall enough to show every program, as long as it fits on the screen (otherwise it scrolls).
+        Rectangle screen = owner == null ? new Rectangle(0, 0, 1280, 800) : owner.getGraphicsConfiguration().getBounds();
+        int width = Math.max(320, anchor.getWidth() - 40);
+        int wanted = title.getPreferredSize().height + list.getPreferredSize().height + other.getPreferredSize().height + 8;
+        int height = Math.min(wanted, screen.height - 60);
+        dialog.setSize(new Dimension(width, height));
         Point p = anchor.getLocationOnScreen();
-        dialog.setLocation(p.x + 20, p.y + 24);
+        int y = Math.max(screen.y + 10, Math.min(p.y + 24, screen.y + screen.height - height - 40));
+        dialog.setLocation(p.x + 20, y);
         dialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowDeactivated(WindowEvent e) {

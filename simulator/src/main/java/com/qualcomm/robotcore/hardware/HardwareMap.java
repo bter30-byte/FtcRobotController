@@ -9,9 +9,10 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- * Simulator copy of the FTC SDK hardware map: finds devices by the names in the robot
- * configuration. The simulator's robot has: left_drive, right_drive, arm (DcMotor),
- * claw (Servo), touch_sensor (TouchSensor), sensor_color (ColorSensor / NormalizedColorSensor).
+ * Simulator copy of the FTC SDK hardware map: finds devices by the names in the active robot
+ * configuration (the Driver Station's Configure Robot screens). The course robot's configuration,
+ * CourseBot, has: left_drive, right_drive, arm (DcMotor), claw (Servo), touch_sensor
+ * (TouchSensor), sensor_color (ColorSensor / NormalizedColorSensor).
  */
 public class HardwareMap implements Iterable<HardwareDevice> {
 

@@ -107,9 +107,10 @@ public final class World {
             blocks.add(new Block(b[0], b[1]));
         }
         tapes.clear();
-        double shift = m.tapeShiftsX.length == 0 ? 0 : m.tapeShiftsX[random.nextInt(m.tapeShiftsX.length)];
+        double shiftX = m.tapeShiftsX.length == 0 ? 0 : m.tapeShiftsX[random.nextInt(m.tapeShiftsX.length)];
+        double shiftY = m.tapeShiftsY.length == 0 ? 0 : m.tapeShiftsY[random.nextInt(m.tapeShiftsY.length)];
         for (Mission.Tape t : m.tapes) {
-            tapes.add(t.shifted(shift, 0));
+            tapes.add(t.shifted(shiftX, shiftY));
         }
         colorGain = 1.0f;
         colorLight = true;
@@ -314,6 +315,11 @@ public final class World {
 
     boolean touchPressed() {
         return bumperContact || armDeg >= ARM_LIMIT_DEG || manualTouch;
+    }
+
+    /** How fast the robot is moving forward or back (a spin in place is 0). */
+    double forwardSpeed() {
+        return Math.abs(left.speed + right.speed) / 2;
     }
 
     boolean isStopped() {

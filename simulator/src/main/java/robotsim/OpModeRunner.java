@@ -40,6 +40,9 @@ final class OpModeRunner {
     private volatile long stopWallNanos = -1;
     private boolean warnedStuck = false;
     private CodeLoader.Entry entry;
+    /** The active robot configuration (null = none active), and the one the current run used. */
+    private volatile RobotConfig config = RobotConfig.courseBot();
+    private volatile RobotConfig runConfig;
 
     final Gamepad gamepad1 = new Gamepad();
     final Gamepad gamepad2 = new Gamepad();
@@ -76,6 +79,14 @@ final class OpModeRunner {
         messageIsError = isError;
     }
 
+    void setConfig(RobotConfig c) {
+        config = c;
+    }
+
+    RobotConfig config() {
+        return config;
+    }
+
     /** INIT: build the program and run it up to waitForStart(). */
     synchronized void init(CodeLoader.Entry e) {
         stop();
@@ -85,7 +96,9 @@ final class OpModeRunner {
         stopWallNanos = -1;
         final RunContext ctx = new RunContext();
         context = ctx;
-        HardwareMap map = SimDevices.createHardwareMap(world, ctx);
+        RobotConfig cfg = config;
+        runConfig = cfg;
+        HardwareMap map = SimDevices.createHardwareMap(world, ctx, cfg == null ? new RobotConfig(null) : cfg);
         SimTelemetry telemetry = new SimTelemetry(ctx);
         final OpMode opMode;
         try {
@@ -146,7 +159,7 @@ final class OpModeRunner {
         if (ctx.finished && (phase == Phase.INIT || phase == Phase.RUNNING || phase == Phase.STOPPED)) {
             if (ctx.error != null) {
                 phase = Phase.CRASHED;
-                message = ErrorHelp.explain(ctx.error);
+                message = ErrorHelp.explain(ctx.error, runConfig);
                 messageIsError = true;
             } else if (phase != Phase.STOPPED) {
                 phase = Phase.FINISHED;
@@ -168,7 +181,7 @@ final class OpModeRunner {
         ctx.error = t;
         ctx.finished = true;
         phase = Phase.CRASHED;
-        message = ErrorHelp.explain(t);
+        message = ErrorHelp.explain(t, runConfig);
         messageIsError = true;
     }
 

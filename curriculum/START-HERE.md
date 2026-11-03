@@ -71,6 +71,7 @@ struggle is where the learning happens.
 | 15 | [Robot Class: TeleOp](lessons/15-robot-class-teleop.md) | Classes and objects |
 | 16 | [Robot Class: Autonomous](lessons/16-robot-class-auto.md) | Reusing one class everywhere |
 | 17 | [Color Sensor](lessons/17-color-sensor.md) | Stopping at and following black tape |
+| 18 | [Capstone: Your Robot, Your Code](lessons/18-grand-challenge.md) | Your own configuration and robot class, then one autonomous that uses everything |
 
 ## Reference pages
 - [🖥️ Robot Simulator](simulator.md): test any lesson on your laptop, in class or at home
@@ -84,4 +85,4 @@ struggle is where the learning happens.
 | Who's in charge | A driver with a gamepad | The program, all by itself |
 | Driver Station list | The **TeleOp** list (right) | The **Autonomous** list (left) |
 | Code line | `@TeleOp(...)` | `@Autonomous(...)` |
-| Lessons | 01, 04–08, 13, 15 | 02, 09–12, 14, 16, 17 |
+| Lessons | 01, 04–08, 13, 15 | 02, 09–12, 14, 16–18 |

@@ -112,6 +112,27 @@ public final class Missions {
                 .timed()
                 .build());
 
+        list.add(Mission.builder(9, "Grand Challenge")
+                .program("L18_GrandChallenge")
+                .describe("Lesson 18. One autonomous program, everything you've learned: grab the "
+                        + "block, lift it, find the black tape (it moves every reset!), drive to the "
+                        + "wall, back up and drop the block in the GOAL, then PARK. Can you do it in "
+                        + "30 seconds, like a real FTC autonomous?")
+                .start(18, 18, 0)
+                .block(52, 18)
+                .tape(true, 20, 84, 66, 84)
+                .moveTapeUpDownEachReset(-12, -6, 0, 6, 12)
+                .wall(120, 40, 6, 80)
+                .goal(new Mission.BlockHeldGoal("Grab the yellow block"))
+                .goal(new Mission.ArmUpGoal("Lift it: arm up past 45\u00b0", 45))
+                .goal(new Mission.TapeStopGoal("Stop at the black tape"))
+                .goal(new Mission.BumperGoal("Drive until the bumper touches the wall"))
+                .goal(new Mission.BlockInZoneGoal("Back up and drop the block in the GOAL", "GOAL",
+                        92, 44, 24, 72))
+                .goal(new Mission.ZoneGoal("PARK in the box", "PARK", 84, 0, 36, 36))
+                .timed()
+                .build());
+
         return Collections.unmodifiableList(list);
     }
 }

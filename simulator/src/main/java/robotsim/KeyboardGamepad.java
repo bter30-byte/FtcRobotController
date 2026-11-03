@@ -58,6 +58,17 @@ final class KeyboardGamepad {
         return !down.isEmpty();
     }
 
+    /** True while a stick key (W A S D or an arrow) is held. */
+    synchronized boolean stickKeyDown() {
+        for (int key : new int[]{KeyEvent.VK_W, KeyEvent.VK_A, KeyEvent.VK_S, KeyEvent.VK_D,
+                KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT}) {
+            if (down.contains(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     synchronized boolean touchHeld() {
         return down.contains(KeyEvent.VK_SPACE);
     }

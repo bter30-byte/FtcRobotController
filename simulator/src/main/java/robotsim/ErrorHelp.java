@@ -6,18 +6,22 @@ final class ErrorHelp {
     private ErrorHelp() {
     }
 
-    static String explain(Throwable t) {
+    static String explain(Throwable t, RobotConfig config) {
         StringBuilder sb = new StringBuilder();
         String where = whereInYourCode(t);
         String msg = t.getMessage() == null ? "" : t.getMessage();
 
         if (t instanceof IllegalArgumentException && msg.startsWith("Unable to find a hardware device")) {
             sb.append(msg).append(where).append("\n\nTip: the name in quotes must match the robot's ")
-                    .append("configuration exactly (capitals and _ count). This robot has:\n")
-                    .append("    left_drive, right_drive, arm   (DcMotor)\n")
-                    .append("    claw   (Servo)\n")
-                    .append("    touch_sensor   (TouchSensor)\n")
-                    .append("    sensor_color   (NormalizedColorSensor or ColorSensor)");
+                    .append("configuration exactly (capitals and _ count). ");
+            if (config == null) {
+                sb.append("No configuration is active. Open the Driver Station's \u22ee menu, choose ")
+                        .append("Configure Robot, and activate one (or press Restore CourseBot).");
+            } else {
+                sb.append("The active configuration \"").append(config.name).append("\" has:\n")
+                        .append(config.describeForHelp())
+                        .append("To see or change it: \u22ee menu \u2192 Configure Robot.");
+            }
         } else if (t instanceof IllegalStateException && msg.contains("RUN_TO_POSITION")) {
             sb.append(msg).append(where).append("\n\nTip: call setTargetPosition(...) BEFORE ")
                     .append("setMode(DcMotor.RunMode.RUN_TO_POSITION).");

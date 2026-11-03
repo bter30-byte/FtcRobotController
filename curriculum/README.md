@@ -67,10 +67,14 @@ laptop, and they can keep practicing at home. Brand-new programmers start with a
 | 15 | [Robot Class: TeleOp](lessons/15-robot-class-teleop.md) | Classes, objects | One hardware class for all programs | TeleOp | Everything |
 | 16 | [Robot Class: Auto](lessons/16-robot-class-auto.md) | Reuse | Shared code across programs | Auto | Everything |
 | 17 | [Color Sensor](lessons/17-color-sensor.md) | Thresholds, feedback loops | Stop at and follow black tape | Auto | Drive + color sensor |
+| 18 | [Capstone: Your Robot, Your Code](lessons/18-grand-challenge.md) | Decomposition, planning, testing | Own configuration and robot class; the Grand Challenge | Auto | Everything |
 
 **A natural stopping point** for students who need more time is after **Lesson 10**. By then
 they can drive by hand, use sensors, and write a simple autonomous. Lessons 11–16 make the code
-more precise and better organized, and Lesson 17 adds a color sensor.
+more precise and better organized, and Lesson 17 adds a color sensor. **Lesson 18** is the
+capstone: students make their own configuration, write a robot class from a nearly empty file,
+and combine everything into one autonomous (Mission 9 in the simulator). Plan 3–4 periods for it.
+A solution is in the teacher answer key folder.
 
 **Optional warm-up before Lesson 01:** [FTCSIM](#ftcsim). Students solve a few puzzles in Blocks,
 then switch to the Java view to see the same program as text.
@@ -95,6 +99,7 @@ curriculum/
 
 TeamCode/src/main/java/org/firstinspires/ftc/teamcode/
 ├── lessons/L01_HelloRobot.java … L17_FollowTape.java      ← working OpModes for every lesson
+├── lessons/MyRobot.java, L18_GrandChallenge.java          ← Lesson 18's nearly empty starters
 ├── lessons/RobotHardware.java                              ← the robot class (Lessons 15–16)
 └── missions/M01_FirstMoves.java … M06_DriveItYourself.java ← first-day missions
 

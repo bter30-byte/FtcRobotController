@@ -183,4 +183,4 @@ another school. Name two things that could be different, and how you'd fix the p
 
 ---
 <!-- lesson-nav -->
-[← Lesson 16: Robot Class: Autonomous](16-robot-class-auto.md) · [All lessons](../START-HERE.md#lessons) · [Back to Start Here →](../START-HERE.md)
+[← Lesson 16: Robot Class: Autonomous](16-robot-class-auto.md) · [All lessons](../START-HERE.md#lessons) · [Lesson 18: Capstone →](18-grand-challenge.md)
