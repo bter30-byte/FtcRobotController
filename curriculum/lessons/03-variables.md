@@ -14,7 +14,7 @@
 [Forgot how? Lesson 00, Step 7 has pictures.](00-getting-the-code.md#step-7--copy-your-first-lesson)
 
 ## 🖥️ No robot? Use the simulator
-This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. Everything happens in the telemetry box. No driving needed.
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. Everything happens in the telemetry, on the right side of the Driver Station. No driving needed.
 
 ---
 

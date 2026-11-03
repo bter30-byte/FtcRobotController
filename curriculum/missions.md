@@ -13,9 +13,9 @@ Never programmed before? Perfect, this is where you start. Each mission gives yo
 ## How to run a mission
 1. Start the simulator ([how](simulator.md#start-the-simulator)).
 2. In **1. Mission**, pick the mission. Its program is picked for you.
-3. Press **INIT**, then **START**. Watch the robot.
+3. Press the round **INIT** button, then **▶** (START). Watch the robot.
 4. Open the program in Android Studio: **TeamCode → java → org.firstinspires.ftc.teamcode → missions**.
-5. Change the code, then press **INIT** and **START** again. The simulator loads your newest code by itself.
+5. Change the code, then press **INIT** and **▶** again. The simulator loads your newest code by itself.
 
 You've finished a mission when the field says **MISSION COMPLETE!**
 
@@ -100,7 +100,7 @@ run it again, and repeat.
 
 <details><summary>💡 Hint for bug 1</summary>
 
-Read the red message carefully. It says which name it couldn't find. Compare it with the other
+Read the error message on the Driver Station carefully. It says which name it couldn't find. Compare it with the other
 motor's name.
 
 </details>

@@ -79,7 +79,7 @@ Print one set per pair. The "robot" follows **only** what the cards say, exactly
 ## Common snags
 | Student says | Usually means |
 |---|---|
-| "Nothing happens when I press START." | They didn't press INIT first, or the program crashed. Read the red message. |
+| "Nothing happens when I press START." | They didn't press INIT first, or the program crashed. Read the message on the right side of the Driver Station panel. |
 | "My change didn't do anything." | The file wasn't saved, or they edited a different mission. INIT reloads saved code. |
 | "The keys don't work." | Click the field once. The program must be running. |
 | "It says BLOCKED." | The robot hit a wall or is trying to spin right next to one. |

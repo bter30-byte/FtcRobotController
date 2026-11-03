@@ -31,21 +31,21 @@ to **TeamCode**.
 | # | Part | What it does |
 |---|---|---|
 | 1 | **Mission** | Picks the field. Missions have goals; **Free Drive** is an open field for the lessons. |
-| 2 | **Program** | Your OpModes, the same list the Driver Station shows. Programs hidden on the real robot by `@Disabled` are marked *(hidden on robot)*. |
-| 3 | **INIT** | Loads your newest code and runs it up to `waitForStart()`. |
-| 4 | **START** / **STOP** | Same as the Driver Station. **Reset robot** puts the robot back at the start. |
+| 2 | **Program lists** | Laid out like the real Driver Station. **▼ on the left** lists your Autonomous programs, **▼ on the right** lists your TeleOp programs. Programs hidden on the real robot by `@Disabled` are marked *(hidden on robot)*. |
+| 3 | **The big round button** | One button, just like the Driver Hub: **INIT** loads your newest code and runs it up to `waitForStart()`. Then it turns into **▶** (START). While the program runs it's **■** (STOP). The small ■ next to ▶ stops without starting. |
+| 4 | **Reload code** / **Reset robot** | Reload picks up new files. Reset puts the robot back at the start. (Both are also in the **⋮** menu.) |
 | 5 | **Field** | Seen from above. Tiles are 24 inches. The white arrow shows the front; **L** and **R** mark the wheels. The bumper turns red when the touch sensor is pressed. |
-| 6 | **Telemetry** | Whatever your program sends with `telemetry.update()`. Error messages appear just above it. |
+| 6 | **Telemetry** | Whatever your program sends with `telemetry.update()`, on the right side like the real Driver Station. Error messages show up here too, in pink. **Run Time** counts from START. |
 | 7 | **Robot** | Live numbers: position, motor powers, encoder ticks, the claw, the touch sensor, and a side view of the arm. |
-| 8 | **View** | Slow motion, the trail (a line showing where the robot went), a **Low battery** switch, and the keyboard gamepad keys. |
+| 8 | **View** | Slow motion, the trail (a line showing where the robot went), a **Low battery** switch (the Driver Station's battery turns orange), and the keyboard gamepad keys. |
 
 ---
 
 ## The everyday loop: edit, INIT, watch
 1. Edit your file in Android Studio. It saves by itself (or press **Ctrl+S**).
-2. Click the simulator window and press **INIT**. The simulator **reloads your code every time you
-   press INIT**, so you never have to restart it.
-3. Press **START** and watch. Change something. Repeat.
+2. Click the round **INIT** button. The simulator **reloads your code every time you press
+   INIT**, so you never have to restart it.
+3. Press **▶** (START) and watch. Change something. Repeat.
 
 **If your code has a mistake**, the simulator tells you which file and which line:
 
@@ -99,7 +99,7 @@ Drive** field: the robot faces a wooden wall, with a yellow block right in front
 
 | Lesson | What to do in the simulator |
 |---|---|
-| 01, 03 | Watch the telemetry box. The Break-It Lab errors show up in the simulator too. |
+| 01, 03 | Watch the telemetry on the right of the Driver Station. The Break-It Lab errors show up there too. |
 | 02, 09, 11 | Turn on the trail and watch the path. Try **Low battery**: timed driving falls short. |
 | 04 | Push keys and watch the numbers change. |
 | 05 | Tank drive: **W/S** for the left wheels, **↑/↓** for the right wheels. |
@@ -133,7 +133,7 @@ Your home laptop is just one more laptop in your group.
 The simulator is great for learning and testing, but it's a simplified robot:
 - The physics are simple: no wheel slip, no bumpy floors, and every run is nearly the same.
   The real robot will need tuning (turn times, distances), and that's normal.
-- Only the six devices above exist. Code for other hardware (IMU, color sensor, camera,
+- Only the six devices above exist. Code for other hardware (IMU, distance sensor, camera,
   `DcMotorEx`, and so on) won't load in the simulator. Put files like that in a folder named
   **`robotonly`** inside your folder, and the simulator will skip them.
 - A real gamepad doesn't work yet; use the keyboard.
@@ -143,8 +143,8 @@ The simulator is great for learning and testing, but it's a simplified robot:
 | Problem | Fix |
 |---|---|
 | **Robot Simulator** isn't in the run list | Pull the latest code, then **File → Sync Project with Gradle Files**. |
-| My program isn't in the list | Is it in your `students/yourname` folder? Did the simulator show an error for it? Press **INIT** or **Reload code** after saving. |
-| Keys don't move the robot | Click the field once, then try again. The program must be running (after START). |
+| My program isn't in the list | Check the other ▼ list: Autonomous is on the left, TeleOp on the right. Is it in your `students/yourname` folder? Did the simulator show an error for it? Press **INIT** or **Reload code** after saving. |
+| Keys don't move the robot | Click the field once, then try again. The program must be running (after ▶ START). **User 1** at the top lights up while keys are held. |
 | "didn't load, so it can't run yet" | Read the error under it: it gives the file and line. Fix it, save, press INIT. |
 | The robot says **BLOCKED** | It's pushing on a wall. Square robots can't spin right next to a wall, so back up first. |
 | "still running after STOP" | One of your loops doesn't check `opModeIsActive()`. |

@@ -68,15 +68,9 @@ final class SimFrame extends JFrame {
     private final JLabel goalsLabel = new JLabel();
     private final JComboBox<CodeLoader.Entry> programBox = new JComboBox<CodeLoader.Entry>();
     private final JLabel codeStatus = new JLabel(" ");
-    private final JButton initButton = new JButton("INIT");
-    private final JButton startButton = new JButton("► START");
-    private final JButton stopButton = new JButton("■ STOP");
+    private final DriverStationPanel ds = new DriverStationPanel(new DsHost());
     private final JButton resetButton = new JButton("Reset robot");
     private final JButton reloadButton = new JButton("Reload code");
-    private final JLabel phaseLabel = new JLabel(" ");
-    private final JTextArea telemetryText = textArea(8, true);
-    private final JTextArea messageText = textArea(4, false);
-    private final JScrollPane messageScroll = new JScrollPane(messageText);
     private final JLabel robotLabel = new JLabel();
     private final JCheckBox trailBox = new JCheckBox("Show trail", true);
     private final JCheckBox batteryBox = new JCheckBox("Low battery");
@@ -85,8 +79,7 @@ final class SimFrame extends JFrame {
 
     private boolean updatingCombos = false;
     private long lastFrameNanos = System.nanoTime();
-    private String lastTelemetry = "";
-    private String lastMessage = null;
+    private long runEndNanos = -1;
 
     SimFrame(CodeLoader loader) {
         super("FTC Robot Simulator");
@@ -152,41 +145,22 @@ final class SimFrame extends JFrame {
         missionPanel.add(grows(goalsLabel));
         side.add(missionPanel);
 
-        JPanel programPanel = section("2. Program  (your code in TeamCode)");
-        programPanel.add(full(programBox));
+        // The program list, INIT/START/STOP and telemetry, laid out like the real Driver Station app.
+        JPanel dsPanel = section("2. Driver Station  (your code in TeamCode)");
+        ds.setAlignmentX(Component.LEFT_ALIGNMENT);
+        ds.setMaximumSize(new Dimension(Integer.MAX_VALUE, ds.getPreferredSize().height));
+        dsPanel.add(ds);
+        dsPanel.add(Box.createVerticalStrut(4));
         JPanel codeRow = new JPanel(new BorderLayout(6, 0));
         codeRow.add(codeStatus, BorderLayout.CENTER);
-        codeRow.add(reloadButton, BorderLayout.EAST);
-        programPanel.add(full(codeRow));
-        JPanel buttons = new JPanel(new GridLayout(1, 4, 6, 0));
-        initButton.setFont(initButton.getFont().deriveFont(Font.BOLD, 14f));
-        startButton.setFont(startButton.getFont().deriveFont(Font.BOLD, 14f));
-        stopButton.setFont(stopButton.getFont().deriveFont(Font.BOLD, 14f));
-        buttons.add(initButton);
-        buttons.add(startButton);
-        buttons.add(stopButton);
-        buttons.add(resetButton);
-        programPanel.add(full(buttons));
-        phaseLabel.setFont(phaseLabel.getFont().deriveFont(Font.BOLD, 14f));
-        phaseLabel.setOpaque(true);
-        phaseLabel.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8));
-        programPanel.add(full(phaseLabel));
-        messageText.setForeground(new Color(0xCF222E));
-        messageText.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-        messageScroll.setPreferredSize(new Dimension(420, 150));
-        messageScroll.setVisible(false);
-        programPanel.add(full(messageScroll));
-        side.add(programPanel);
-
-        JPanel telemetryPanel = section("3. Driver Station telemetry");
-        telemetryText.setBackground(new Color(0x303030));
-        telemetryText.setForeground(new Color(0xE0E0E0));
-        telemetryText.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 13));
-        telemetryText.setBorder(BorderFactory.createEmptyBorder(6, 8, 6, 8));
-        JScrollPane telemetryScroll = new JScrollPane(telemetryText);
-        telemetryScroll.setPreferredSize(new Dimension(420, 150));
-        telemetryPanel.add(full(telemetryScroll));
-        side.add(telemetryPanel);
+        JPanel codeButtons = new JPanel(new GridLayout(1, 2, 6, 0));
+        reloadButton.setFocusable(false);
+        resetButton.setFocusable(false);
+        codeButtons.add(reloadButton);
+        codeButtons.add(resetButton);
+        codeRow.add(codeButtons, BorderLayout.EAST);
+        dsPanel.add(full(codeRow));
+        side.add(dsPanel);
 
         JPanel robotPanel = section("Robot");
         JPanel robotRow = new JPanel(new BorderLayout(8, 0));
@@ -247,7 +221,7 @@ final class SimFrame extends JFrame {
         JScrollPane sideScroll = new JScrollPane(side, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         sideScroll.setBorder(null);
-        sideScroll.setPreferredSize(new Dimension(500, 700));
+        sideScroll.setPreferredSize(new Dimension(520, 700));
         sideScroll.getVerticalScrollBar().setUnitIncrement(16);
 
         getContentPane().setLayout(new BorderLayout());
@@ -316,30 +290,10 @@ final class SimFrame extends JFrame {
                 }
             }
         });
-        initButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                onInit();
-            }
-        });
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                runner.start();
-                field.requestFocusInWindow();
-            }
-        });
-        stopButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                runner.stop();
-            }
-        });
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                runner.stop();
-                world.reset((Mission) missionBox.getSelectedItem());
+                resetRobot();
             }
         });
         reloadButton.addActionListener(new ActionListener() {
@@ -374,6 +328,63 @@ final class SimFrame extends JFrame {
                 keyboard.releaseAll();
             }
         });
+    }
+
+    private void resetRobot() {
+        runner.stop();
+        world.reset((Mission) missionBox.getSelectedItem());
+    }
+
+    /** Connects the Driver Station panel's buttons and lists to the simulator. */
+    private final class DsHost implements DriverStationPanel.Host {
+        @Override
+        public List<CodeLoader.Entry> programs() {
+            List<CodeLoader.Entry> list = new ArrayList<CodeLoader.Entry>();
+            for (int i = 0; i < programBox.getItemCount(); i++) {
+                list.add(programBox.getItemAt(i));
+            }
+            return list;
+        }
+
+        @Override
+        public CodeLoader.Entry selectedProgram() {
+            return (CodeLoader.Entry) programBox.getSelectedItem();
+        }
+
+        @Override
+        public void chooseProgram(CodeLoader.Entry entry) {
+            // Choosing a different program stops the current one, like the real Driver Station.
+            if (entry != programBox.getSelectedItem()) {
+                runner.stop();
+            }
+            programBox.setSelectedItem(entry);
+        }
+
+        @Override
+        public void pressInit() {
+            onInit();
+        }
+
+        @Override
+        public void pressStart() {
+            runner.start();
+            field.requestFocusInWindow();
+        }
+
+        @Override
+        public void pressStop() {
+            runner.stop();
+        }
+
+        @Override
+        public void reloadCode() {
+            SimFrame.this.reloadCode(selectedClassName());
+        }
+
+        @Override
+        public void resetRobot() {
+            SimFrame.this.resetRobot();
+        }
     }
 
     private String selectedClassName() {
@@ -580,36 +591,36 @@ final class SimFrame extends JFrame {
         }
         goalsLabel.setText(goals.append("</html>").toString());
 
-        Color bg;
-        switch (phase) {
-            case INIT: bg = new Color(0xFFF1C2); break;
-            case RUNNING: bg = new Color(0xD3F5DD); break;
-            case CRASHED: bg = new Color(0xFFD7D5); break;
-            case FINISHED: bg = new Color(0xDDF4FF); break;
-            default: bg = new Color(0xEAEEF2); break;
+        DriverStationPanel.State st = new DriverStationPanel.State();
+        st.phase = phase;
+        CodeLoader.Entry entry = phase == OpModeRunner.Phase.IDLE ? null : runner.entry();
+        if (entry == null) {
+            entry = (CodeLoader.Entry) programBox.getSelectedItem();
         }
-        CodeLoader.Entry entry = runner.entry();
-        String what = entry == null || phase == OpModeRunner.Phase.IDLE ? "" : "   " + entry.name;
-        phaseLabel.setText(phase.label + what);
-        phaseLabel.setBackground(bg);
-        startButton.setEnabled(phase == OpModeRunner.Phase.INIT);
-        stopButton.setEnabled(phase == OpModeRunner.Phase.INIT || phase == OpModeRunner.Phase.RUNNING);
-
+        if (entry != null) {
+            st.programName = entry.name;
+            st.programIsTeleOp = entry.teleOp;
+        }
+        // Run Time counts from START and freezes when the program ends.
+        if (phase == OpModeRunner.Phase.RUNNING) {
+            runEndNanos = -1;
+        } else if (runEndNanos < 0 && world.startNanos >= 0) {
+            runEndNanos = clock.now();
+        }
+        if (world.startNanos >= 0) {
+            long end = phase == OpModeRunner.Phase.RUNNING || runEndNanos < 0 ? clock.now() : runEndNanos;
+            st.runSeconds = (end - world.startNanos) / 1e9;
+        }
         RunContext ctx = runner.context();
-        String tel = ctx == null ? "" : String.join("\n", ctx.telemetry());
-        if (!tel.equals(lastTelemetry)) {
-            telemetryText.setText(tel);
-            lastTelemetry = tel;
-        }
-        String msg = runner.message();
-        if (msg == null ? lastMessage != null : !msg.equals(lastMessage)) {
-            messageText.setText(msg == null ? "" : msg);
-            messageText.setForeground(runner.messageIsError() ? new Color(0xCF222E) : new Color(0x1F2328));
-            messageText.setCaretPosition(0);
-            messageScroll.setVisible(msg != null);
-            messageScroll.getParent().revalidate();
-            lastMessage = msg;
-        }
+        st.telemetry = ctx == null ? null : ctx.telemetry();
+        st.message = runner.message();
+        st.messageIsError = runner.messageIsError();
+        st.batteryVolts = batteryBox.isSelected() ? 11.6 : 12.8;
+        st.user2Mode = gamepad2Box.isSelected();
+        boolean keys = keyboard.anyDown() && (phase == OpModeRunner.Phase.INIT || phase == OpModeRunner.Phase.RUNNING);
+        st.user1Active = keys && !st.user2Mode;
+        st.user2Active = keys && st.user2Mode;
+        ds.show(st);
 
         robotLabel.setText(String.format("<html><pre style='font-size:9px'>"
                         + "x %5.1f in   y %5.1f in   heading %4.0f°%n"

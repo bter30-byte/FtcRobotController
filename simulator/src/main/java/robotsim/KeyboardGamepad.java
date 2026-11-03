@@ -53,6 +53,11 @@ final class KeyboardGamepad {
         shift = false;
     }
 
+    /** True while any gamepad key is held, so the Driver Station can light up the user icon. */
+    synchronized boolean anyDown() {
+        return !down.isEmpty();
+    }
+
     synchronized boolean touchHeld() {
         return down.contains(KeyEvent.VK_SPACE);
     }

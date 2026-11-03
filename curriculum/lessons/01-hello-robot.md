@@ -12,7 +12,7 @@ You already copied this file into your `students/yourname` folder in
 not the one in `lessons/`.
 
 ## 🖥️ No robot? Use the simulator
-This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. Pick your copy, press **INIT**, then **START**, and watch the telemetry box. The Break-It Lab works in the simulator too: errors show up in its message box with the file and line.
+This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at home. Pick your program; the simulator switches to the **Free Drive** field. Pick your copy with the right-hand **▼** (TeleOp), press **INIT**, then **▶**, and watch the telemetry on the right. The Break-It Lab works in the simulator too: errors show up in the telemetry area with the file and line.
 
 ---
 
