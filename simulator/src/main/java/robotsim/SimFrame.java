@@ -193,7 +193,7 @@ final class SimFrame extends JFrame {
         robotLabel.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 11));
         robotRow.add(robotLabel, BorderLayout.CENTER);
         robotRow.add(armView, BorderLayout.EAST);
-        robotPanel.add(full(robotRow));
+        robotPanel.add(grows(robotRow));
         side.add(robotPanel);
 
         JPanel viewPanel = section("View and keyboard gamepad");
@@ -462,8 +462,17 @@ final class SimFrame extends JFrame {
         if (e == null) {
             return;
         }
+        // A mission that names this program (for example L17_StopAtTape) gets picked first.
+        for (Mission m : missions) {
+            if (m.program.equals(e.type.getSimpleName())) {
+                if (m != missionBox.getSelectedItem()) {
+                    selectMission(m, false);
+                }
+                return;
+            }
+        }
         if (LESSON_CLASS.matcher(e.type.getSimpleName()).find() && missionBox.getSelectedItem() != missions.get(0)) {
-            // Lessons (and students' copies of them) run on the Free Drive field.
+            // Other lessons (and students' copies of them) run on the Free Drive field.
             selectMission(missions.get(0), false);
             return;
         }
@@ -604,15 +613,17 @@ final class SimFrame extends JFrame {
 
         robotLabel.setText(String.format("<html><pre style='font-size:9px'>"
                         + "x %5.1f in   y %5.1f in   heading %4.0f°%n"
-                        + "left_drive   power %5.2f   ticks %6d%n"
-                        + "right_drive  power %5.2f   ticks %6d%n"
-                        + "arm          power %5.2f   ticks %6d%n"
-                        + "claw         position %.2f (%s)%n"
-                        + "touch_sensor %s%s</pre></html>",
+                        + "PORT       NAME          POWER   TICKS%n"
+                        + "Motor 0    left_drive    %5.2f  %6d%n"
+                        + "Motor 1    right_drive   %5.2f  %6d%n"
+                        + "Motor 2    arm           %5.2f  %6d%n"
+                        + "Servo 0    claw          position %.2f %s%n"
+                        + "Digital 1  touch_sensor  %s%n"
+                        + "I2C bus 1  sensor_color  brightness %.2f%s</pre></html>",
                 s.x, s.y, normalize(s.headingDeg), s.leftPower, s.leftTicks, s.rightPower, s.rightTicks,
                 s.armPower, s.armTicks, s.clawPos, s.clawPos >= 0.5 ? "open" : "closed",
-                s.touch ? "PRESSED" : "not pressed",
-                runner.gamepad1.isRumbling() ? "   gamepad: RUMBLE!" : ""));
+                s.touch ? "PRESSED" : "not pressed", s.brightness,
+                runner.gamepad1.isRumbling() ? "\n           gamepad RUMBLE!" : ""));
     }
 
     private static double normalize(double deg) {

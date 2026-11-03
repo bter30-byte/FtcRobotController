@@ -76,6 +76,61 @@ public final class Mission {
         }
     }
 
+    /** Tape on the floor: a path of points, 2 inches wide. */
+    public static final class Tape {
+        public final double[][] points;
+        public final double width;
+        /** How much red, green, and blue light the tape reflects (0 to 1). */
+        public final float[] reflect;
+        public final boolean dark;
+
+        Tape(double[][] points, double width, float[] reflect, boolean dark) {
+            this.points = points;
+            this.width = width;
+            this.reflect = reflect;
+            this.dark = dark;
+        }
+
+        Tape shifted(double dx, double dy) {
+            double[][] p = new double[points.length][];
+            for (int i = 0; i < points.length; i++) {
+                p[i] = new double[]{points[i][0] + dx, points[i][1] + dy};
+            }
+            return new Tape(p, width, reflect, dark);
+        }
+
+        /** Distance from a point to the middle of the tape. */
+        double distanceTo(double x, double y) {
+            double best = Double.MAX_VALUE;
+            for (int i = 0; i + 1 < points.length; i++) {
+                best = Math.min(best, Line2D.ptSegDist(points[i][0], points[i][1],
+                        points[i + 1][0], points[i + 1][1], x, y));
+            }
+            return best;
+        }
+    }
+
+    static final float[] BLACK = {0.04f, 0.04f, 0.05f};
+    static final float[] WHITE = {0.85f, 0.86f, 0.88f};
+
+    /** Stop with the color sensor on the tape. */
+    public static final class TapeStopGoal extends Goal {
+        TapeStopGoal(String label) {
+            super(label);
+        }
+
+        @Override
+        boolean check(World world) {
+            double[] s = world.sensorPoint();
+            for (Tape t : world.tapes) {
+                if (t.dark && t.distanceTo(s[0], s[1]) <= t.width / 2 + 1.5 && world.isStopped()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
     public final int number;
     public final String title;
     public final String program;
@@ -86,8 +141,13 @@ public final class Mission {
     public final List<Goal> goals;
     public final boolean noMoveBeforeStart;
     public final boolean timed;
+    public final List<Tape> tapes;
+    /** If not empty, the tape moves sideways by one of these amounts (inches) on every reset. */
+    public final double[] tapeShiftsX;
 
     private Mission(Builder b) {
+        tapes = Collections.unmodifiableList(b.tapes);
+        tapeShiftsX = b.tapeShiftsX;
         number = b.number;
         title = b.title;
         program = b.program;
@@ -122,6 +182,8 @@ public final class Mission {
         final List<Goal> goals = new ArrayList<Goal>();
         boolean noMoveBeforeStart = false;
         boolean timed = false;
+        final List<Tape> tapes = new ArrayList<Tape>();
+        double[] tapeShiftsX = new double[0];
 
         Builder(int number, String title) {
             this.number = number;
@@ -162,6 +224,21 @@ public final class Mission {
 
         Builder goal(Goal g) {
             goals.add(g);
+            return this;
+        }
+
+        /** Tape through the given points: x1, y1, x2, y2, ... */
+        Builder tape(boolean dark, double... xy) {
+            double[][] p = new double[xy.length / 2][];
+            for (int i = 0; i < p.length; i++) {
+                p[i] = new double[]{xy[2 * i], xy[2 * i + 1]};
+            }
+            tapes.add(new Tape(p, 2.0, dark ? BLACK : WHITE, dark));
+            return this;
+        }
+
+        Builder moveTapeEachReset(double... shiftsX) {
+            tapeShiftsX = shiftsX;
             return this;
         }
 

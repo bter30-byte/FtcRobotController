@@ -11,7 +11,7 @@ import java.util.TreeSet;
 /**
  * Simulator copy of the FTC SDK hardware map: finds devices by the names in the robot
  * configuration. The simulator's robot has: left_drive, right_drive, arm (DcMotor),
- * claw (Servo), touch_sensor (TouchSensor).
+ * claw (Servo), touch_sensor (TouchSensor), sensor_color (ColorSensor / NormalizedColorSensor).
  */
 public class HardwareMap implements Iterable<HardwareDevice> {
 
@@ -36,6 +36,7 @@ public class HardwareMap implements Iterable<HardwareDevice> {
     public DeviceMapping<DcMotor> dcMotor = new DeviceMapping<DcMotor>(DcMotor.class);
     public DeviceMapping<Servo> servo = new DeviceMapping<Servo>(Servo.class);
     public DeviceMapping<TouchSensor> touchSensor = new DeviceMapping<TouchSensor>(TouchSensor.class);
+    public DeviceMapping<ColorSensor> colorSensor = new DeviceMapping<ColorSensor>(ColorSensor.class);
 
     private final Map<String, HardwareDevice> devices = new LinkedHashMap<String, HardwareDevice>();
 

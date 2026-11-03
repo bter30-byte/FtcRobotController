@@ -16,7 +16,8 @@ final class ErrorHelp {
                     .append("configuration exactly (capitals and _ count). This robot has:\n")
                     .append("    left_drive, right_drive, arm   (DcMotor)\n")
                     .append("    claw   (Servo)\n")
-                    .append("    touch_sensor   (TouchSensor)");
+                    .append("    touch_sensor   (TouchSensor)\n")
+                    .append("    sensor_color   (NormalizedColorSensor or ColorSensor)");
         } else if (t instanceof IllegalStateException && msg.contains("RUN_TO_POSITION")) {
             sb.append(msg).append(where).append("\n\nTip: call setTargetPosition(...) BEFORE ")
                     .append("setMode(DcMotor.RunMode.RUN_TO_POSITION).");

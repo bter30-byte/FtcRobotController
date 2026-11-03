@@ -40,7 +40,8 @@ or OnBot Java programs saved on the hub.
 
 1. Turn the robot on. Plug the Control Hub into your laptop with a USB-C **data** cable.
 2. In the device dropdown at the top of Android Studio, pick **REV Robotics Control Hub**.
-3. Make sure the run dropdown next to it says **TeamCode**.
+3. Make sure the run dropdown next to it says **TeamCode**, not **Robot Simulator**.
+   *Robot Simulator* only opens the simulator on your laptop; it never sends code to the robot.
 4. Click **▶ Run**. Watch the bottom bar: *Gradle build* → *Installing* → *Launch succeeded*.
 5. Wait about 15–30 seconds for the Driver Station to reconnect.
 
@@ -94,6 +95,11 @@ Agree on a limit as a group. A good one: **each person keeps at most 3 of their 
 enabled** (the current lesson and the one or two you're still working on). Do a cleanup
 every few lessons.
 
+### The Missions group
+The six first-day [Robot Missions](../missions.md) (M01–M06) aren't hidden, so they show up in a
+**Missions** group on the robot's menu. That's on purpose: students can run their mission code
+on the real robot. To hide one, add `@Disabled` to your copy, as above.
+
 ### Why the teacher's originals are hidden
 Every file in `lessons/` already has `@Disabled`, so the 17 originals never clutter the menu.
 When you copy a lesson into your folder, **delete the `@Disabled` line in your copy** so it
@@ -126,6 +132,8 @@ To clear them:
 | Build fails in **your** file | Your code has an error | Click the error in the **Build** tab to jump to the line. |
 | "Installation did not succeed… signatures do not match" and an offer to uninstall | The app on the hub was installed from a different laptop | Click **OK** to uninstall and reinstall. Robot configurations are saved as separate files on the hub and normally survive this. Know your configuration names (they're in the course README) just in case. |
 | *Launch succeeded* but my changes aren't there | Wrong run target, or the Driver Station is still on the old app | Check that the run dropdown says **TeamCode**. Wait for the Driver Station to reconnect, or use ⋮ → **Restart Robot**. |
+| I clicked ▶ Run and the **simulator opened** instead | The run list says **Robot Simulator** | Pick **TeamCode** in the run list, then click ▶ Run again. |
+| Gradle sync fails and the error mentions `simulator` | A problem in the simulator module | Tell your teacher. Robot code doesn't need the simulator: deleting the line `include ':simulator'` from `settings.gradle` and syncing again gets robot deploys working. |
 | My program isn't on the menu | `@Disabled` still in the file, a duplicate name, or you're looking in the wrong list | Delete `@Disabled`. Make the `name` unique. TeleOps and Autonomous programs are in **separate** menus. |
 | A teammate's program vanished from the robot | Someone deployed without pulling | Pull, then deploy again. |
 | A program I deleted is back | Someone deployed without pulling | Same fix: pull, then deploy. |

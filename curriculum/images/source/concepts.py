@@ -580,7 +580,163 @@ def class_object():
     return s.save("concept-class-object.svg")
 
 
+
+# ---------------------------------------------------------------- configuration
+def config_names():
+    s = Svg(980, 400, "Where device names come from", ui=False)
+    s.text(20, 34, "One motor, four names: where \u201cleft_drive\u201d comes from", size=20, weight="bold")
+    boxes = [
+        ("1  PORT", "Motor 0", "Where the cable plugs in", "on the Control Hub", "#6e7781"),
+        ("2  CONFIGURATION NAME", '"left_drive"', "Typed on the Driver Station", "(Configure Robot)", BLUE),
+        ("3  NAME IN CODE", 'hardwareMap.get(DcMotor.class,', '"left_drive")', "", PURPLE),
+        ("4  JAVA VARIABLE", "leftDrive", "Any name you like,", "used in the rest of the program", GREEN),
+    ]
+    x = 20
+    for i, (title, big, l1, l2, c) in enumerate(boxes):
+        s.rect(x, 64, 214, 170, fill="#ffffff", stroke=c, sw=2.5, r=10)
+        s.rect(x, 64, 214, 32, fill=c, r=10)
+        s.rect(x, 84, 214, 12, fill=c)
+        s.text(x + 107, 86, title, size=13, fill="#ffffff", weight="bold", anchor="middle")
+        if i == 2:
+            s.text(x + 107, 134, big, size=12, fill=INK, anchor="middle", mono=True)
+            s.text(x + 107, 154, l1, size=12, fill=PURPLE, anchor="middle", mono=True, weight="bold")
+            s.text(x + 107, 200, "The string in quotes", size=13, fill=MUTED, anchor="middle")
+            s.text(x + 107, 218, "finds the device", size=13, fill=MUTED, anchor="middle")
+        else:
+            s.text(x + 107, 146, big, size=21, fill=c, anchor="middle", mono=True, weight="bold")
+            s.text(x + 107, 200, l1, size=13, fill=MUTED, anchor="middle")
+            s.text(x + 107, 218, l2, size=13, fill=MUTED, anchor="middle")
+        if i < 3:
+            s.line(x + 217, 150, x + 237, 150, sw=2.5, arrow=True)
+        x += 240
+    # must match bracket between 2 and 3
+    s.path("M367,248 L367,262 L607,262 L607,248", stroke=RED, sw=2.5)
+    s.text(487, 284, "2 and 3 must match EXACTLY (capitals and _ count)", size=15, fill=RED, weight="bold",
+           anchor="middle")
+    s.path("M800,248 L800,262 L894,262 L894,248", stroke=GREEN, sw=2.5)
+    s.text(847, 284, "your choice", size=15, fill=GREEN, weight="bold", anchor="middle")
+    s.rich(20, 330, [("In code:   ", INK, "bold"), ("DcMotor ", KW_LIGHT, "bold"), ("leftDrive", GREEN, "bold"),
+                     (" = hardwareMap.get(DcMotor.class, ", INK, "normal"), ('"left_drive"', PURPLE, "bold"),
+                     (");", INK, "normal")], size=16, mono=True)
+    s.text(20, 368, "If 2 and 3 don't match, the program stops at INIT with: Unable to find a hardware device "
+                    "with name \"...\"", size=14, fill=MUTED)
+    return s.save("concept-config-names.svg")
+
+
+KW_LIGHT = "#9a6700"
+
+
+def control_hub():
+    s = Svg(980, 560, "Control Hub ports and what plugs in where", ui=False)
+    s.text(20, 34, "The course robot: what plugs in where", size=20, weight="bold")
+    s.text(20, 56, "Simplified drawing of a REV Control Hub. Port numbers are printed on the hub next to each port.",
+           size=13, fill=MUTED, italic=True)
+    hx, hy, hw, hh = 340, 110, 300, 380
+    s.rect(hx, hy, hw, hh, fill="#2b2d30", stroke="#111111", sw=2, r=14)
+    s.text(hx + hw / 2, hy + 30, "REV Control Hub", size=17, fill="#ffffff", weight="bold", anchor="middle")
+    s.text(hx + hw / 2, hy + 50, "(built-in IMU on I2C bus 0)", size=12, fill="#afb8c1", anchor="middle")
+
+    def port(px, py, label, used):
+        s.rect(px, py, 86, 26, fill="#57606a" if not used else "#ffffff", stroke="#111111", r=4)
+        s.text(px + 43, py + 18, label, size=12, fill="#ffffff" if not used else INK, anchor="middle",
+               weight="bold" if used else "normal")
+
+    # left side: motor ports
+    s.text(hx + 14, hy + 84, "MOTOR", size=12, fill="#afb8c1", weight="bold")
+    for i in range(4):
+        port(hx + 14, hy + 94 + i * 34, "Motor %d" % i, i < 3)
+    s.text(hx + 14, hy + 250, "SERVO", size=12, fill="#afb8c1", weight="bold")
+    for i in range(3):
+        port(hx + 14, hy + 260 + i * 34, "Servo %d" % i, i == 0)
+    s.text(hx + 14, hy + 368, "(Servo 3-5 too)", size=11, fill="#afb8c1")
+    # right side: digital + I2C
+    s.text(hx + 200, hy + 84, "DIGITAL", size=12, fill="#afb8c1", weight="bold")
+    for i in range(3):
+        port(hx + 200, hy + 94 + i * 34, "Digital %d-%d" % (2 * i, 2 * i + 1), i == 0)
+    s.text(hx + 200, hy + 250, "I2C", size=12, fill="#afb8c1", weight="bold")
+    for i in range(3):
+        port(hx + 200, hy + 260 + i * 34, "I2C %d" % i, i == 1)
+    s.text(hx + 200, hy + 368, "(I2C 3 too)", size=11, fill="#afb8c1")
+
+    def device(dx, dy, name, kind, note, color):
+        s.rect(dx, dy, 250, 54, fill="#ffffff", stroke=color, sw=2, r=8)
+        s.text(dx + 12, dy + 22, name, size=16, fill=color, weight="bold", mono=True)
+        s.text(dx + 12, dy + 42, kind, size=12, fill=MUTED)
+        if note:
+            s.text(dx + 12, dy + 70, note, size=11.5, fill=MUTED, italic=True)
+
+    # left devices
+    device(30, 120, "left_drive", "drive motor + encoder cable", "", BLUE)
+    s.line(280, 147, hx + 14, hy + 107, stroke=BLUE, sw=2.5)
+    device(30, 196, "right_drive", "drive motor + encoder cable", "", BLUE)
+    s.line(280, 223, hx + 14, hy + 141, stroke=BLUE, sw=2.5)
+    device(30, 272, "arm", "arm motor + encoder cable", "", BLUE)
+    s.line(280, 299, hx + 14, hy + 175, stroke=BLUE, sw=2.5)
+    device(30, 380, "claw", "servo", "black/brown wire toward the - (ground) mark", PURPLE)
+    s.line(280, 407, hx + 14, hy + 273, stroke=PURPLE, sw=2.5)
+    # right devices
+    device(700, 120, "touch_sensor", "REV Touch Sensor, Digital port 0-1", "configure it as channel 1 (the odd one)",
+           YELLOW)
+    s.line(700, 147, hx + 286, hy + 107, stroke=YELLOW, sw=2.5)
+    device(700, 300, "sensor_color", "REV Color Sensor V3, I2C bus 1", "about 1 cm above the floor, looking down",
+           GREEN)
+    s.line(700, 327, hx + 286, hy + 307, stroke=GREEN, sw=2.5)
+    s.text(490, 528, "White ports = used by the course robot.  Each motor's encoder cable plugs in next to its "
+                     "motor port, with the same number.", size=13, fill=INK, anchor="middle")
+    return s.save("concept-control-hub.svg")
+
+
+def color_sensor():
+    s = Svg(980, 470, "How a color sensor sees black tape", ui=False)
+    s.text(20, 34, "The color sensor measures how much light bounces back", size=20, weight="bold")
+    # side views
+    for i, (label, floor, val, refl) in enumerate((("Over the gray floor", "#c9ced4", "0.28", 4),
+                                                  ("Over black tape", "#1b1b1b", "0.04", 1))):
+        x0 = 40 + i * 330
+        s.rect(x0, 210, 280, 26, fill=floor, stroke=MUTED, r=3)
+        s.rect(x0 + 100, 90, 80, 40, fill="#2b2d30", r=6)
+        s.text(x0 + 140, 116, "sensor", size=12, fill="#ffffff", anchor="middle")
+        s.line(x0 + 128, 132, x0 + 128, 204, stroke="#f2c200", sw=3, arrow=True)
+        for k in range(refl):
+            s.line(x0 + 150 + k * 6, 204, x0 + 150 + k * 6, 136, stroke="#f2c200", sw=2, arrow=True,
+                   dash="4 3")
+        s.text(x0 + 140, 72, label, size=15, fill=INK, weight="bold", anchor="middle")
+        s.text(x0 + 140, 270, "brightness (alpha)", size=13, fill=MUTED, anchor="middle")
+        s.text(x0 + 140, 296, "about " + val, size=20, fill=INK, weight="bold", anchor="middle", mono=True)
+    # threshold number line
+    x0, x1, y = 40, 600, 380
+    s.line(x0, y, x1, y, stroke=INK, sw=3)
+    for v, lab, c in ((0.0, "0.0 black", INK), (0.04, "", INK), (0.15, "", RED), (0.28, "", INK), (1.0, "1.0 white", INK)):
+        px = x0 + (x1 - x0) * (v / 0.5 if v <= 0.5 else 1)
+        if v == 1.0:
+            px = x1
+        s.line(px, y - 8, px, y + 8, stroke=c, sw=3)
+        if lab:
+            s.text(px, y + 26, lab, size=12, fill=MUTED, anchor="middle")
+    def tick(v, text, color, up):
+        px = x0 + (x1 - x0) * (v / 0.5)
+        s.text(px, y - 16 if up else y + 44, text, size=13, fill=color, weight="bold", anchor="middle")
+    tick(0.04, "tape 0.04", INK, True)
+    tick(0.28, "floor 0.28", INK, True)
+    tick(0.15, "THRESHOLD 0.15", RED, False)
+    s.text(x1 + 6, y + 5, "(scale stretched)", size=11, fill=MUTED)
+    # edge following
+    ex = 720
+    s.text(ex + 110, 72, "Following the LEFT edge", size=15, fill=INK, weight="bold", anchor="middle")
+    s.rect(ex + 120, 90, 26, 330, fill="#1b1b1b")
+    for k, (cx, txt, arrow) in enumerate(((ex + 133, "on tape: steer LEFT", -1), (ex + 106, "on floor: steer RIGHT", 1))):
+        cy = 185 + k * 140
+        s.rect(cx - 30, cy - 30, 60, 60, fill="#dfe6ee", stroke=MUTED, r=8)
+        s.circle(cx, cy - 30, 5, fill="#00b4d8")
+        s.path("M%d,%d Q%d,%d %d,%d" % (cx, cy - 40, cx, cy - 75, cx + arrow * 40, cy - 80), stroke=GREEN, sw=3,
+               arrow=True)
+        s.rect(ex + 30, cy + 37, 170, 22, fill="#ffffff", stroke=GREEN, r=6)
+        s.text(ex + 115, cy + 53, txt, size=13, fill=GREEN, weight="bold", anchor="middle")
+    return s.save("concept-color-sensor.svg")
+
+
 if __name__ == "__main__":
     for f in (opmode_anatomy, motor_power, variables, gamepad, game_loop, arcade, if_else, for_loop,
-              timer_loop, method_anatomy, encoder, edge_detection, state_machine, class_object):
+              timer_loop, method_anatomy, encoder, edge_detection, state_machine, class_object,
+              config_names, control_hub, color_sensor):
         print(f())

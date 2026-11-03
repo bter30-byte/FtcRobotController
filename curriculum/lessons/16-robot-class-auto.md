@@ -106,4 +106,4 @@ your own project.
 
 ---
 <!-- lesson-nav -->
-[← Lesson 15: Robot Class: TeleOp](15-robot-class-teleop.md) · [All lessons](../START-HERE.md#lessons) · [Back to Start Here →](../START-HERE.md)
+[← Lesson 15: Robot Class: TeleOp](15-robot-class-teleop.md) · [All lessons](../START-HERE.md#lessons) · [Lesson 17: Color Sensor →](17-color-sensor.md)

@@ -32,6 +32,12 @@ DcMotor leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
 Read it as: *"Make a motor variable called `leftDrive`, and connect it to the motor named
 `left_drive` in the configuration."* The name in quotes must match **exactly**.
 
+![One motor, four names](../images/concept-config-names.svg)
+
+`left_drive` is the name someone typed for **Motor port 0** when they set up the robot's
+configuration on the Driver Station. See [Robot Configuration](../reference/robot-configuration.md)
+for every device's port and name, and how to set them up.
+
 **Making it move.** `setPower` takes a number from −1.0 to 1.0:
 
 ![Motor power from -1 to 1](../images/concept-motor-power.svg)

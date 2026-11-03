@@ -9,7 +9,7 @@ the servo, and the touch sensor. That means:
 - **Your code moves to the real robot unchanged.** When it works in the simulator, put it on
   the robot the normal way ([Lesson 00, Step 8](lessons/00-getting-the-code.md#step-8--put-it-on-the-robot-take-turns)).
 
-All 16 lessons and the 6 first-day missions run in it.
+All 17 lessons and the first-day missions run in it.
 
 ---
 
@@ -75,7 +75,9 @@ stick can. To control **gamepad2** (a second driver), tick **Keys drive gamepad2
 ---
 
 ## The simulated robot
-The device names match the course's robot configuration, so your code doesn't change:
+The device names match the course's robot configuration, so your code doesn't change. The
+Robot panel shows each device's **port** next to its name, just like the real Control Hub
+([where the names come from](reference/robot-configuration.md)):
 
 | Name in code | Device | In the simulator |
 |---|---|---|
@@ -84,6 +86,7 @@ The device names match the course's robot configuration, so your code doesn't ch
 | `arm` | DcMotor | Swings from 0° (down) to 100° (up). With `FLOAT`, gravity slowly pulls it down; `BRAKE` holds it. |
 | `claw` | Servo | Opens above position 0.5, closes below. Closing next to a yellow block grabs it. |
 | `touch_sensor` | TouchSensor | Pressed when the **front bumper touches a wall**, when the **arm is at the top**, or when you hold **Space**. |
+| `sensor_color` | NormalizedColorSensor / ColorSensor | A REV Color Sensor V3 at the front, looking down. Gray tiles read about **0.28** brightness at gain 15, black tape about **0.04**, white tape about **0.80**. Readings wiggle a little, like a real sensor. |
 
 Motors use the numbers from Lesson 12: 537.7 ticks per motor turn, 96 mm wheels, about 45.3
 ticks per inch. Top speed is about 40 inches per second at full power.
@@ -107,6 +110,7 @@ Drive** field: the robot faces a wooden wall, with a yellow block right in front
 | 13 | Tap **J** (A) to toggle the claw. Closing it next to the block picks the block up. |
 | 15 | **W/S** drive, **←/→** turn, **Q** precision, **I/J** arm, **K** (B) claw. |
 | 16 | The block starts in the claw. Watch the robot carry it and drop it. Tune the turn. |
+| 17 | `L17_StopAtTape` opens **Mission 7** (the tape moves every reset, so only the sensor works). `L17_FollowTape` opens **Mission 8**. Watch the sensor's dot turn dark over the tape. |
 
 ---
 
@@ -129,7 +133,7 @@ Your home laptop is just one more laptop in your group.
 The simulator is great for learning and testing, but it's a simplified robot:
 - The physics are simple: no wheel slip, no bumpy floors, and every run is nearly the same.
   The real robot will need tuning (turn times, distances), and that's normal.
-- Only the five devices above exist. Code for other hardware (IMU, color sensor, camera,
+- Only the six devices above exist. Code for other hardware (IMU, color sensor, camera,
   `DcMotorEx`, and so on) won't load in the simulator. Put files like that in a folder named
   **`robotonly`** inside your folder, and the simulator will skip them.
 - A real gamepad doesn't work yet; use the keyboard.
@@ -146,6 +150,13 @@ The simulator is great for learning and testing, but it's a simplified robot:
 | "still running after STOP" | One of your loops doesn't check `opModeIsActive()`. |
 
 ---
-👩‍🏫 **For teachers:** the simulator lives in the `simulator/` folder and is never part of the
-robot app. Fields and goals are defined in `simulator/src/main/java/robotsim/Missions.java`, so
-you can add your own.
+👩‍🏫 **For teachers:**
+- The simulator lives in the `simulator/` folder and is never part of the robot app. Choosing
+  **TeamCode** and pressing ▶ builds and deploys the robot app exactly as before.
+- If a Gradle sync ever fails because of the simulator, robot deploys don't need it: delete the
+  line `include ':simulator'` from `settings.gradle` and sync again.
+- When you merge a new FTC SDK release into your fork, `settings.gradle` and the front-page
+  README may conflict. Keep both sides: FIRST's changes plus the simulator line and the
+  "Students: start here" box.
+- Fields and goals are defined in `simulator/src/main/java/robotsim/Missions.java`, so you can
+  add your own.

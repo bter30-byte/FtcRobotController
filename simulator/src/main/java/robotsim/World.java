@@ -7,6 +7,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * The simulated field and robot. Units are inches, seconds, and degrees.
@@ -52,6 +53,17 @@ public final class World {
     volatile double battery = 1.0;
     final List<Block> blocks = new ArrayList<Block>();
     final List<double[]> trail = new ArrayList<double[]>();
+    /** Tape on the floor for this run (a mission's tape may be shifted on each reset). */
+    final List<Mission.Tape> tapes = new ArrayList<Mission.Tape>();
+    private final Random random = new Random();
+
+    // ---- color sensor (REV Color Sensor V3, at the front of the robot, looking down) ----
+    /** Where the sensor sits, in robot coordinates: 7 inches in front of the center. */
+    static final double SENSOR_AHEAD = 7.0;
+    /** The gray foam tiles reflect this much red, green, and blue light. */
+    static final float[] FLOOR = {0.30f, 0.31f, 0.33f};
+    float colorGain = 1.0f;
+    boolean colorLight = true;
 
     // ---- mission progress ----
     Mission mission;
@@ -94,6 +106,13 @@ public final class World {
         for (double[] b : m.blocks) {
             blocks.add(new Block(b[0], b[1]));
         }
+        tapes.clear();
+        double shift = m.tapeShiftsX.length == 0 ? 0 : m.tapeShiftsX[random.nextInt(m.tapeShiftsX.length)];
+        for (Mission.Tape t : m.tapes) {
+            tapes.add(t.shifted(shift, 0));
+        }
+        colorGain = 1.0f;
+        colorLight = true;
         trail.clear();
         trail.add(new double[]{x, y});
         resetProgress();
@@ -251,6 +270,48 @@ public final class World {
 
     // ---- sensors ----
 
+    double[] sensorPoint() {
+        return new double[]{x + SENSOR_AHEAD * Math.cos(headingRad), y + SENSOR_AHEAD * Math.sin(headingRad)};
+    }
+
+    /**
+     * How much red, green, and blue light the floor under the sensor reflects, 0 to 1.
+     * The sensor sees a small spot, so it reads in-between values on the edge of the tape.
+     */
+    float[] surfaceUnderSensor() {
+        double[] c = sensorPoint();
+        double[][] spot = {{0, 0}, {0.45, 0}, {-0.45, 0}, {0, 0.45}, {0, -0.45}};
+        float[] sum = new float[3];
+        for (double[] o : spot) {
+            float[] r = surfaceAt(c[0] + o[0], c[1] + o[1]);
+            for (int i = 0; i < 3; i++) {
+                sum[i] += r[i] / spot.length;
+            }
+        }
+        return sum;
+    }
+
+    private float[] surfaceAt(double px, double py) {
+        for (Mission.Tape t : tapes) {
+            if (t.distanceTo(px, py) <= t.width / 2) {
+                return t.reflect;
+            }
+        }
+        return FLOOR;
+    }
+
+    /** One reading, like the real sensor: a little noise every time, darker without the LED. */
+    float[] colorReading() {
+        float[] s = surfaceUnderSensor();
+        float light = colorLight ? 1.0f : 0.25f;
+        float[] out = new float[3];
+        for (int i = 0; i < 3; i++) {
+            float noise = 1.0f + (float) (random.nextGaussian() * 0.02);
+            out[i] = s[i] * light * noise;
+        }
+        return out;
+    }
+
     boolean touchPressed() {
         return bumperContact || armDeg >= ARM_LIMIT_DEG || manualTouch;
     }
@@ -332,6 +393,15 @@ public final class World {
         s.completeSeconds = (completeNanos >= 0 && startNanos >= 0) ? (completeNanos - startNanos) / 1e9 : -1;
         s.failure = failure;
         s.mission = mission;
+        s.tapes = new ArrayList<Mission.Tape>(tapes);
+        double[] sp = sensorPoint();
+        s.sensorX = sp[0];
+        s.sensorY = sp[1];
+        float[] surface = surfaceUnderSensor();
+        s.brightness = Math.min(1.0, (surface[0] + surface[1] + surface[2]) / 3 * (colorLight ? 1 : 0.25)
+                * colorGain * SimDevices.NORMALIZE);
+        s.colorGain = colorGain;
+        s.surface = (surface[0] + surface[1] + surface[2]) / 3;
         return s;
     }
 
@@ -348,5 +418,8 @@ public final class World {
         public String failure;
         public List<double[]> blocks, trail;
         public Mission mission;
+        public List<Mission.Tape> tapes;
+        public double sensorX, sensorY, brightness, surface;
+        public float colorGain;
     }
 }

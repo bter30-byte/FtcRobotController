@@ -1,9 +1,13 @@
 package robotsim;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.SwitchableLight;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /**
@@ -22,8 +26,17 @@ final class SimDevices {
         map.put("arm", new Motor(world, world.arm, context, 2));
         map.put("claw", new Claw(world, context));
         map.put("touch_sensor", new Touch(world));
+        map.put("sensor_color", new Color(world, context));
         return map;
     }
+
+    /**
+     * Turns reflected light into normalized readings: at gain 15, gray tile reads about 0.28,
+     * black tape about 0.04, and white tape about 0.80 (close to a REV Color Sensor V3).
+     */
+    static final double NORMALIZE = 0.062;
+    /** Raw counts per unit of reflected light, for the ColorSensor red()/green()/blue() methods. */
+    static final double RAW = 4000;
 
     private abstract static class Device {
         final World world;
@@ -215,6 +228,103 @@ final class SimDevices {
         @Override
         public void scaleRange(double min, double max) {
             // The simulated claw always uses the full 0.0 to 1.0 range.
+        }
+    }
+
+    /** REV Color Sensor V3, on I2C bus 1, looking down at the floor. */
+    static final class Color extends Device implements ColorSensor, NormalizedColorSensor, SwitchableLight {
+        private final RunContext context;
+
+        Color(World world, RunContext context) {
+            super(world, "sensor_color");
+            this.context = context;
+        }
+
+        @Override
+        public NormalizedRGBA getNormalizedColors() {
+            synchronized (world) {
+                float[] c = world.colorReading();
+                NormalizedRGBA n = new NormalizedRGBA();
+                n.red = scale(c[0]);
+                n.green = scale(c[1]);
+                n.blue = scale(c[2]);
+                n.alpha = scale((c[0] + c[1] + c[2]) / 3f);
+                return n;
+            }
+        }
+
+        private float scale(float reflected) {
+            return (float) Math.min(1.0, reflected * world.colorGain * NORMALIZE);
+        }
+
+        @Override
+        public float getGain() {
+            synchronized (world) {
+                return world.colorGain;
+            }
+        }
+
+        @Override
+        public void setGain(float newGain) {
+            synchronized (world) {
+                if (context.acceptsCommands()) {
+                    world.colorGain = Math.max(1f, newGain);
+                }
+            }
+        }
+
+        private int raw(int channel) {
+            synchronized (world) {
+                float[] c = world.colorReading();
+                float v = channel < 3 ? c[channel] : (c[0] + c[1] + c[2]) / 3f;
+                return (int) Math.round(v * RAW);
+            }
+        }
+
+        @Override
+        public int red() {
+            return raw(0);
+        }
+
+        @Override
+        public int green() {
+            return raw(1);
+        }
+
+        @Override
+        public int blue() {
+            return raw(2);
+        }
+
+        @Override
+        public int alpha() {
+            return raw(3);
+        }
+
+        @Override
+        public int argb() {
+            return getNormalizedColors().toColor();
+        }
+
+        @Override
+        public void enableLed(boolean enable) {
+            enableLight(enable);
+        }
+
+        @Override
+        public void enableLight(boolean enable) {
+            synchronized (world) {
+                if (context.acceptsCommands()) {
+                    world.colorLight = enable;
+                }
+            }
+        }
+
+        @Override
+        public boolean isLightOn() {
+            synchronized (world) {
+                return world.colorLight;
+            }
         }
     }
 

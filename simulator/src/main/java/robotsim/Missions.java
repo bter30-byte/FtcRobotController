@@ -22,6 +22,7 @@ public final class Missions {
                         + "and another block to drive to.")
                 .start(60, 72, 0)
                 .wall(108, 48, 6, 48)
+                .tape(false, 92, 8, 92, 136)
                 .block(73, 72)
                 .block(84, 24)
                 .build());
@@ -84,6 +85,30 @@ public final class Missions {
                 .goal(new Mission.GateGoal("Drive through gate 1", "1", 48, 0, 48, 36))
                 .goal(new Mission.GateGoal("Drive through gate 2", "2", 96, 48, 96, 96))
                 .goal(new Mission.ZoneGoal("Stop at FINISH", "FINISH", 120, 120, 24, 24))
+                .timed()
+                .build());
+
+        list.add(Mission.builder(7, "Stop at the Tape")
+                .program("L17_StopAtTape")
+                .describe("Lesson 17. Drive forward and stop with the color sensor on the black "
+                        + "tape. The tape moves every time you press Reset robot, so a timer won't "
+                        + "work. Use the sensor!")
+                .start(12, 60, 0)
+                .tape(true, 84, 6, 84, 138)
+                .moveTapeEachReset(-24, -12, 0, 12, 24)
+                .goal(new Mission.TapeStopGoal("Stop with the sensor on the tape"))
+                .build());
+
+        list.add(Mission.builder(8, "Follow the Tape")
+                .program("L17_FollowTape")
+                .describe("Lesson 17. Follow the black tape all the way to the END, using only "
+                        + "the color sensor.")
+                .start(12, 37, 0)
+                .tape(true, 6, 36, 54, 36, 78, 48, 90, 72, 90, 96, 102, 114, 132, 120)
+                .goal(new Mission.WaypointGoal("Follow the tape to point 1", "1", 54, 36, 10))
+                .goal(new Mission.WaypointGoal("Follow the tape to point 2", "2", 90, 72, 10))
+                .goal(new Mission.WaypointGoal("Follow the tape to point 3", "3", 90, 96, 10))
+                .goal(new Mission.WaypointGoal("Reach the END", "END", 128, 119, 10))
                 .timed()
                 .build());
 

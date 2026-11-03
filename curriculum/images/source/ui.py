@@ -678,8 +678,72 @@ def studio_sim_run():
     return s.save("sim-run-config.svg")
 
 
+
+def ds_configure():
+    s = Svg(980, 560, "Driver Station: make the robot configuration")
+    # A: menu
+    s.panel_label(20, 30, "A  \u22ee menu \u2192 Configure Robot")
+    y0 = ds_screen(s, 20, 42, 300, 230, "1234-RC")
+    s.rect(130, y0 + 4, 180, 150, fill="#fafafa", stroke="#9e9e9e", r=4)
+    for i, t in enumerate(("Settings", "Configure Robot", "Program & Manage", "Self Inspect")):
+        if t == "Configure Robot":
+            s.rect(132, y0 + 12 + i * 34, 176, 30, fill="#e3f2fd")
+            s.hl(132, y0 + 12 + i * 34, 176, 30, r=2)
+            s.callout(1, 120, y0 + 27 + i * 34)
+        s.text(144, y0 + 32 + i * 34, t, size=13, fill=INK)
+    # B: new config, pick the hub
+    s.panel_label(340, 30, "B  New \u2192 pick the Control Hub")
+    y1 = ds_screen(s, 340, 42, 300, 230, "Configure Robot")
+    items = ["Motors", "Servos", "Digital Devices", "PWM Devices", "Analog Input Devices", "I2C Bus 0",
+             "I2C Bus 1", "I2C Bus 2"]
+    for i, t in enumerate(items):
+        s.rect(356, y1 + 8 + i * 21, 268, 19, fill="#757575" if t in ("Motors", "I2C Bus 1") else "#616161", r=3)
+        s.text(368, y1 + 22 + i * 21, t, size=12, fill="#ffffff", weight="bold" if t in ("Motors", "I2C Bus 1") else "normal")
+    s.hl(356, y1 + 8, 268, 19, r=3)
+    s.callout(2, 640, y1 + 18)
+    # C: motors
+    s.panel_label(660, 30, "C  Motors: pick a type, type a name")
+    y2 = ds_screen(s, 660, 42, 300, 230, "Motors")
+    for i, (typ, name) in enumerate((("goBILDA 5202/3/4 \u25be", "left_drive"), ("goBILDA 5202/3/4 \u25be", "right_drive"),
+                                     ("goBILDA 5202/3/4 \u25be", "arm"), ("Nothing \u25be", ""))):
+        yy = y2 + 10 + i * 42
+        s.text(672, yy + 18, "Port %d" % i, size=12, fill="#ffffff")
+        s.rect(720, yy + 4, 120, 22, fill="#fafafa", r=3)
+        s.text(726, yy + 19, typ, size=10.5, fill=INK)
+        s.rect(846, yy + 4, 100, 22, fill="#fafafa", r=3)
+        s.text(852, yy + 19, name, size=11.5, fill=BLUE, weight="bold", mono=True)
+    s.hl(846, y2 + 14, 100, 22, r=3)
+    s.callout(3, 946, y2 - 2)
+    # D: other devices
+    s.panel_label(20, 310, "D  Same idea for the other devices")
+    y3 = ds_screen(s, 20, 322, 460, 190, "Devices")
+    rows = [("Servos, port 0", "Servo", "claw"), ("Digital Devices, port 1", "REV Touch Sensor", "touch_sensor"),
+            ("I2C Bus 1, port 0", "REV Color Sensor V3", "sensor_color")]
+    for i, (where, typ, name) in enumerate(rows):
+        yy = y3 + 14 + i * 42
+        s.text(34, yy + 16, where, size=12, fill="#ffffff")
+        s.rect(200, yy + 2, 140, 22, fill="#fafafa", r=3)
+        s.text(206, yy + 17, typ, size=10.5, fill=INK)
+        s.rect(348, yy + 2, 120, 22, fill="#fafafa", r=3)
+        s.text(354, yy + 17, name, size=11.5, fill=BLUE, weight="bold", mono=True)
+    s.callout(4, 470, y3 - 4)
+    # E: save + activate
+    s.panel_label(500, 310, "E  Done \u2192 Save \u2192 name it \u2192 Activate")
+    y4 = ds_screen(s, 500, 322, 460, 190, "Configure Robot")
+    s.text(516, y4 + 30, "Configuration name:", size=13, fill="#ffffff")
+    s.rect(516, y4 + 40, 220, 28, fill="#fafafa", r=3)
+    s.text(524, y4 + 59, "CourseBot", size=13, fill=INK, mono=True)
+    s.button(750, y4 + 40, 90, 28, "Save", "gray", size=13)
+    s.button(850, y4 + 40, 96, 28, "Activate", "gray", size=13)
+    s.hl(850, y4 + 40, 96, 28)
+    s.callout(5, 898, y4 + 92)
+    s.lines(516, y4 + 100, ["The active configuration's name", "shows at the top of the Driver Station."],
+            size=12, fill="#e0e0e0", lh=18)
+    return s.save("config-driver-station.svg")
+
+
 if __name__ == "__main__":
     for f in (fork, collaborators, desktop_account, desktop_clone, studio_open, project_map,
               new_package, copy_class, edit_annotation, studio_run, driver_station,
-              desktop_commit, desktop_pull, studio_sim_run):
+              desktop_commit, desktop_pull, studio_sim_run, ds_configure):
         print(f())

@@ -66,10 +66,11 @@ laptop, and they can keep practicing at home. Brand-new programmers start with a
 | 14 | [State Machine](lessons/14-state-machine-auto.md) | Enums, `switch` | Multi-step routines | Auto | Drive + touch sensor |
 | 15 | [Robot Class: TeleOp](lessons/15-robot-class-teleop.md) | Classes, objects | One hardware class for all programs | TeleOp | Everything |
 | 16 | [Robot Class: Auto](lessons/16-robot-class-auto.md) | Reuse | Shared code across programs | Auto | Everything |
+| 17 | [Color Sensor](lessons/17-color-sensor.md) | Thresholds, feedback loops | Stop at and follow black tape | Auto | Drive + color sensor |
 
 **A natural stopping point** for students who need more time is after **Lesson 10**. By then
 they can drive by hand, use sensors, and write a simple autonomous. Lessons 11–16 make the code
-more precise and better organized.
+more precise and better organized, and Lesson 17 adds a color sensor.
 
 **Optional warm-up before Lesson 01:** [FTCSIM](#ftcsim). Students solve a few puzzles in Blocks,
 then switch to the Java view to see the same program as text.
@@ -89,10 +90,11 @@ curriculum/
 ├── images/                       ← drawings, diagrams, and simulator screenshots (sim-*.png)
 └── reference/
     ├── blocks-to-java.md         ← cheat sheet (print it!)
-    └── deploying-and-managing.md ← deploying (USB/Wi-Fi), cleaning up the menu, deploy troubleshooting
+    ├── deploying-and-managing.md ← deploying (USB/Wi-Fi), cleaning up the menu, deploy troubleshooting
+    └── robot-configuration.md    ← ports, wiring, Driver Station setup, where names in code come from
 
 TeamCode/src/main/java/org/firstinspires/ftc/teamcode/
-├── lessons/L01_HelloRobot.java … L16_AutoWithClass.java   ← one working OpMode per lesson
+├── lessons/L01_HelloRobot.java … L17_FollowTape.java      ← working OpModes for every lesson
 ├── lessons/RobotHardware.java                              ← the robot class (Lessons 15–16)
 └── missions/M01_FirstMoves.java … M06_DriveItYourself.java ← first-day missions
 
@@ -165,7 +167,11 @@ Steps 1–2 of Lesson 00. However, a Classroom repo isn't a fork, so the one-cli
 for lesson updates won't be there.
 
 ### Robot configuration
-Every lesson uses these exact names. Create **one** configuration on each Control Hub:
+Every lesson uses these exact names. Create **one** configuration on each Control Hub. The
+[robot configuration guide](reference/robot-configuration.md) has a wiring diagram,
+Driver Station steps with pictures, and an explanation students can read of how a port becomes
+a name in code.
+
 
 | Name | Device | Port | Used in |
 |---|---|---|---|
@@ -174,6 +180,7 @@ Every lesson uses these exact names. Create **one** configuration on each Contro
 | `arm` | DC motor | Motor 2 | L08, L15–L16 |
 | `claw` | Servo | Servo 0 | L13, L15–L16 |
 | `touch_sensor` | REV Touch Sensor | Digital 1 (use the odd channel of the pair on REV hubs) | L08, L10, L14–L16 |
+| `sensor_color` | REV Color Sensor V3, at the front looking down, ~1 cm above the floor | I2C bus 1 | L17 |
 
 If a device is missing from the configuration, the OpMode stops with an error when you press
 INIT. That makes a good teaching moment for students to read. Lessons **01, 03 and 04 need no

@@ -72,6 +72,7 @@ final class FieldPanel extends JPanel {
         oy = 12;
 
         drawTiles(g);
+        drawTape(g);
         drawGoals(g);
         drawObstacles(g);
         if (showTrail) {
@@ -106,6 +107,25 @@ final class FieldPanel extends JPanel {
         for (int i = 1; i < 6; i++) {
             g.drawString(String.valueOf(i * 24), (float) px(i * 24) + 2, (float) py(0) - 3);
             g.drawString(String.valueOf(i * 24), (float) px(0) + 3, (float) py(i * 24) - 2);
+        }
+    }
+
+    private void drawTape(Graphics2D g) {
+        for (Mission.Tape t : snap.tapes) {
+            Path2D p = new Path2D.Double();
+            p.moveTo(px(t.points[0][0]), py(t.points[0][1]));
+            for (int i = 1; i < t.points.length; i++) {
+                p.lineTo(px(t.points[i][0]), py(t.points[i][1]));
+            }
+            float w = (float) (t.width * scale);
+            if (!t.dark) {
+                g.setColor(new Color(0xAFB8C1));
+                g.setStroke(new BasicStroke(w + 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND));
+                g.draw(p);
+            }
+            g.setColor(t.dark ? new Color(0x111111) : new Color(0xFAFAFA));
+            g.setStroke(new BasicStroke(w, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND));
+            g.draw(p);
         }
     }
 
@@ -232,6 +252,12 @@ final class FieldPanel extends JPanel {
         g.setColor(Color.WHITE);
         Polygon arrow = new Polygon(new int[]{6, -3, -3}, new int[]{0, 4, -4}, 3);
         g.fill(arrow);
+        // color sensor, looking down: its dot shows the shade of the floor under it
+        int shade = (int) Math.round(Math.min(1.0, snap.surface / 0.9) * 255);
+        g.setColor(new Color(0x00B4D8));
+        g.fill(new Ellipse2D.Double(World.SENSOR_AHEAD - 1.3, -1.3, 2.6, 2.6));
+        g.setColor(new Color(shade, shade, shade));
+        g.fill(new Ellipse2D.Double(World.SENSOR_AHEAD - 0.8, -0.8, 1.6, 1.6));
         g.dispose();
 
         // wheel labels, drawn without rotation so the letters stay readable

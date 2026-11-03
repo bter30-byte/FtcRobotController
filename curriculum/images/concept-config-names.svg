@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="400" viewBox="0 0 980 400" role="img" aria-label="Where device names come from">
+<title>Where device names come from</title>
+<defs><marker id="m59636e" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" markerUnits="strokeWidth" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#59636e"/></marker></defs>
+<rect x="0.5" y="0.5" width="979" height="399" rx="10" fill="#ffffff" stroke="#d1d9e0"/>
+<text x="20" y="34" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="20" fill="#1f2328" font-weight="bold" text-anchor="start" xml:space="preserve">One motor, four names: where “left_drive” comes from</text>
+<rect x="20" y="64" width="214" height="170" rx="10" fill="#ffffff" stroke="#6e7781" stroke-width="2.5"/>
+<rect x="20" y="64" width="214" height="32" rx="10" fill="#6e7781" stroke="none" stroke-width="1"/>
+<rect x="20" y="84" width="214" height="12" rx="0" fill="#6e7781" stroke="none" stroke-width="1"/>
+<text x="127" y="86" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#ffffff" font-weight="bold" text-anchor="middle" xml:space="preserve">1  PORT</text>
+<text x="127" y="146" font-family="Consolas, Menlo, Courier New, monospace" font-size="21" fill="#6e7781" font-weight="bold" text-anchor="middle" xml:space="preserve">Motor 0</text>
+<text x="127" y="200" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#59636e" font-weight="normal" text-anchor="middle" xml:space="preserve">Where the cable plugs in</text>
+<text x="127" y="218" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#59636e" font-weight="normal" text-anchor="middle" xml:space="preserve">on the Control Hub</text>
+<line x1="237" y1="150" x2="257" y2="150" stroke="#59636e" stroke-width="2.5" marker-end="url(#m59636e)"/>
+<rect x="260" y="64" width="214" height="170" rx="10" fill="#ffffff" stroke="#0969da" stroke-width="2.5"/>
+<rect x="260" y="64" width="214" height="32" rx="10" fill="#0969da" stroke="none" stroke-width="1"/>
+<rect x="260" y="84" width="214" height="12" rx="0" fill="#0969da" stroke="none" stroke-width="1"/>
+<text x="367" y="86" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#ffffff" font-weight="bold" text-anchor="middle" xml:space="preserve">2  CONFIGURATION NAME</text>
+<text x="367" y="146" font-family="Consolas, Menlo, Courier New, monospace" font-size="21" fill="#0969da" font-weight="bold" text-anchor="middle" xml:space="preserve">&quot;left_drive&quot;</text>
+<text x="367" y="200" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#59636e" font-weight="normal" text-anchor="middle" xml:space="preserve">Typed on the Driver Station</text>
+<text x="367" y="218" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#59636e" font-weight="normal" text-anchor="middle" xml:space="preserve">(Configure Robot)</text>
+<line x1="477" y1="150" x2="497" y2="150" stroke="#59636e" stroke-width="2.5" marker-end="url(#m59636e)"/>
+<rect x="500" y="64" width="214" height="170" rx="10" fill="#ffffff" stroke="#8250df" stroke-width="2.5"/>
+<rect x="500" y="64" width="214" height="32" rx="10" fill="#8250df" stroke="none" stroke-width="1"/>
+<rect x="500" y="84" width="214" height="12" rx="0" fill="#8250df" stroke="none" stroke-width="1"/>
+<text x="607" y="86" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#ffffff" font-weight="bold" text-anchor="middle" xml:space="preserve">3  NAME IN CODE</text>
+<text x="607" y="134" font-family="Consolas, Menlo, Courier New, monospace" font-size="12" fill="#1f2328" font-weight="normal" text-anchor="middle" xml:space="preserve">hardwareMap.get(DcMotor.class,</text>
+<text x="607" y="154" font-family="Consolas, Menlo, Courier New, monospace" font-size="12" fill="#8250df" font-weight="bold" text-anchor="middle" xml:space="preserve">&quot;left_drive&quot;)</text>
+<text x="607" y="200" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#59636e" font-weight="normal" text-anchor="middle" xml:space="preserve">The string in quotes</text>
+<text x="607" y="218" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#59636e" font-weight="normal" text-anchor="middle" xml:space="preserve">finds the device</text>
+<line x1="717" y1="150" x2="737" y2="150" stroke="#59636e" stroke-width="2.5" marker-end="url(#m59636e)"/>
+<rect x="740" y="64" width="214" height="170" rx="10" fill="#ffffff" stroke="#1f883d" stroke-width="2.5"/>
+<rect x="740" y="64" width="214" height="32" rx="10" fill="#1f883d" stroke="none" stroke-width="1"/>
+<rect x="740" y="84" width="214" height="12" rx="0" fill="#1f883d" stroke="none" stroke-width="1"/>
+<text x="847" y="86" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#ffffff" font-weight="bold" text-anchor="middle" xml:space="preserve">4  JAVA VARIABLE</text>
+<text x="847" y="146" font-family="Consolas, Menlo, Courier New, monospace" font-size="21" fill="#1f883d" font-weight="bold" text-anchor="middle" xml:space="preserve">leftDrive</text>
+<text x="847" y="200" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#59636e" font-weight="normal" text-anchor="middle" xml:space="preserve">Any name you like,</text>
+<text x="847" y="218" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#59636e" font-weight="normal" text-anchor="middle" xml:space="preserve">used in the rest of the program</text>
+<path d="M367,248 L367,262 L607,262 L607,248" stroke="#cf222e" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="487" y="284" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#cf222e" font-weight="bold" text-anchor="middle" xml:space="preserve">2 and 3 must match EXACTLY (capitals and _ count)</text>
+<path d="M800,248 L800,262 L894,262 L894,248" stroke="#1f883d" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="847" y="284" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#1f883d" font-weight="bold" text-anchor="middle" xml:space="preserve">your choice</text>
+<text x="20" y="330" font-family="Consolas, Menlo, Courier New, monospace" font-size="16" text-anchor="start" xml:space="preserve"><tspan fill="#1f2328" font-weight="bold">In code:   </tspan><tspan fill="#9a6700" font-weight="bold">DcMotor </tspan><tspan fill="#1f883d" font-weight="bold">leftDrive</tspan><tspan fill="#1f2328" font-weight="normal"> = hardwareMap.get(DcMotor.class, </tspan><tspan fill="#8250df" font-weight="bold">&quot;left_drive&quot;</tspan><tspan fill="#1f2328" font-weight="normal">);</tspan></text>
+<text x="20" y="368" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" fill="#59636e" font-weight="normal" text-anchor="start" xml:space="preserve">If 2 and 3 don&#x27;t match, the program stops at INIT with: Unable to find a hardware device with name &quot;...&quot;</text>
+</svg>

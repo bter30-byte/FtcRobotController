@@ -70,10 +70,12 @@ struggle is where the learning happens.
 | 14 | [State Machines](lessons/14-state-machine-auto.md) | Multi-step autonomous with `enum` and `switch` |
 | 15 | [Robot Class: TeleOp](lessons/15-robot-class-teleop.md) | Classes and objects |
 | 16 | [Robot Class: Autonomous](lessons/16-robot-class-auto.md) | Reusing one class everywhere |
+| 17 | [Color Sensor](lessons/17-color-sensor.md) | Stopping at and following black tape |
 
 ## Reference pages
 - [🖥️ Robot Simulator](simulator.md): test any lesson on your laptop, in class or at home
 - [Blocks → Java cheat sheet](reference/blocks-to-java.md): every Blocks block's Java twin, plus common errors
+- [Robot Configuration](reference/robot-configuration.md): what plugs in where, and where names like `"left_drive"` come from
 - [Deploying and Managing Programs](reference/deploying-and-managing.md): putting code on the robot, cleaning up the menu
 
 ## Two program types you'll see
@@ -82,4 +84,4 @@ struggle is where the learning happens.
 | Who's in charge | A driver with a gamepad | The program, all by itself |
 | Driver Station list | The **TeleOp** list (right) | The **Autonomous** list (left) |
 | Code line | `@TeleOp(...)` | `@Autonomous(...)` |
-| Lessons | 01, 04–08, 13, 15 | 02, 09–12, 14, 16 |
+| Lessons | 01, 04–08, 13, 15 | 02, 09–12, 14, 16, 17 |
