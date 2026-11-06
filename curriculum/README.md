@@ -49,6 +49,7 @@ laptop, and they can keep practicing at home. Brand-new programmers start with a
 | # | Lesson | CS idea | Robot skill | Type | Hardware |
 |---|---|---|---|---|---|
 | 🚀 | [Robot Missions](missions.md) (first day, [teacher plan](first-day-lesson.md)) | Sequence, debugging | Driving and turning, TeleOp | Both | Simulator only |
+| 🚀 | [More missions](missions.md#more-missions-after-the-lessons) (7, 8, 10–14) | Debugging, after each matching lesson | Sensors, loops, encoders, claw, arcade drive | Both | Simulator only |
 | 00 | [Getting the Code](lessons/00-getting-the-code.md) | Version control, packages | GitHub Desktop, Android Studio, deploying | — | Control Hub |
 | 01 | [Hello Robot](lessons/01-hello-robot.md) | Syntax, comments, errors | Telemetry | TeleOp | Hub only |
 | 02 | [Drive Sequence](lessons/02-drive-sequence.md) | Sequence | Motors, `sleep` | Auto | Drive motors |
@@ -88,7 +89,7 @@ curriculum/
 ├── START-HERE.md                 ← students begin here
 ├── README.md                     ← this teacher guide
 ├── first-day-lesson.md           ← 90-minute first lesson plan (teacher)
-├── missions.md                   ← Robot Missions handout (students, first day)
+├── missions.md                   ← Robot Missions handout (first day, plus 7 more for after the lessons)
 ├── simulator.md                  ← how to use the simulator, in class and at home
 ├── lessons/00 … 16-*.md          ← student handouts
 ├── images/                       ← drawings, diagrams, and simulator screenshots (sim-*.png)

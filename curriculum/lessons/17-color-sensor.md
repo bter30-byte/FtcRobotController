@@ -23,6 +23,8 @@ This lesson runs in the [Robot Simulator](../simulator.md), on any laptop or at 
 - Picking `L17_FollowTape` opens **Mission 8: Follow the Tape**.
 - The Robot panel shows `sensor_color`'s brightness all the time, and the sensor's dot on the
   robot turns dark over the tape.
+- When you finish this lesson, pick **Mission 7** or **8** yourself: each has its own program
+  with two bugs to fix ([More missions](../missions.md#more-missions-after-the-lessons)).
 
 ![Following the tape in the simulator](../images/sim-follow-tape.png)
 

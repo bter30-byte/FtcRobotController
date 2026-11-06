@@ -69,7 +69,7 @@ struggle is where the learning happens.
 ## Lessons
 | # | Lesson | You'll learn |
 |---|---|---|
-| 🚀 | [Robot Missions](missions.md) | Your first programs: drive, turn, fix bugs, drive it yourself |
+| 🚀 | [Robot Missions](missions.md) | Your first programs: drive, turn, fix bugs, drive it yourself. [More missions](missions.md#more-missions-after-the-lessons) for after the lessons. |
 | 00 | [Getting the Code](lessons/00-getting-the-code.md) | GitHub Desktop, Android Studio, putting code on the robot |
 | 01 | [Hello, Robot!](lessons/01-hello-robot.md) | The parts of a Java program, telemetry, error messages |
 | 02 | [Drive in Sequence](lessons/02-drive-sequence.md) | Making motors move, one step at a time |

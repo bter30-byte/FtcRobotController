@@ -211,6 +211,8 @@ public final class Mission {
     public final int number;
     public final String title;
     public final String program;
+    /** Other programs that open this mission when they're picked (like a lesson's own program). */
+    public final List<String> otherPrograms;
     public final String description;
     public final double startX, startY, startHeadingDeg;
     public final List<Rectangle2D> obstacles;
@@ -229,6 +231,7 @@ public final class Mission {
         number = b.number;
         title = b.title;
         program = b.program;
+        otherPrograms = Collections.unmodifiableList(b.otherPrograms);
         description = b.description;
         startX = b.startX;
         startY = b.startY;
@@ -253,6 +256,7 @@ public final class Mission {
         final int number;
         final String title;
         String program = "";
+        final List<String> otherPrograms = new ArrayList<String>();
         String description = "";
         double startX = 12, startY = 12, startHeadingDeg = 0;
         final List<Rectangle2D> obstacles = new ArrayList<Rectangle2D>();
@@ -271,6 +275,14 @@ public final class Mission {
 
         Builder program(String p) {
             program = p;
+            return this;
+        }
+
+        /** Picking one of these programs opens this mission too. */
+        Builder alsoFor(String... programs) {
+            for (String p : programs) {
+                otherPrograms.add(p);
+            }
             return this;
         }
 

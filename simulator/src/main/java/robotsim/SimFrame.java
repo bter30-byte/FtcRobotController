@@ -492,7 +492,7 @@ final class SimFrame extends JFrame {
         }
         // A mission that names this program (for example L17_StopAtTape) gets picked first.
         for (Mission m : missions) {
-            if (m.program.equals(e.type.getSimpleName())) {
+            if (m.program.equals(e.type.getSimpleName()) || m.otherPrograms.contains(e.type.getSimpleName())) {
                 if (m != missionBox.getSelectedItem()) {
                     selectMission(m, false);
                 }
