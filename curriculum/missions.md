@@ -149,6 +149,152 @@ What should `rightPower` be?
 - **Fastest lap:** what's your best Mission 6 time? Write it on the board.
 
 ---
+
+# More missions (after the lessons)
+These missions use what the lessons teach: sensors, loops, encoders, the claw, and arcade drive.
+Each one comes with a program that **almost** works and has **two bugs**. Do each one after its
+lesson. Pick the mission in the simulator, and its program is picked for you, just like on the
+first day.
+
+| Mission | Do it after | You'll practice |
+|---|---|---|
+| 7: Stop at the Tape | [Lesson 17](lessons/17-color-sensor.md) | Color sensor, thresholds |
+| 8: Follow the Tape | [Lesson 17](lessons/17-color-sensor.md) | Following a line |
+| 10: Bumper Bot | [Lesson 10](lessons/10-timer-auto.md) | Touch sensor, `while` loops |
+| 11: Staircase | [Lessons 09](lessons/09-loops.md) and [11](lessons/11-methods.md) | `for` loops, `if`, methods |
+| 12: Precision Park | [Lesson 12](lessons/12-encoder-drive.md) | Encoders, `RUN_TO_POSITION` |
+| 13: Special Delivery | [Lesson 13](lessons/13-toggle.md) | Claw and arm |
+| 14: Arcade Slalom | [Lesson 06](lessons/06-arcade-drive.md) | Arcade drive math (TeleOp) |
+
+(Mission 9 is the [Lesson 18 Grand Challenge](lessons/18-grand-challenge.md): you write that one from scratch.)
+
+## Mission 7: Stop at the Tape
+**Goal:** drive forward and stop with the color sensor on the black tape. The tape **moves every
+time you press Reset robot**, so a timer won't work.
+
+Before you press START, read the **Brightness** on the Driver Station. Is the floor brighter or
+darker than the **Threshold**? It should be brighter.
+
+<details><summary>💡 Hint for bug 1</summary>
+
+At gain 15 the floor reads about 0.28. What gain does this program use?
+
+</details>
+
+<details><summary>💡 Hint for bug 2</summary>
+
+The comment says "keep driving while the sensor sees the **floor**". The floor is brighter than
+the threshold. Does the `while` line say brighter or darker?
+
+</details>
+
+## Mission 8: Follow the Tape
+**Goal:** follow the black tape to the END. The robot rides the tape's left edge: tape means
+steer left, floor means steer right.
+
+<details><summary>💡 Hint for bug 1</summary>
+
+Watch the **Seeing** line on the Driver Station. Does it ever say FLOOR? The floor reads about
+0.28 and the tape about 0.04. Where should the threshold be?
+
+</details>
+
+<details><summary>💡 Hint for bug 2</summary>
+
+It follows the straight part, then misses the first turn. Which number decides how hard it
+corrects? Try a few values. (Lesson 17 used 0.15.)
+
+</details>
+
+## Mission 10: Bumper Bot
+**Goal:** drive until the bumper touches the wall, then back up and stop in the box.
+
+<details><summary>💡 Hint for bug 1</summary>
+
+The robot doesn't move at all. The loop should keep going while the bumper is **not** pressed.
+In Java, "not" is `!`.
+
+</details>
+
+<details><summary>💡 Hint for bug 2</summary>
+
+The comment says "back up". Which way does a power of `0.4` go?
+
+</details>
+
+## Mission 11: Staircase
+**Goal:** climb 6 steps to the TOP: forward, turn **left**, forward, turn **right**, forward,
+turn **left**... Turn on **Show trail** to see the path.
+
+<details><summary>💡 Hint for bug 1</summary>
+
+Count the steps the robot climbs. `for (int step = 1; step < 6; step++)` runs with step = 1,
+2, 3, 4, 5. How many is that?
+
+</details>
+
+<details><summary>💡 Hint for bug 2</summary>
+
+The robot goes in a circle because it always turns left. Odd steps turn left, even steps turn
+right. `step % 2` is 1 for odd numbers and 0 for even numbers. Use an `if` / `else`.
+
+</details>
+
+## Mission 12: Precision Park
+**Goal:** drive exactly 60 inches with the encoders and park in the narrow box. When it works,
+tick **Low battery** and run it again. Does it still park? (A timer wouldn't.)
+
+<details><summary>💡 Hint for bug 1</summary>
+
+Read the error. With `RUN_TO_POSITION`, which has to come first: the target, or the mode?
+
+</details>
+
+<details><summary>💡 Hint for bug 2</summary>
+
+The robot drives about 3 times too far. One turn of the wheel rolls the robot one
+**circumference**, which is π × diameter. In Java, π is `Math.PI`.
+
+</details>
+
+## Mission 13: Special Delivery
+**Goal:** grab the yellow block with the claw, carry it, and leave it in the DROP box.
+
+<details><summary>💡 Hint for bug 1</summary>
+
+Watch the claw when the comment says "grab". Does it close? Look at the two claw numbers at
+the top.
+
+</details>
+
+<details><summary>💡 Hint for bug 2</summary>
+
+The comment says "leave the block in the box", but which line makes the claw let go?
+
+</details>
+
+## Mission 14: Arcade Slalom
+**Goal:** drive under the first wall, over the second, and stop at FINISH. **W/S** drive
+forward and back, **← / →** turn. This is a TeleOp: you drive!
+
+<details><summary>💡 Hint for bug 1</summary>
+
+Press W. Pushing a stick **up** gives a **negative** `left_stick_y`. What has to change so up
+means forward?
+
+</details>
+
+<details><summary>💡 Hint for bug 2</summary>
+
+Press →. To turn right, the left wheels go faster than the right ones. Which side gets
+`+ turn`?
+
+</details>
+
+When it works, race your best time. Then try the [Lesson 06](lessons/06-arcade-drive.md)
+challenges: a slower precision mode, or making the robot easier to steer.
+
+---
 ## ✅ Check yourself
 - [ ] I can explain what `setPower` and `sleep` do.
 - [ ] I can make the robot turn left or right on purpose.

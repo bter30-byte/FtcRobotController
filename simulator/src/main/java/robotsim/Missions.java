@@ -89,10 +89,11 @@ public final class Missions {
                 .build());
 
         list.add(Mission.builder(7, "Stop at the Tape")
-                .program("L17_StopAtTape")
-                .describe("Lesson 17. Drive forward and stop with the color sensor on the black "
-                        + "tape. The tape moves every time you press Reset robot, so a timer won't "
-                        + "work. Use the sensor!")
+                .program("M07_StopAtTape")
+                .alsoFor("L17_StopAtTape")
+                .describe("Drive forward and stop with the color sensor on the black tape. The tape "
+                        + "moves every time you press Reset robot, so a timer won't work. This program "
+                        + "has 2 bugs. (Lesson 17's program runs here too.)")
                 .start(12, 60, 0)
                 .tape(true, 84, 6, 84, 138)
                 .moveTapeEachReset(-24, -12, 0, 12, 24)
@@ -100,9 +101,11 @@ public final class Missions {
                 .build());
 
         list.add(Mission.builder(8, "Follow the Tape")
-                .program("L17_FollowTape")
-                .describe("Lesson 17. Follow the black tape all the way to the END, using only "
-                        + "the color sensor.")
+                .program("M08_FollowTape")
+                .alsoFor("L17_FollowTape")
+                .describe("Follow the black tape all the way to the END, using only the color sensor. "
+                        + "This program has 2 bugs: it thinks it's always on the tape, and it can't make "
+                        + "the turns. (Lesson 17's program runs here too.)")
                 .start(12, 37, 0)
                 .tape(true, 6, 36, 54, 36, 78, 48, 90, 72, 90, 96, 102, 114, 132, 120)
                 .goal(new Mission.WaypointGoal("Follow the tape to point 1", "1", 54, 36, 10))
@@ -130,6 +133,64 @@ public final class Missions {
                 .goal(new Mission.BlockInZoneGoal("Back up and drop the block in the GOAL", "GOAL",
                         92, 44, 24, 72))
                 .goal(new Mission.ZoneGoal("PARK in the box", "PARK", 84, 0, 36, 36))
+                .timed()
+                .build());
+
+        list.add(Mission.builder(10, "Bumper Bot")
+                .program("M10_BumperBot")
+                .describe("After Lesson 10. Drive until the bumper (touch sensor) touches the wall, then "
+                        + "back up and stop in the box. This program has 2 bugs.")
+                .start(24, 72, 0)
+                .wall(96, 36, 6, 72)
+                .goal(new Mission.BumperGoal("Drive until the bumper touches the wall"))
+                .goal(new Mission.ZoneGoal("Back up and stop in the box", "PARK", 48, 60, 24, 24))
+                .build());
+
+        list.add(Mission.builder(11, "Staircase")
+                .program("M11_Staircase")
+                .describe("After Lessons 09 and 11. Climb the stairs: one tile forward, turn, one tile "
+                        + "forward, turn... all the way to the TOP. A loop does the climbing, but it "
+                        + "has 2 bugs.")
+                .start(12, 24, 0)
+                .goal(new Mission.WaypointGoal("Step 1", "1", 36, 24, 10))
+                .goal(new Mission.WaypointGoal("Step 2", "2", 36, 48, 10))
+                .goal(new Mission.WaypointGoal("Step 3", "3", 60, 48, 10))
+                .goal(new Mission.WaypointGoal("Step 4", "4", 60, 72, 10))
+                .goal(new Mission.WaypointGoal("Step 5", "5", 84, 72, 10))
+                .goal(new Mission.WaypointGoal("Reach the TOP", "TOP", 84, 96, 10))
+                .timed()
+                .build());
+
+        list.add(Mission.builder(12, "Precision Park")
+                .program("M12_PrecisionPark")
+                .describe("After Lesson 12. Drive exactly 60 inches with the encoders and park in the "
+                        + "narrow box. This program has 2 bugs. When it works, turn on Low battery: "
+                        + "does it still park?")
+                .start(12, 72, 0)
+                .goal(new Mission.ZoneGoal("Park in the narrow box", "PARK", 66, 60, 12, 24))
+                .build());
+
+        list.add(Mission.builder(13, "Special Delivery")
+                .program("M13_SpecialDelivery")
+                .describe("After Lesson 13. Grab the yellow block with the claw, carry it, and leave it "
+                        + "in the DROP box. This program has 2 bugs.")
+                .start(18, 72, 0)
+                .block(30, 72)
+                .goal(new Mission.BlockHeldGoal("Grab the block"))
+                .goal(new Mission.BlockInZoneGoal("Leave it in the DROP box", "DROP", 72, 60, 24, 24))
+                .build());
+
+        list.add(Mission.builder(14, "Arcade Slalom")
+                .program("M14_ArcadeSlalom")
+                .describe("After Lesson 06. Drive with arcade controls: W/S forward and back, Left/Right "
+                        + "arrows to turn. Go under the first wall, over the second, and park at FINISH. "
+                        + "The controls have 2 bugs. Fix them, then race your best time!")
+                .start(18, 18, 0)
+                .wall(46, 40, 2, 104)
+                .wall(94, 0, 2, 104)
+                .goal(new Mission.GateGoal("Under the first wall", "1", 48, 0, 48, 40))
+                .goal(new Mission.GateGoal("Over the second wall", "2", 96, 104, 96, 144))
+                .goal(new Mission.ZoneGoal("Stop at FINISH", "FINISH", 120, 0, 24, 24))
                 .timed()
                 .build());
 
