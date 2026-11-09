@@ -31,6 +31,10 @@ final class FieldPanel extends JPanel {
     private static final Color TRAIL = new Color(0x8250DF);
     private static final Color ROBOT = new Color(0x3D4451);
     private static final Color BLOCK = new Color(0xF2C200);
+    private static final Color BALL = new Color(0xE5534B);
+    private static final Color WOOD = new Color(0xC9A26B);
+    private static final Color PLYWOOD = new Color(0xDDBF8A);
+    private static final Color HOLE = new Color(0x2A1E12);
 
     private World.Snapshot snap;
     private String hint;
@@ -56,7 +60,15 @@ final class FieldPanel extends JPanel {
     }
 
     private double py(double y) {
-        return oy + (World.FIELD - y) * scale;
+        return oy + (fieldH() - y) * scale;
+    }
+
+    private double fieldW() {
+        return snap == null ? World.FIELD : snap.mission.fieldWidth;
+    }
+
+    private double fieldH() {
+        return snap == null ? World.FIELD : snap.mission.fieldHeight;
     }
 
     @Override
@@ -68,19 +80,20 @@ final class FieldPanel extends JPanel {
         Graphics2D g = (Graphics2D) g0.create();
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        int size = Math.min(getWidth(), getHeight()) - 24;
-        scale = size / World.FIELD;
-        ox = (getWidth() - size) / 2.0;
-        oy = 12;
+        scale = Math.min((getWidth() - 24) / fieldW(), (getHeight() - 24) / fieldH());
+        ox = (getWidth() - fieldW() * scale) / 2.0;
+        oy = Math.max(12, (getHeight() - fieldH() * scale) / 2.0);
 
         drawTiles(g);
         drawTape(g);
+        drawPlatform(g);
         drawGoals(g);
         drawObstacles(g);
         if (showTrail) {
             drawTrail(g);
         }
         drawBlocks(g, false);
+        drawBalls(g);
         drawRobot(g);
         drawBlocks(g, true);
         drawBanner(g);
@@ -89,32 +102,100 @@ final class FieldPanel extends JPanel {
     }
 
     private void drawTiles(Graphics2D g) {
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 6; j++) {
-                g.setColor((i + j) % 2 == 0 ? TILE_A : TILE_B);
-                g.fill(new Rectangle2D.Double(px(i * 24), py((j + 1) * 24), 24 * scale, 24 * scale));
+        double fw = fieldW(), fh = fieldH();
+        // A field with a platform is a wooden table, like a classroom field; the others are foam tiles.
+        boolean wooden = snap.mission.platform != null;
+        int cols = (int) Math.ceil(fw / 24), rows = (int) Math.ceil(fh / 24);
+        if (wooden) {
+            g.setColor(WOOD);
+            g.fill(new Rectangle2D.Double(px(0), py(fh), fw * scale, fh * scale));
+        } else {
+            for (int i = 0; i < cols; i++) {
+                for (int j = 0; j < rows; j++) {
+                    g.setColor((i + j) % 2 == 0 ? TILE_A : TILE_B);
+                    double w = Math.min(24, fw - i * 24), h = Math.min(24, fh - j * 24);
+                    g.fill(new Rectangle2D.Double(px(i * 24), py(j * 24 + h), w * scale, h * scale));
+                }
             }
         }
-        g.setColor(GRID);
+        g.setColor(wooden ? alpha(WOOD.darker(), 70) : GRID);
         g.setStroke(new BasicStroke(1f));
-        for (int i = 1; i < 6; i++) {
-            g.draw(new Line2D.Double(px(i * 24), py(0), px(i * 24), py(144)));
-            g.draw(new Line2D.Double(px(0), py(i * 24), px(144), py(i * 24)));
+        for (int i = 1; i * 24 < fw; i++) {
+            g.draw(new Line2D.Double(px(i * 24), py(0), px(i * 24), py(fh)));
+        }
+        for (int j = 1; j * 24 < fh; j++) {
+            g.draw(new Line2D.Double(px(0), py(j * 24), px(fw), py(j * 24)));
         }
         g.setColor(new Color(0x1F2328));
         g.setStroke(new BasicStroke((float) Math.max(3, scale)));
-        g.draw(new Rectangle2D.Double(px(0), py(144), 144 * scale, 144 * scale));
-        // a light ruler: inches along the bottom and left edge, every tile
+        g.draw(new Rectangle2D.Double(px(0), py(fh), fw * scale, fh * scale));
+        // a light ruler: inches along the bottom and left edge, every 24 inches
         g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 10));
-        g.setColor(new Color(0x6E7781));
-        for (int i = 1; i < 6; i++) {
+        g.setColor(wooden ? new Color(0x5C4326) : new Color(0x6E7781));
+        for (int i = 1; i * 24 < fw; i++) {
             g.drawString(String.valueOf(i * 24), (float) px(i * 24) + 2, (float) py(0) - 3);
-            g.drawString(String.valueOf(i * 24), (float) px(0) + 3, (float) py(i * 24) - 2);
+        }
+        for (int j = 1; j * 24 < fh; j++) {
+            g.drawString(String.valueOf(j * 24), (float) px(0) + 3, (float) py(j * 24) - 2);
+        }
+    }
+
+    /** The raised platform in the middle, its ramp (arrows point uphill), and the holes in it. */
+    private void drawPlatform(Graphics2D g) {
+        Mission m = snap.mission;
+        if (m.platform != null) {
+            Rectangle2D p = m.platform;
+            g.setColor(new Color(0, 0, 0, 60));
+            g.fill(new Rectangle2D.Double(px(p.getX()) + 4, py(p.getMaxY()) + 4, p.getWidth() * scale,
+                    p.getHeight() * scale));
+            g.setColor(PLYWOOD);
+            g.fill(new Rectangle2D.Double(px(p.getX()), py(p.getMaxY()), p.getWidth() * scale,
+                    p.getHeight() * scale));
+        }
+        if (m.ramp != null) {
+            Rectangle2D r = m.ramp;
+            Rectangle2D s = new Rectangle2D.Double(px(r.getX()), py(r.getMaxY()), r.getWidth() * scale,
+                    r.getHeight() * scale);
+            g.setColor(new Color(0xB8925A));
+            g.fill(s);
+            g.setColor(new Color(0x7A5A2E));
+            g.setStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+            double cx = r.getCenterX();
+            for (double y = r.getY() + 3; y < r.getMaxY() - 1; y += 4) {
+                Path2D chevron = new Path2D.Double();
+                chevron.moveTo(px(cx - 5), py(y));
+                chevron.lineTo(px(cx), py(y + 2.5));
+                chevron.lineTo(px(cx + 5), py(y));
+                g.draw(chevron);
+            }
+            label(g, "RAMP", px(r.getX() + 4.5), py(r.getCenterY()), new Color(0x7A5A2E));
+        }
+        for (Mission.Hole h : m.holes) {
+            double half = h.size / 2;
+            java.awt.Shape shape = h.round
+                    ? new Ellipse2D.Double(px(h.x - half), py(h.y + half), h.size * scale, h.size * scale)
+                    : new Rectangle2D.Double(px(h.x - half), py(h.y + half), h.size * scale, h.size * scale);
+            g.setColor(HOLE);
+            g.fill(shape);
+            g.setColor(new Color(0x7A5A2E));
+            g.setStroke(new BasicStroke(1.5f));
+            g.draw(shape);
         }
     }
 
     private void drawTape(Graphics2D g) {
+        List<Mission.Tape> ordered = new java.util.ArrayList<Mission.Tape>();
         for (Mission.Tape t : snap.tapes) {
+            if (!t.dark) {
+                ordered.add(t);
+            }
+        }
+        for (Mission.Tape t : snap.tapes) {
+            if (t.dark) {
+                ordered.add(t);
+            }
+        }
+        for (Mission.Tape t : ordered) {
             Path2D p = new Path2D.Double();
             p.moveTo(px(t.points[0][0]), py(t.points[0][1]));
             for (int i = 1; i < t.points.length; i++) {
@@ -139,7 +220,18 @@ final class FieldPanel extends JPanel {
             boolean done = i < snap.goalIndex;
             boolean current = i == snap.goalIndex;
             Color c = done ? DONE : (goal instanceof Mission.ZoneGoal ? ZONE : TODO);
-            if (goal instanceof Mission.ZoneGoal) {
+            if (goal instanceof Mission.BallInZoneGoal) {
+                Mission.BallInZoneGoal z = (Mission.BallInZoneGoal) goal;
+                Color bc = done ? DONE : BALL;
+                Rectangle2D r = new Rectangle2D.Double(px(z.zone.getX()), py(z.zone.getMaxY()),
+                        z.zone.getWidth() * scale, z.zone.getHeight() * scale);
+                g.setColor(alpha(bc, current || done ? 70 : 40));
+                g.fill(r);
+                g.setColor(bc);
+                g.setStroke(new BasicStroke(3f));
+                g.draw(r);
+                label(g, z.zoneName, r.getCenterX(), r.getCenterY(), bc);
+            } else if (goal instanceof Mission.ZoneGoal) {
                 Mission.ZoneGoal z = (Mission.ZoneGoal) goal;
                 Rectangle2D r = new Rectangle2D.Double(px(z.zone.getX()), py(z.zone.getMaxY()),
                         z.zone.getWidth() * scale, z.zone.getHeight() * scale);
@@ -161,6 +253,25 @@ final class FieldPanel extends JPanel {
                         new float[]{10f, 6f}, 0f));
                 g.draw(r);
                 label(g, z.zoneName, r.getCenterX(), r.getY() + 14 * scale / 5, zc);
+            } else if (goal instanceof Mission.FacingGoal) {
+                Mission.FacingGoal f = (Mission.FacingGoal) goal;
+                double rr = f.radius * scale;
+                Ellipse2D e = new Ellipse2D.Double(px(f.x) - rr, py(f.y) - rr, 2 * rr, 2 * rr);
+                g.setColor(alpha(c, current || done ? 90 : 50));
+                g.fill(e);
+                g.setColor(c);
+                g.setStroke(new BasicStroke(2.5f));
+                g.draw(e);
+                // an arrow: which way to face
+                double a = Math.toRadians(f.headingDeg);
+                double tipX = f.x + Math.cos(a) * f.radius * 0.8, tipY = f.y + Math.sin(a) * f.radius * 0.8;
+                g.setStroke(new BasicStroke(3f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                g.draw(new Line2D.Double(px(f.x - Math.cos(a) * f.radius * 0.5), py(f.y - Math.sin(a) * f.radius * 0.5),
+                        px(tipX), py(tipY)));
+                for (int side = -1; side <= 1; side += 2) {
+                    double b = a + Math.PI + side * 0.5;
+                    g.draw(new Line2D.Double(px(tipX), py(tipY), px(tipX + Math.cos(b) * 3), py(tipY + Math.sin(b) * 3)));
+                }
             } else if (goal instanceof Mission.WaypointGoal) {
                 Mission.WaypointGoal w = (Mission.WaypointGoal) goal;
                 double rr = w.radius * scale;
@@ -223,19 +334,47 @@ final class FieldPanel extends JPanel {
         g.draw(p);
     }
 
-    private void drawBlocks(Graphics2D g, boolean heldOnly) {
+    private void drawBlocks(Graphics2D g0, boolean heldOnly) {
         for (double[] b : snap.blocks) {
-            boolean held = b[2] > 0;
+            boolean held = b[2] > 0 || b[5] > 0;
             if (held != heldOnly) {
                 continue;
             }
-            double s = 6 * scale;
-            Rectangle2D r = new Rectangle2D.Double(px(b[0]) - s / 2, py(b[1]) - s / 2, s, s);
-            g.setColor(held && snap.armDeg > 30 ? alpha(BLOCK, 150) : BLOCK);
+            boolean inHole = b.length > 7 && b[7] > 0;
+            Graphics2D g = (Graphics2D) g0.create();
+            g.translate(px(b[0]), py(b[1]));
+            g.rotate(-Math.toRadians(b[3]));
+            double s = World.BLOCK_SIZE * scale * (inHole ? 0.85 : 1);
+            Rectangle2D r = new Rectangle2D.Double(-s / 2, -s / 2, s, s);
+            // See-through when it's lifted off the floor
+            boolean lifted = (b[2] > 0 && snap.armDeg > 30) || b[4] > 0.5;
+            g.setColor(inHole ? BLOCK.darker() : lifted ? alpha(BLOCK, 150) : BLOCK);
             g.fill(r);
             g.setColor(new Color(0x9A7B00));
             g.setStroke(new BasicStroke(1.5f));
             g.draw(r);
+            if (b[6] > 0) {
+                // the metal handle on top, for a hook
+                g.setColor(new Color(0x57606A));
+                g.fill(new Rectangle2D.Double(-s * 0.3, -s * 0.07, s * 0.6, s * 0.14));
+            }
+            g.dispose();
+        }
+    }
+
+    private void drawBalls(Graphics2D g) {
+        for (double[] b : snap.balls) {
+            boolean inHole = b.length > 3 && b[3] > 0;
+            double r = b[2] * scale * (inHole ? 0.85 : 1);
+            Ellipse2D e = new Ellipse2D.Double(px(b[0]) - r, py(b[1]) - r, 2 * r, 2 * r);
+            g.setColor(inHole ? BALL.darker() : BALL);
+            g.fill(e);
+            g.setColor(BALL.darker());
+            g.setStroke(new BasicStroke(1.5f));
+            g.draw(e);
+            // a highlight, so it reads as a ball
+            g.setColor(new Color(255, 255, 255, 120));
+            g.fill(new Ellipse2D.Double(px(b[0]) - r * 0.45, py(b[1]) - r * 0.6, r * 0.6, r * 0.45));
         }
     }
 
@@ -254,15 +393,16 @@ final class FieldPanel extends JPanel {
         g.fill(new Rectangle2D.Double(8, open - 0.6, 5.5, 1.4));
         g.fill(new Rectangle2D.Double(8, -open - 0.8, 5.5, 1.4));
 
+        double halfL = snap.robot.length / 2, halfW = snap.robot.width / 2;
         g.setColor(ROBOT);
-        g.fill(new RoundRectangle2D.Double(-9, -9, 18, 18, 3, 3));
+        g.fill(new RoundRectangle2D.Double(-halfL, -halfW, 2 * halfL, 2 * halfW, 3, 3));
         // wheels
         g.setColor(new Color(0x111111));
-        g.fill(new RoundRectangle2D.Double(-4.5, 6.2, 9, 2.8, 1, 1));
-        g.fill(new RoundRectangle2D.Double(-4.5, -9, 9, 2.8, 1, 1));
+        g.fill(new RoundRectangle2D.Double(-4.5, halfW - 2.8, 9, 2.8, 1, 1));
+        g.fill(new RoundRectangle2D.Double(-4.5, -halfW, 9, 2.8, 1, 1));
         // bumper (red when the touch sensor is pressed)
         g.setColor(snap.touch ? new Color(0xFF3B30) : new Color(0x6E7781));
-        g.fill(new Rectangle2D.Double(8.2, -8, 1.6, 16));
+        g.fill(new Rectangle2D.Double(halfL - 0.8, -halfW + 1, 1.6, 2 * halfW - 2));
         // arrow showing the front
         g.setColor(Color.WHITE);
         Polygon arrow = new Polygon(new int[]{6, -3, -3}, new int[]{0, 4, -4}, 3);
@@ -270,9 +410,10 @@ final class FieldPanel extends JPanel {
         // color sensor, looking down: its dot shows the shade of the floor under it
         int shade = (int) Math.round(Math.min(1.0, snap.surface / 0.9) * 255);
         g.setColor(new Color(0x00B4D8));
-        g.fill(new Ellipse2D.Double(World.SENSOR_AHEAD - 1.3, -1.3, 2.6, 2.6));
+        double ahead = snap.robot.colorSensorAhead;
+        g.fill(new Ellipse2D.Double(ahead - 1.3, -1.3, 2.6, 2.6));
         g.setColor(new Color(shade, shade, shade));
-        g.fill(new Ellipse2D.Double(World.SENSOR_AHEAD - 0.8, -0.8, 1.6, 1.6));
+        g.fill(new Ellipse2D.Double(ahead - 0.8, -0.8, 1.6, 1.6));
         g.dispose();
 
         // wheel labels, drawn without rotation so the letters stay readable
@@ -310,8 +451,8 @@ final class FieldPanel extends JPanel {
         FontMetrics fm = g.getFontMetrics();
         int w = fm.stringWidth(text) + 40;
         int h = fm.getHeight() + 20;
-        double x = px(72) - w / 2.0;
-        double y = py(144) + 14;
+        double x = px(fieldW() / 2) - w / 2.0;
+        double y = py(fieldH()) + 14;
         g.setColor(alpha(c, 235));
         g.fill(new RoundRectangle2D.Double(x, y, w, h, 16, 16));
         g.setColor(Color.WHITE);
@@ -333,7 +474,7 @@ final class FieldPanel extends JPanel {
         w += 32;
         int lh = fm.getHeight();
         int h = lh * lines.length + 18;
-        double x = px(72) - w / 2.0;
+        double x = px(fieldW() / 2) - w / 2.0;
         double y = py(0) - h - 12;
         g.setColor(new Color(0x1F, 0x23, 0x28, 225));
         g.fill(new RoundRectangle2D.Double(x, y, w, h, 14, 14));

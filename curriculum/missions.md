@@ -170,7 +170,8 @@ first day.
 | 16: Robot Class | [Lessons 15](lessons/15-robot-class-teleop.md) and [16](lessons/16-robot-class-auto.md) | A class with fields and methods |
 
 The **Grand Challenge** is always the last field in the list. It goes with
-[Lesson 18](lessons/18-grand-challenge.md), and you write that program from scratch.
+[Lesson 18](lessons/18-grand-challenge.md): a whole match (an autonomous, then driver control)
+that you write from scratch.
 
 ## Mission 7: Stop at the Tape
 **Goal:** drive forward and stop with the color sensor on the black tape. The tape **moves every

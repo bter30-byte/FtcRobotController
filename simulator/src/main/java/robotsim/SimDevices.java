@@ -20,18 +20,21 @@ final class SimDevices {
     }
 
     /**
-     * Builds the hardware map from a robot configuration. The simulated robot is wired like the
-     * course robot: left wheel on motor 0, right wheel on motor 1, arm on motor 2, claw on servo 0,
-     * touch sensor on digital 1, and the color sensor on I2C bus 1. A device configured on a port
-     * with nothing plugged in still exists, but does nothing, just like on a real robot.
+     * Builds the hardware map from a robot configuration. What's really plugged into each port
+     * comes from the robot's design (CourseBot: left wheels on motor 0, right wheels on motor 1,
+     * arm on motor 2, claw on servo 0, touch sensor on digital 1, color sensor on I2C bus 1).
+     * A device configured on a port with nothing plugged in still exists, but does nothing, just
+     * like on a real robot.
      */
     static HardwareMap createHardwareMap(World world, RunContext context, RobotConfig config) {
         HardwareMap map = new HardwareMap();
         for (RobotConfig.Device d : config.devices()) {
             switch (d.section) {
                 case MOTORS:
-                    MotorState state = d.port == 0 ? world.left : d.port == 1 ? world.right
-                            : d.port == 2 ? world.arm : new MotorState(d.name, 1, 1, 0.01, 10);
+                    RobotModel.Device plugged = world.robot.motorPort(d.port);
+                    MotorState state = plugged == RobotModel.Device.LEFT_WHEELS ? world.left
+                            : plugged == RobotModel.Device.RIGHT_WHEELS ? world.right
+                            : plugged == RobotModel.Device.ARM ? world.arm : new MotorState(d.name, 1, 1, 0.01, 10);
                     map.put(d.name, new Motor(world, state, context, d.name, d.port));
                     break;
                 case SERVOS:
@@ -39,12 +42,14 @@ final class SimDevices {
                     break;
                 case DIGITAL:
                     if (RobotConfig.TOUCH.equals(d.type)) {
-                        map.put(d.name, new Touch(world, d.name, d.port == 1));
+                        map.put(d.name, new Touch(world, d.name,
+                                world.robot.digitalPort(d.port) == RobotModel.Device.TOUCH));
                     }
                     break;
                 default:
                     if (RobotConfig.COLOR.equals(d.type)) {
-                        map.put(d.name, new Color(world, context, d.name, d.section.bus() == 1));
+                        map.put(d.name, new Color(world, context, d.name,
+                                world.robot.i2cBus(d.section.bus()) == RobotModel.Device.COLOR));
                     }
                     // The IMU isn't simulated, so it isn't in the map.
                     break;
@@ -202,7 +207,7 @@ final class SimDevices {
         }
     }
 
-    /** A servo. Only servo port 0 has something plugged in: the claw. */
+    /** A servo. It moves the claw if the claw is plugged into its port. */
     static final class Claw extends Device implements Servo {
         private final RunContext context;
         private final int port;
@@ -217,7 +222,7 @@ final class SimDevices {
         }
 
         private boolean pluggedIn() {
-            return port == 0;
+            return world.robot.servoPort(port) == RobotModel.Device.CLAW;
         }
 
         @Override
@@ -277,8 +282,8 @@ final class SimDevices {
     }
 
     /**
-     * REV Color Sensor V3, on I2C bus 1, looking down at the floor. Configured on another bus,
-     * it finds no sensor there and reads all zeros, like a real one.
+     * REV Color Sensor V3, looking down at the floor. Configured on a bus where it isn't plugged
+     * in, it finds no sensor there and reads all zeros, like a real one.
      */
     static final class Color extends Device implements ColorSensor, NormalizedColorSensor, SwitchableLight {
         private static final float[] NO_LIGHT = {0f, 0f, 0f};
@@ -383,7 +388,7 @@ final class SimDevices {
         }
     }
 
-    /** REV Touch Sensor. On a digital port other than 1, nothing is there, so it's never pressed. */
+    /** REV Touch Sensor. Configured on a port where it isn't plugged in, it's never pressed. */
     static final class Touch extends Device implements TouchSensor {
         private final boolean pluggedIn;
 

@@ -111,7 +111,7 @@ final class OpModeRunner {
             return;
         }
         OpModeSimBridge.attach(opMode, ctx, map, telemetry, gamepad1, gamepad2);
-        world.onInit();
+        world.onInit(e.teleOp);
         phase = Phase.INIT;
         Thread t = new Thread(new Runnable() {
             @Override

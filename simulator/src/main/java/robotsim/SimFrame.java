@@ -83,6 +83,7 @@ final class SimFrame extends JFrame {
     private long runEndNanos = -1;
     private long keysDownSince = -1;
     private long keysUpSince = -1;
+    private String lastKeyHint;
 
     SimFrame(CodeLoader loader) {
         super("FTC Robot Simulator");
@@ -499,8 +500,14 @@ final class SimFrame extends JFrame {
                 return;
             }
         }
-        if (LESSON_CLASS.matcher(e.type.getSimpleName()).find() && missionBox.getSelectedItem() != missions.get(0)) {
-            // Other lessons (and students' copies of them) run on the Free Drive field.
+        Mission current = (Mission) missionBox.getSelectedItem();
+        String name = e.type.getSimpleName();
+        boolean sameLesson = current != null && current.program.length() >= 4 && name.length() >= 4
+                && name.substring(0, 4).equals(current.program.substring(0, 4));
+        if (LESSON_CLASS.matcher(name).find() && current != null && !current.program.isEmpty() && !sameLesson) {
+            // Other lessons (and students' copies of them) run on the Free Drive field, unless a
+            // practice field without its own program is picked (like Free Drive).
+            // A copy of this field's own lesson (like L18_AvaDriver on the Grand Challenge) stays.
             selectMission(missions.get(0), false);
             return;
         }
@@ -609,9 +616,18 @@ final class SimFrame extends JFrame {
                 keysDownSince = -1;
             }
         }
-        if (keysDownSince < 0 || now - keysDownSince < 600_000_000L) {
+        if (keysDownSince < 0) {
+            lastKeyHint = null;
             return null;
         }
+        // Decide while the keys are held; after they're let go, keep showing that for a moment.
+        if (keysUpSince < 0 && now - keysDownSince >= 600_000_000L) {
+            lastKeyHint = hintWhileHeld(s, phase);
+        }
+        return lastKeyHint;
+    }
+
+    private String hintWhileHeld(World.Snapshot s, OpModeRunner.Phase phase) {
         String pad = gamepad2Box.isSelected() ? "gamepad2" : "gamepad1";
         CodeLoader.Entry e = runner.entry();
         switch (phase) {

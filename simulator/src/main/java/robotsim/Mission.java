@@ -134,7 +134,29 @@ public final class Mission {
         }
     }
 
-    /** Close the claw on a block. */
+    /** Push a ball so its center is inside a box. */
+    public static final class BallInZoneGoal extends Goal {
+        public final Rectangle2D zone;
+        public final String zoneName;
+
+        BallInZoneGoal(String label, String zoneName, double x, double y, double w, double h) {
+            super(label);
+            this.zoneName = zoneName;
+            this.zone = new Rectangle2D.Double(x, y, w, h);
+        }
+
+        @Override
+        boolean check(World world) {
+            for (World.Ball b : world.balls) {
+                if (zone.contains(b.x, b.y)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    /** Close the claw on a block, or catch its handle with a hook. */
     public static final class BlockHeldGoal extends Goal {
         BlockHeldGoal(String label) {
             super(label);
@@ -143,7 +165,7 @@ public final class Mission {
         @Override
         boolean check(World world) {
             for (World.Block b : world.blocks) {
-                if (b.held) {
+                if (b.held || b.hooked) {
                     return true;
                 }
             }
@@ -200,7 +222,7 @@ public final class Mission {
         @Override
         boolean check(World world) {
             for (World.Block b : world.blocks) {
-                if (!b.held && zone.contains(b.x, b.y)) {
+                if (!b.held && !b.hooked && zone.contains(b.x, b.y)) {
                     return true;
                 }
             }
@@ -214,6 +236,75 @@ public final class Mission {
      */
     public static final int FINAL = 99;
 
+    /** A hole in the platform: square ones take cubes, round ones take balls. */
+    public static final class Hole {
+        public final boolean round;
+        public final double x, y, size;
+
+        Hole(boolean round, double x, double y, double size) {
+            this.round = round;
+            this.x = x;
+            this.y = y;
+            this.size = size;
+        }
+    }
+
+    /** A cube has dropped into a square hole. */
+    public static final class CubeInHoleGoal extends Goal {
+        CubeInHoleGoal(String label) {
+            super(label);
+        }
+
+        @Override
+        boolean check(World world) {
+            for (World.Block b : world.blocks) {
+                if (b.inHole) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    /** A ball has dropped into a round hole. */
+    public static final class BallInHoleGoal extends Goal {
+        BallInHoleGoal(String label) {
+            super(label);
+        }
+
+        @Override
+        boolean check(World world) {
+            for (World.Ball b : world.balls) {
+                if (b.inHole) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    /** Stop near a spot, facing a direction (like the end of an autonomous, ready for the driver). */
+    public static final class FacingGoal extends Goal {
+        final double x, y, radius, headingDeg, toleranceDeg;
+
+        FacingGoal(String label, double x, double y, double radius, double headingDeg, double toleranceDeg) {
+            super(label);
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+            this.headingDeg = headingDeg;
+            this.toleranceDeg = toleranceDeg;
+        }
+
+        @Override
+        boolean check(World world) {
+            double diff = Math.toDegrees(world.headingRad) - headingDeg;
+            diff = ((diff % 360) + 540) % 360 - 180;
+            return Math.hypot(world.x - x, world.y - y) <= radius && Math.abs(diff) <= toleranceDeg
+                    && world.isStopped();
+        }
+    }
+
     public final int number;
     public final String title;
     public final String program;
@@ -222,7 +313,25 @@ public final class Mission {
     public final String description;
     public final double startX, startY, startHeadingDeg;
     public final List<Rectangle2D> obstacles;
+    /** Blocks: x, y, and 1 if it has a handle on top for a hook (else 0). */
     public final List<double[]> blocks;
+    /** Balls: x, y, diameter. */
+    public final List<double[]> balls;
+    /**
+     * True if blocks and balls are real objects the robot pushes. Older missions and the lessons
+     * keep "ghost" blocks the robot drives through, because they were written that way.
+     */
+    public final boolean physicalObjects;
+    /** The field's size in inches (most fields are 144 x 144, six 24-inch tiles each way). */
+    public final double fieldWidth, fieldHeight;
+    /** A raised platform in the middle (or null), with a ramp up onto it (or null). Uphill is +y. */
+    public final Rectangle2D platform, ramp;
+    public final List<Hole> holes;
+    /**
+     * Run an autonomous program, then a TeleOp, as one match: the clock and the goals keep going
+     * when the second program starts, instead of starting over.
+     */
+    public final boolean autoThenDriver;
     public final List<Goal> goals;
     public final boolean noMoveBeforeStart;
     public final boolean timed;
@@ -244,6 +353,14 @@ public final class Mission {
         startHeadingDeg = b.startHeadingDeg;
         obstacles = Collections.unmodifiableList(b.obstacles);
         blocks = Collections.unmodifiableList(b.blocks);
+        balls = Collections.unmodifiableList(b.balls);
+        physicalObjects = b.physicalObjects || !b.balls.isEmpty();
+        fieldWidth = b.fieldWidth;
+        fieldHeight = b.fieldHeight;
+        platform = b.platform;
+        ramp = b.ramp;
+        holes = Collections.unmodifiableList(b.holes);
+        autoThenDriver = b.autoThenDriver;
         goals = Collections.unmodifiableList(b.goals);
         noMoveBeforeStart = b.noMoveBeforeStart;
         timed = b.timed;
@@ -270,6 +387,12 @@ public final class Mission {
         double startX = 12, startY = 12, startHeadingDeg = 0;
         final List<Rectangle2D> obstacles = new ArrayList<Rectangle2D>();
         final List<double[]> blocks = new ArrayList<double[]>();
+        final List<double[]> balls = new ArrayList<double[]>();
+        boolean physicalObjects = false;
+        double fieldWidth = World.FIELD, fieldHeight = World.FIELD;
+        Rectangle2D platform, ramp;
+        final List<Hole> holes = new ArrayList<Hole>();
+        boolean autoThenDriver = false;
         final List<Goal> goals = new ArrayList<Goal>();
         boolean noMoveBeforeStart = false;
         boolean timed = false;
@@ -318,7 +441,24 @@ public final class Mission {
         }
 
         Builder block(double x, double y) {
-            blocks.add(new double[]{x, y});
+            blocks.add(new double[]{x, y, 0});
+            return this;
+        }
+
+        /** A block with a metal handle on top that a hook can catch. */
+        Builder hookBlock(double x, double y) {
+            blocks.add(new double[]{x, y, 1});
+            return this;
+        }
+
+        Builder ball(double x, double y, double diameter) {
+            balls.add(new double[]{x, y, diameter});
+            return this;
+        }
+
+        /** Blocks and balls are real objects: the robot pushes them instead of driving through. */
+        Builder physicalObjects() {
+            physicalObjects = true;
             return this;
         }
 
@@ -329,11 +469,48 @@ public final class Mission {
 
         /** Tape through the given points: x1, y1, x2, y2, ... */
         Builder tape(boolean dark, double... xy) {
+            return tapeOfWidth(dark, 2.0, xy);
+        }
+
+        /** Tape of any width. Tape added first wins where tapes overlap (black on top of white). */
+        Builder tapeOfWidth(boolean dark, double width, double... xy) {
             double[][] p = new double[xy.length / 2][];
             for (int i = 0; i < p.length; i++) {
                 p[i] = new double[]{xy[2 * i], xy[2 * i + 1]};
             }
-            tapes.add(new Tape(p, 2.0, dark ? BLACK : WHITE, dark));
+            tapes.add(new Tape(p, width, dark ? BLACK : WHITE, dark));
+            return this;
+        }
+
+        Builder field(double width, double height) {
+            fieldWidth = width;
+            fieldHeight = height;
+            return this;
+        }
+
+        Builder platform(double x, double y, double w, double h) {
+            platform = new Rectangle2D.Double(x, y, w, h);
+            return this;
+        }
+
+        /** A ramp going up toward +y: balls and blocks on it roll back down unless they're pushed. */
+        Builder ramp(double x, double y, double w, double h) {
+            ramp = new Rectangle2D.Double(x, y, w, h);
+            return this;
+        }
+
+        Builder squareHole(double x, double y, double size) {
+            holes.add(new Hole(false, x, y, size));
+            return this;
+        }
+
+        Builder roundHole(double x, double y, double diameter) {
+            holes.add(new Hole(true, x, y, diameter));
+            return this;
+        }
+
+        Builder autoThenDriver() {
+            autoThenDriver = true;
             return this;
         }
 

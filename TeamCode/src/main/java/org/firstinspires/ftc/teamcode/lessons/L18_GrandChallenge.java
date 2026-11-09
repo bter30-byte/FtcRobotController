@@ -7,9 +7,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 /*
  * LESSON 18 - The Grand Challenge.
  *
- * One autonomous program that uses everything you've learned:
- *   grab the block, lift it, find the black tape, drive to the wall,
- *   back up and drop the block in the GOAL, then PARK.
+ * A whole match, in two programs:
+ *   1. AUTONOMOUS (this program): drive around the outer lane, using the black and white tape.
+ *      Forward, turn left, forward, turn left, forward, turn left. Don't cross the low wall!
+ *      Stop in the corner, facing the ramp lane.
+ *   2. DRIVER CONTROL (L18_GrandChallengeDriver): grab the cube, push the ball up the ramp into
+ *      the round hole, and drop the cube in the square hole.
  *
  * The robot's devices and skills live in YOUR MyRobot class. This program is the plan:
  * it tells your robot what to do, in order.

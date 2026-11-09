@@ -208,22 +208,40 @@ public final class Missions {
         // The Grand Challenge always comes last.
         list.add(Mission.builder(Mission.FINAL, "Grand Challenge")
                 .program("L18_GrandChallenge")
-                .describe("Lesson 18. One autonomous program, everything you've learned: grab the "
-                        + "block, lift it, find the black tape (it moves every reset!), drive to the "
-                        + "wall, back up and drop the block in the GOAL, then PARK. Can you do it in "
-                        + "30 seconds, like a real FTC autonomous?")
-                .start(18, 18, 0)
-                .block(52, 18)
-                .tape(true, 20, 84, 66, 84)
-                .moveTapeUpDownEachReset(-12, -6, 0, 6, 12)
-                .wall(120, 40, 6, 80)
-                .goal(new Mission.BlockHeldGoal("Grab the yellow block"))
-                .goal(new Mission.ArmUpGoal("Lift it: arm up past 45\u00b0", 45))
-                .goal(new Mission.TapeStopGoal("Stop at the black tape"))
-                .goal(new Mission.BumperGoal("Drive until the bumper touches the wall"))
-                .goal(new Mission.BlockInZoneGoal("Back up and drop the block in the GOAL", "GOAL",
-                        92, 44, 24, 72))
-                .goal(new Mission.ZoneGoal("PARK in the box", "PARK", 84, 0, 36, 36))
+                .alsoFor("L18_GrandChallengeDriver")
+                .describe("Lesson 18. A whole match. AUTONOMOUS (L18_GrandChallenge): drive "
+                        + "around the outer lane (forward, turn left, three times), using the "
+                        + "black and white tape, and stop in the bottom-left corner facing the ramp. "
+                        + "Don't climb the low wall! Then DRIVER CONTROL (L18_GrandChallengeDriver, "
+                        + "don't press Reset): grab the cube by its metal handle, push the ball up "
+                        + "the ramp into the round hole, and drop the cube in the square hole. The "
+                        + "clock runs through both programs and stops when both are in.")
+                .field(184, 106)
+                // Raised platform in the middle, with a low wall around it except at the ramp
+                .platform(30, 40, 124, 36)
+                .ramp(76, 40, 32, 12)
+                .wall(30, 40, 46, 1.5)
+                .wall(108, 40, 46, 1.5)
+                .wall(30, 74.5, 124, 1.5)
+                .wall(30, 40, 1.5, 36)
+                .wall(152.5, 40, 1.5, 36)
+                .squareHole(58, 60, 10)
+                .roundHole(92, 64, 12)
+                // Black tape down the middle of the lane, with white tape on both sides
+                .tapeOfWidth(true, 2, 15, 20, 169, 20, 169, 91, 15, 91, 15, 20)
+                .tapeOfWidth(false, 6, 15, 20, 169, 20, 169, 91, 15, 91, 15, 20)
+                .start(169, 9, 90)
+                .hookBlock(46, 20)
+                .ball(92, 32, 8)
+                .goal(new Mission.WaypointGoal("Auto: drive up the right lane", "1", 169, 91, 10))
+                .goal(new Mission.WaypointGoal("Auto: turn left, drive across the top", "2", 15, 91, 10))
+                .goal(new Mission.FacingGoal("Auto: turn left, drive down, turn left: stop facing the ramp",
+                        15, 20, 10, 0, 20))
+                .goal(new Mission.BlockHeldGoal("Driver: grab the cube"))
+                .goal(new Mission.BallInHoleGoal("Push the ball up the ramp into the round hole"))
+                .goal(new Mission.CubeInHoleGoal("Drop the cube in the square hole"))
+                .physicalObjects()
+                .autoThenDriver()
                 .timed()
                 .build());
 
