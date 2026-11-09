@@ -48,7 +48,7 @@ final class ArmPanel extends JPanel {
         g.fill(new Ellipse2D.Double(60, 98, 14, 14));
 
         // touch sensor at the top of the arm's travel
-        double limitAngle = Math.toRadians(-30 + World.ARM_LIMIT_DEG + 6);
+        double limitAngle = Math.toRadians(-30 + snap.robot.armLimitDeg + 6);
         double sx = pivotX + (len + 6) * Math.cos(limitAngle), sy = pivotY - (len + 6) * Math.sin(limitAngle);
         g.setColor(snap.touch ? new Color(0xFF3B30) : new Color(0xAFB8C1));
         g.fill(new Rectangle2D.Double(sx - 6, sy - 6, 12, 12));

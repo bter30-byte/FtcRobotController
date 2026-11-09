@@ -14,6 +14,11 @@ plugins {
     id 'application'
 }
 
+dependencies {
+    // 2D physics for blocks and balls on the floor (pure Java, works with Java 8)
+    implementation 'org.dyn4j:dyn4j:5.0.2'
+}
+
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
     // Same Java language level as the robot's TeamCode.
