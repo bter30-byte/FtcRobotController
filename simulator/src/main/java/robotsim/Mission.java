@@ -208,6 +208,12 @@ public final class Mission {
         }
     }
 
+    /**
+     * The Grand Challenge's number. It has no number on screen and always comes last in the list,
+     * however many missions there are.
+     */
+    public static final int FINAL = 99;
+
     public final int number;
     public final String title;
     public final String program;
@@ -245,7 +251,10 @@ public final class Mission {
 
     @Override
     public String toString() {
-        return number == 0 ? title : String.format("Mission %d: %s", number, title);
+        if (number == 0) {
+            return title;
+        }
+        return number == FINAL ? title + " (Lesson 18)" : String.format("Mission %d: %s", number, title);
     }
 
     static Builder builder(int number, String title) {

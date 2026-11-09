@@ -49,7 +49,7 @@ laptop, and they can keep practicing at home. Brand-new programmers start with a
 | # | Lesson | CS idea | Robot skill | Type | Hardware |
 |---|---|---|---|---|---|
 | 🚀 | [Robot Missions](missions.md) (first day, [teacher plan](first-day-lesson.md)) | Sequence, debugging | Driving and turning, TeleOp | Both | Simulator only |
-| 🚀 | [More missions](missions.md#more-missions-after-the-lessons) (7, 8, 10–14) | Debugging, after each matching lesson | Sensors, loops, encoders, claw, arcade drive | Both | Simulator only |
+| 🚀 | [More missions](missions.md#more-missions-after-the-lessons) (7–16) | Debugging, after each matching lesson | Sensors, toggles, loops, encoders, state machines, classes | Both | Simulator only |
 | 00 | [Getting the Code](lessons/00-getting-the-code.md) | Version control, packages | GitHub Desktop, Android Studio, deploying | — | Control Hub |
 | 01 | [Hello Robot](lessons/01-hello-robot.md) | Syntax, comments, errors | Telemetry | TeleOp | Hub only |
 | 02 | [Drive Sequence](lessons/02-drive-sequence.md) | Sequence | Motors, `sleep` | Auto | Drive motors |
@@ -70,11 +70,32 @@ laptop, and they can keep practicing at home. Brand-new programmers start with a
 | 17 | [Color Sensor](lessons/17-color-sensor.md) | Thresholds, feedback loops | Stop at and follow black tape | Auto | Drive + color sensor |
 | 18 | [Capstone: Your Robot, Your Code](lessons/18-grand-challenge.md) | Decomposition, planning, testing | Own configuration and robot class; the Grand Challenge | Auto | Everything |
 
+**Which mission practices each lesson.** Every lesson's main idea shows up in at least one
+mission's bugs, so students can practice it again in the simulator:
+
+| Lesson | Missions |
+|---|---|
+| 01 Hello Robot (telemetry, error messages) | 5, 7 |
+| 02 Drive Sequence | 1, 2, 3, 4 |
+| 03 Variables | 6, 12 |
+| 04 Gamepad, 05 Tank Drive | 6 |
+| 06 Arcade Drive | 9, 14 |
+| 07 Buttons and If | 9, 11 |
+| 08 Sensors and Logic | 9, 10 |
+| 09 Loops, 11 Methods | 11 |
+| 10 Timers | 10, 15 |
+| 12 Encoders | 11, 12 |
+| 13 Toggle | 9 |
+| 14 State Machine | 15 |
+| 15–16 Robot Class | 16 |
+| 17 Color Sensor | 7, 8 |
+| 18 Capstone | Grand Challenge |
+
 **A natural stopping point** for students who need more time is after **Lesson 10**. By then
 they can drive by hand, use sensors, and write a simple autonomous. Lessons 11–16 make the code
 more precise and better organized, and Lesson 17 adds a color sensor. **Lesson 18** is the
 capstone: students make their own configuration, write a robot class from a nearly empty file,
-and combine everything into one autonomous (Mission 9 in the simulator). Plan 3–4 periods for it.
+and combine everything into one autonomous (the Grand Challenge, always last in the simulator's mission list). Plan 3–4 periods for it.
 A solution is in the teacher answer key folder.
 
 **Optional warm-up before Lesson 01:** [FTCSIM](#ftcsim). Students solve a few puzzles in Blocks,
