@@ -19,11 +19,11 @@ part links back to the lesson that taught it.
 [Forgot how? Lesson 00, Step 7 has pictures.](00-getting-the-code.md#step-7--copy-your-first-lesson)
 
 ## 🖥️ No robot? Use the simulator
-- Picking `L18_GrandChallenge` opens **Mission 9: Grand Challenge**.
+- Picking `L18_GrandChallenge` opens the **Grand Challenge** (the last field in the mission list).
 - Make your own configuration with **⋮ → Configure Robot** (Part 1).
 - When you go back to other lessons, **Activate CourseBot** again. Lessons 01–17 use its names.
 
-![Mission 9: Grand Challenge](../images/sim-grand-challenge.png)
+![The Grand Challenge field](../images/sim-grand-challenge.png)
 
 ---
 

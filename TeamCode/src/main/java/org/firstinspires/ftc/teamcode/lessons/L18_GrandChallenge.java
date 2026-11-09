@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * The robot's devices and skills live in YOUR MyRobot class. This program is the plan:
  * it tells your robot what to do, in order.
  *
- * In the simulator, picking this program opens Mission 9: Grand Challenge.
+ * In the simulator, picking this program opens the Grand Challenge (last in the mission list).
  */
 @Autonomous(name = "L18 Grand Challenge", group = "Lessons")
 @Disabled  // Hides this ORIGINAL from the menu. Delete this line in YOUR copy so your copy shows up.

@@ -121,7 +121,7 @@ Drive** field: the robot faces a wooden wall, with a yellow block right in front
 | 15 | **W/S** drive, **←/→** turn, **Q** precision, **I/J** arm, **K** (B) claw. |
 | 16 | The block starts in the claw. Watch the robot carry it and drop it. Tune the turn. |
 | 17 | `L17_StopAtTape` opens **Mission 7** (the tape moves every reset, so only the sensor works). `L17_FollowTape` opens **Mission 8**. Watch the sensor's dot turn dark over the tape. |
-| 18 | `L18_GrandChallenge` opens **Mission 9: Grand Challenge**: grab, lift, find the tape, touch the wall, drop, park. Make your own configuration first (**⋮ → Configure Robot**), and activate **CourseBot** again for the other lessons. |
+| 18 | `L18_GrandChallenge` opens the **Grand Challenge** (last in the mission list): grab, lift, find the tape, touch the wall, drop, park. Make your own configuration first (**⋮ → Configure Robot**), and activate **CourseBot** again for the other lessons. |
 
 ---
 

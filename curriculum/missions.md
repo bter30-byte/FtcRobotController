@@ -160,13 +160,17 @@ first day.
 |---|---|---|
 | 7: Stop at the Tape | [Lesson 17](lessons/17-color-sensor.md) | Color sensor, thresholds |
 | 8: Follow the Tape | [Lesson 17](lessons/17-color-sensor.md) | Following a line |
+| 9: Pick and Place | [Lessons 07](lessons/07-buttons-and-if.md), [08](lessons/08-sensors-and-logic.md), and [13](lessons/13-toggle.md) | Buttons and `if`, the arm's touch sensor, a claw toggle (TeleOp) |
 | 10: Bumper Bot | [Lesson 10](lessons/10-timer-auto.md) | Touch sensor, `while` loops |
 | 11: Staircase | [Lessons 09](lessons/09-loops.md) and [11](lessons/11-methods.md) | `for` loops, `if`, methods |
 | 12: Precision Park | [Lesson 12](lessons/12-encoder-drive.md) | Encoders, `RUN_TO_POSITION` |
 | 13: Special Delivery | [Lesson 13](lessons/13-toggle.md) | Claw and arm |
 | 14: Arcade Slalom | [Lesson 06](lessons/06-arcade-drive.md) | Arcade drive math (TeleOp) |
+| 15: State Machine | [Lessons 10](lessons/10-timer-auto.md) and [14](lessons/14-state-machine-auto.md) | `enum`, `switch`, timers |
+| 16: Robot Class | [Lessons 15](lessons/15-robot-class-teleop.md) and [16](lessons/16-robot-class-auto.md) | A class with fields and methods |
 
-(Mission 9 is the [Lesson 18 Grand Challenge](lessons/18-grand-challenge.md): you write that one from scratch.)
+The **Grand Challenge** is always the last field in the list. It goes with
+[Lesson 18](lessons/18-grand-challenge.md), and you write that program from scratch.
 
 ## Mission 7: Stop at the Tape
 **Goal:** drive forward and stop with the color sensor on the black tape. The tape **moves every
@@ -203,6 +207,26 @@ Watch the **Seeing** line on the Driver Station. Does it ever say FLOOR? The flo
 
 It follows the straight part, then misses the first turn. Which number decides how hard it
 corrects? Try a few values. (Lesson 17 used 0.15.)
+
+</details>
+
+## Mission 9: Pick and Place
+**Goal:** you drive. Grab the yellow block, lift it, and leave it in the DROP box.
+**Keys:** W/S and ←/→ drive, hold **Q** to go slow, hold **I** / **J** to raise / lower the
+arm, tap **K** to open or close the claw.
+
+<details><summary>💡 Hint for bug 1</summary>
+
+The arm never goes up. Read the arm's `if` out loud: "if Y is pressed **and** the arm is at the
+top". Is that when it should go up? (Lesson 08: "not" is `!`.)
+
+</details>
+
+<details><summary>💡 Hint for bug 2</summary>
+
+Hold K and watch the claw: it flickers, and when you let go it's open or closed by luck. The
+loop runs many times while the button is down, and each time it switches. Lesson 13's fix:
+switch only when the button **was not** pressed last time. There's already a variable for that.
 
 </details>
 
@@ -293,6 +317,42 @@ Press →. To turn right, the left wheels go faster than the right ones. Which s
 
 When it works, race your best time. Then try the [Lesson 06](lessons/06-arcade-drive.md)
 challenges: a slower precision mode, or making the robot easier to steer.
+
+## Mission 15: State Machine
+**Goal:** drive to the wall, back up, turn right, and park in the box. Watch the **State** line
+on the Driver Station.
+
+<details><summary>💡 Hint for bug 1</summary>
+
+The robot never backs up straight. In a `switch`, each `case` needs a `break` at the end, or Java
+keeps going into the next `case`. Which one is missing it?
+
+</details>
+
+<details><summary>💡 Hint for bug 2</summary>
+
+The turn is too short. Look at "Time in this state" when TURN_RIGHT starts: is it 0? Every other
+state change does something with the timer. Which one doesn't?
+
+</details>
+
+## Mission 16: Robot Class
+**Goal:** drive to the CORNER, turn left, and park in the box. All the work happens in the
+`Robot` class at the bottom of the file.
+
+<details><summary>💡 Hint for bug 1</summary>
+
+The error says something was null on a line in `move`. `init()` sets the motors, so why are the
+fields empty? Look closely: `DcMotor leftDrive = ...` makes a **new** variable that disappears
+when `init()` ends. To use the field, leave off the type: `leftDrive = ...`
+
+</details>
+
+<details><summary>💡 Hint for bug 2</summary>
+
+`turnLeft()` turns right. To turn left in place, which wheels go forward?
+
+</details>
 
 ---
 ## ✅ Check yourself

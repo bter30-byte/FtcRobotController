@@ -115,24 +115,16 @@ public final class Missions {
                 .timed()
                 .build());
 
-        list.add(Mission.builder(9, "Grand Challenge")
-                .program("L18_GrandChallenge")
-                .describe("Lesson 18. One autonomous program, everything you've learned: grab the "
-                        + "block, lift it, find the black tape (it moves every reset!), drive to the "
-                        + "wall, back up and drop the block in the GOAL, then PARK. Can you do it in "
-                        + "30 seconds, like a real FTC autonomous?")
-                .start(18, 18, 0)
-                .block(52, 18)
-                .tape(true, 20, 84, 66, 84)
-                .moveTapeUpDownEachReset(-12, -6, 0, 6, 12)
-                .wall(120, 40, 6, 80)
-                .goal(new Mission.BlockHeldGoal("Grab the yellow block"))
+        list.add(Mission.builder(9, "Pick and Place")
+                .program("M09_PickAndPlace")
+                .describe("After Lessons 07, 08, and 13. You drive: grab the yellow block with the claw, "
+                        + "lift it with the arm, and leave it in the DROP box. Keys: W/S and Left/Right "
+                        + "drive, I/J arm up/down, K opens and closes the claw. This program has 2 bugs.")
+                .start(18, 72, 0)
+                .block(54, 72)
+                .goal(new Mission.BlockHeldGoal("Grab the block"))
                 .goal(new Mission.ArmUpGoal("Lift it: arm up past 45\u00b0", 45))
-                .goal(new Mission.TapeStopGoal("Stop at the black tape"))
-                .goal(new Mission.BumperGoal("Drive until the bumper touches the wall"))
-                .goal(new Mission.BlockInZoneGoal("Back up and drop the block in the GOAL", "GOAL",
-                        92, 44, 24, 72))
-                .goal(new Mission.ZoneGoal("PARK in the box", "PARK", 84, 0, 36, 36))
+                .goal(new Mission.BlockInZoneGoal("Leave it in the DROP box", "DROP", 100, 96, 24, 24))
                 .timed()
                 .build());
 
@@ -191,6 +183,47 @@ public final class Missions {
                 .goal(new Mission.GateGoal("Under the first wall", "1", 48, 0, 48, 40))
                 .goal(new Mission.GateGoal("Over the second wall", "2", 96, 104, 96, 144))
                 .goal(new Mission.ZoneGoal("Stop at FINISH", "FINISH", 120, 0, 24, 24))
+                .timed()
+                .build());
+
+        list.add(Mission.builder(15, "State Machine")
+                .program("M15_StateMachine")
+                .describe("After Lessons 10 and 14. Drive to the wall, back up, turn right, and park in "
+                        + "the box, one state at a time. This program has 2 bugs.")
+                .start(24, 72, 0)
+                .wall(96, 36, 6, 72)
+                .goal(new Mission.BumperGoal("Drive until the bumper touches the wall"))
+                .goal(new Mission.ZoneGoal("Back up, turn right, and park in the box", "PARK", 68, 36, 24, 24))
+                .build());
+
+        list.add(Mission.builder(16, "Robot Class")
+                .program("M16_RobotClass")
+                .describe("After Lessons 15 and 16. The Robot class drives to the CORNER, turns left, "
+                        + "and parks in the box. This program has 2 bugs, both inside the Robot class.")
+                .start(24, 36, 0)
+                .goal(new Mission.WaypointGoal("Drive to the CORNER", "CORNER", 60, 36, 8))
+                .goal(new Mission.ZoneGoal("Turn left and park in the box", "PARK", 48, 48, 24, 24))
+                .build());
+
+        // The Grand Challenge always comes last.
+        list.add(Mission.builder(Mission.FINAL, "Grand Challenge")
+                .program("L18_GrandChallenge")
+                .describe("Lesson 18. One autonomous program, everything you've learned: grab the "
+                        + "block, lift it, find the black tape (it moves every reset!), drive to the "
+                        + "wall, back up and drop the block in the GOAL, then PARK. Can you do it in "
+                        + "30 seconds, like a real FTC autonomous?")
+                .start(18, 18, 0)
+                .block(52, 18)
+                .tape(true, 20, 84, 66, 84)
+                .moveTapeUpDownEachReset(-12, -6, 0, 6, 12)
+                .wall(120, 40, 6, 80)
+                .goal(new Mission.BlockHeldGoal("Grab the yellow block"))
+                .goal(new Mission.ArmUpGoal("Lift it: arm up past 45\u00b0", 45))
+                .goal(new Mission.TapeStopGoal("Stop at the black tape"))
+                .goal(new Mission.BumperGoal("Drive until the bumper touches the wall"))
+                .goal(new Mission.BlockInZoneGoal("Back up and drop the block in the GOAL", "GOAL",
+                        92, 44, 24, 72))
+                .goal(new Mission.ZoneGoal("PARK in the box", "PARK", 84, 0, 36, 36))
                 .timed()
                 .build());
 
